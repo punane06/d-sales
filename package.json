@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:reset": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev-reset.ps1",
+    "dev:reset": "node ./scripts/run-dev-reset.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
