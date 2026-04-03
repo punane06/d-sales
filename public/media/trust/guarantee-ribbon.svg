@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Guarantee ribbon placeholder">
+  <circle cx="60" cy="44" r="30" fill="#E2725B"/>
+  <path d="M45 70L35 108L60 92L85 108L75 70" fill="#D9381E"/>
+  <text x="60" y="49" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF">15 DIAS</text>
+</svg>
