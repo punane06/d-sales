@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --sticky-header-offset: 7rem;
+  }
+
   body {
     @apply text-base leading-relaxed;
   }

@@ -21,6 +21,8 @@ export default function CtaButton({
       price_shown: currentPrice,
       section_name: sectionName,
       timer_expired: isExpired,
+      cta_label: baseLabel,
+      destination_url: currentUrl,
     });
   };
 
