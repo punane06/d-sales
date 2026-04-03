@@ -105,30 +105,40 @@ export const content = {
       {
         name: 'Marta S.',
         country: 'Colombia',
+        avatarSrc: '/media/testimonials/Colombia.jpeg',
+        avatarAlt: 'Foto de perfil de Marta, clienta de Colombia',
         quote:
           'En 3 semanas deje de tener esos sube y baja de energia. Volvi a desayunar con gusto y mis controles salieron mucho mejor. Lo mejor: no senti que estaba a dieta.',
       },
       {
         name: 'Elena M.',
         country: 'Mexico',
+        avatarSrc: '/media/testimonials/mexico.jpeg',
+        avatarAlt: 'Foto de perfil de Elena, clienta de Mexico',
         quote:
           'Tenia panico de terminar usando mas medicacion. Con El Plato Seguro aprendi a armar platos que me sacian y mi ansiedad por dulce bajo un monton.',
       },
       {
         name: 'Rosa V.',
         country: 'Peru',
+        avatarSrc: '/media/testimonials/Peru.jpeg',
+        avatarAlt: 'Foto de perfil de Rosa, clienta de Peru',
         quote:
           'Pensaba que comer rico era incompatible con cuidar la glucosa. Ahora hago pizza casera con mis hijas y me siento tranquila porque se como equilibrarla.',
       },
       {
         name: 'Carmen R.',
         country: 'USA',
+        avatarSrc: '/media/testimonials/USA.jpeg',
+        avatarAlt: 'Foto de perfil de Carmen, clienta de USA',
         quote:
           'Trabajo todo el dia y no tenia tiempo para planes complicados. Las guias son practicas, en espanol y faciles de seguir. Mi glucometro ya no me asusta.',
       },
       {
         name: 'Lucia G.',
         country: 'Chile',
+        avatarSrc: '/media/testimonials/chile.jpeg',
+        avatarAlt: 'Foto de perfil de Lucia, clienta de Chile',
         quote:
           'Me devolvio la esperanza. Pase de vivir con culpa a comer con estrategia. Mi familia tambien se beneficio porque ahora todos comemos mejor.',
       },

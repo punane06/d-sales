@@ -5,7 +5,7 @@ import { content } from '@/config/content';
 import { trackEvent } from '@/utils/analytics';
 
 export default function FaqSection(): JSX.Element {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number): void => {
     setOpenIndex((current) => {
@@ -46,9 +46,9 @@ export default function FaqSection(): JSX.Element {
                 <div
                   id={`faq-answer-${index}`}
                   aria-hidden={!isOpen}
-                  className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                  className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${isOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'}`}
                 >
-                  <p className="body-copy overflow-hidden px-5 pb-4">
+                  <p className="body-copy border-t border-charcoal/10 bg-charcoal/5 px-5 pb-4 pt-4">
                     {item.answer}
                   </p>
                 </div>

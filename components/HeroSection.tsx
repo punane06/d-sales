@@ -20,14 +20,6 @@ export default function HeroSection(): JSX.Element {
           <p className="font-heading text-base italic sm:text-xl md:text-3xl">{content.hero.subheadline}</p>
           <p className="body-copy">{content.hero.description}</p>
 
-          <div className="pt-1">
-            <CtaButton
-              baseLabel={content.hero.ctaLabel}
-              sectionName={content.analytics.sectionNames.hero}
-            />
-            <p className="mt-2 text-base text-charcoal/80 md:text-xl">{content.hero.trustLine}</p>
-          </div>
-
           <div className="flex justify-center">
             <Image
               src="/media/products/hero-mockup.png"
@@ -37,6 +29,14 @@ export default function HeroSection(): JSX.Element {
               priority
               className="h-auto w-full max-w-[10.5rem] rounded-2xl object-contain shadow-xl sm:max-w-sm"
             />
+          </div>
+
+          <div className="pt-1">
+            <CtaButton
+              baseLabel={content.hero.ctaLabel}
+              sectionName={content.analytics.sectionNames.hero}
+            />
+            <p className="mt-2 text-base text-charcoal/80 md:text-xl">{content.hero.trustLine}</p>
           </div>
         </div>
       </div>

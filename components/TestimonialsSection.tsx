@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { content } from '@/config/content';
 
 export default function TestimonialsSection(): JSX.Element {
@@ -11,17 +12,20 @@ export default function TestimonialsSection(): JSX.Element {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {content.testimonials.entries.map((item) => (
             <article key={item.name} className="rounded-2xl border border-charcoal/10 bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage/20 text-sm font-bold text-charcoal">
-                    {item.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-charcoal">{item.name}</p>
-                    <p className="text-xs text-charcoal/70">{item.country}</p>
-                  </div>
+              <div className="flex items-center gap-3">
+                <div className="overflow-hidden rounded-full ring-2 ring-sage/20 ring-offset-2 ring-offset-white">
+                  <Image
+                    src={item.avatarSrc}
+                    alt={item.avatarAlt}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
                 </div>
-                <p className="text-xs text-charcoal/50" aria-hidden="true">hoy</p>
+                <div>
+                  <p className="text-sm font-semibold text-charcoal">{item.name}</p>
+                  <p className="text-xs text-charcoal/70">{item.country}</p>
+                </div>
               </div>
 
               <div className="relative mt-4 rounded-2xl bg-[#E6F6E6] px-4 py-3">
@@ -32,10 +36,6 @@ export default function TestimonialsSection(): JSX.Element {
                 </p>
                 <p className="body-copy mt-2">“{item.quote}”</p>
               </div>
-
-              <p className="mt-3 text-right text-xs text-charcoal/60" aria-hidden="true">
-                Leido
-              </p>
             </article>
           ))}
         </div>
