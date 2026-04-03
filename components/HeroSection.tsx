@@ -18,7 +18,6 @@ export default function HeroSection(): JSX.Element {
             {content.hero.heading}
           </h1>
           <p className="font-heading text-base italic sm:text-xl md:text-3xl">{content.hero.subheadline}</p>
-          <p className="body-copy">{content.hero.description}</p>
 
           <div className="flex justify-center">
             <Image
@@ -38,6 +37,8 @@ export default function HeroSection(): JSX.Element {
             />
             <p className="mt-2 text-base text-charcoal/80 md:text-xl">{content.hero.trustLine}</p>
           </div>
+
+          <p className="body-copy">{content.hero.description}</p>
         </div>
       </div>
     </section>

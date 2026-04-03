@@ -75,7 +75,6 @@ export default function ValueStackSection(): JSX.Element {
             <CtaButton
               baseLabel={content.valueStack.pricing.ctaLabel}
               sectionName={content.analytics.sectionNames.valueStack}
-              className="md:w-full"
             />
           </div>
         </article>
