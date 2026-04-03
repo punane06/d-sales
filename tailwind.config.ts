@@ -14,6 +14,7 @@ const config: Config = {
       colors: {
         charcoal: '#2C3329',
         sage: '#6B8362',
+        mint: '#E6F6E6',
         offwhite: '#F8F5F0',
         white: '#FFFFFF',
         terracotta: '#E2725B',
