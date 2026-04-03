@@ -18,9 +18,9 @@ export default function FaqSection(): JSX.Element {
   };
 
   return (
-    <section aria-label="Preguntas frecuentes" className="bg-offwhite px-4 py-14">
+    <section aria-labelledby="faq-heading" className="bg-offwhite px-4 py-14">
       <div className="mx-auto max-w-4xl space-y-6">
-        <h2 className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+        <h2 id="faq-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
           {content.faq.heading}
         </h2>
 

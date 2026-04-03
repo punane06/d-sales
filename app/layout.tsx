@@ -21,6 +21,9 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: content.meta.title,
   description: content.meta.description,
+  other: {
+    google: 'notranslate',
+  },
 };
 
 export default function RootLayout({
@@ -36,8 +39,8 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${cormorant.variable} bg-offwhite font-sans text-charcoal`}>
+    <html lang="es" translate="no" className="notranslate" suppressHydrationWarning>
+      <body className={`${dmSans.variable} ${cormorant.variable} notranslate bg-offwhite font-sans text-charcoal`}>
         <PriceProvider>
           {children}
         </PriceProvider>

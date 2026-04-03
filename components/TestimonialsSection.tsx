@@ -2,9 +2,9 @@ import { content } from '@/config/content';
 
 export default function TestimonialsSection(): JSX.Element {
   return (
-    <section aria-label="Testimonios" className="bg-offwhite px-4 py-14">
+    <section aria-labelledby="testimonials-heading" className="bg-offwhite px-4 py-14">
       <div className="mx-auto max-w-6xl space-y-8">
-        <h2 className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+        <h2 id="testimonials-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
           {content.testimonials.heading}
         </h2>
 

@@ -48,6 +48,8 @@ export const content = {
     heading: 'Aqui tienes la llave para tu libertad. Esto es lo que recibes HOY:',
     mainProduct: {
       title: '📘 EL PROGRAMA CENTRAL: GLUCOSA PLANA',
+      imageSrc: '/media/products/section3.png',
+      imageAlt: 'Portada del programa central Glucosa Plana',
       bullets: [
         '100+ recetas para desayuno, almuerzo, cena y antojos',
         'Guia visual para combinar carbohidratos, fibra y proteina',
@@ -59,24 +61,32 @@ export const content = {
     bonuses: [
       {
         title: 'Bono #1: PILOTO AUTOMATICO METABOLICO',
+        imageSrc: '/media/products/section3-1.png',
+        imageAlt: 'Portada del bono Piloto Automatico Metabolico',
         description: 'Rutina simple de 7 minutos para mejorar sensibilidad a la insulina.',
         value: '$19.99',
         icon: '🧠',
       },
       {
         title: 'Bono #2: BANO DE SABOR',
+        imageSrc: '/media/products/section3-2.png',
+        imageAlt: 'Portada del bono Bano de Sabor',
         description: 'Salsas y aderezos anti-picos para comer rico todos los dias.',
         value: '$14.99',
         icon: '🥗',
       },
       {
         title: 'Bono #3: DULZURA LIQUIDA',
+        imageSrc: '/media/products/section3-3.png',
+        imageAlt: 'Portada del bono Dulzura Liquida',
         description: 'Bebidas, batidos y cafes que no sabotean tu glucosa.',
         value: '$14.99',
         icon: '🥤',
       },
       {
         title: 'Bono #4: EL HACK DE LAS MASAS',
+        imageSrc: '/media/products/section3-4.png',
+        imageAlt: 'Portada del bono El Hack de las Masas',
         description: 'Bases y masas inteligentes para pizza, pan y wraps caseros.',
         value: '$14.99',
         icon: '🍕',
