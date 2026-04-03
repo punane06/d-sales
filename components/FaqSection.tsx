@@ -45,6 +45,7 @@ export default function FaqSection(): JSX.Element {
 
                 <div
                   id={`faq-answer-${index}`}
+                  aria-hidden={!isOpen}
                   className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
                 >
                   <p className="overflow-hidden px-5 pb-4 text-base leading-relaxed md:text-lg">

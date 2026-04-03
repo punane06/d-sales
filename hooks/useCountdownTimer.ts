@@ -2,81 +2,46 @@
 
 import { useEffect, useState } from 'react';
 
-function getInitialRemaining(durationSeconds: number, storageKey: string): number {
-  if (typeof window === 'undefined') {
-    return durationSeconds;
-  }
-
-  const savedExpiry = window.localStorage.getItem(storageKey);
-  const now = Date.now();
-
-  if (!savedExpiry) {
-    const expiry = now + durationSeconds * 1000;
-    window.localStorage.setItem(storageKey, String(expiry));
-    return durationSeconds;
-  }
-
-  const expiry = Number(savedExpiry);
-  if (Number.isNaN(expiry)) {
-    const fallbackExpiry = now + durationSeconds * 1000;
-    window.localStorage.setItem(storageKey, String(fallbackExpiry));
-    return durationSeconds;
-  }
-
-  const remaining = Math.floor((expiry - now) / 1000);
-  return Math.max(0, remaining);
-}
-
 // Returns [timeLeftSeconds, isExpired]
 export function useCountdownTimer(
   durationSeconds: number,
   storageKey: string,
 ): [number, boolean] {
-  const [timeLeft, setTimeLeft] = useState<number>(() =>
-    getInitialRemaining(durationSeconds, storageKey),
-  );
+  // Keep the initial render deterministic to avoid hydration text mismatch.
+  const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    const win = globalThis.window;
+    if (!win) {
       return;
     }
 
-    const savedExpiry = window.localStorage.getItem(storageKey);
+    const savedExpiry = win.localStorage.getItem(storageKey);
     const now = Date.now();
 
-    if (!savedExpiry) {
-      const expiry = now + durationSeconds * 1000;
-      window.localStorage.setItem(storageKey, String(expiry));
-      setTimeLeft(durationSeconds);
-      return;
+    let expiry = Number(savedExpiry);
+    if (!savedExpiry || Number.isNaN(expiry)) {
+      expiry = now + durationSeconds * 1000;
+      win.localStorage.setItem(storageKey, String(expiry));
     }
 
-    const expiry = Number(savedExpiry);
-    if (Number.isNaN(expiry)) {
-      const fallbackExpiry = now + durationSeconds * 1000;
-      window.localStorage.setItem(storageKey, String(fallbackExpiry));
-      setTimeLeft(durationSeconds);
-      return;
-    }
-
-    const updateRemaining = (): void => {
-      const seconds = Math.floor((expiry - Date.now()) / 1000);
-      setTimeLeft(Math.max(0, seconds));
+    const updateRemaining = (): number => {
+      const seconds = Math.max(0, Math.floor((expiry - Date.now()) / 1000));
+      setTimeLeft(seconds);
+      return seconds;
     };
 
     updateRemaining();
 
-    const intervalId = window.setInterval(() => {
-      setTimeLeft((current) => {
-        if (current <= 0) {
-          return 0;
-        }
-        return current - 1;
-      });
+    const intervalId = win.setInterval(() => {
+      const remaining = updateRemaining();
+      if (remaining <= 0) {
+        win.clearInterval(intervalId);
+      }
     }, 1000);
 
     return () => {
-      window.clearInterval(intervalId);
+      win.clearInterval(intervalId);
     };
   }, [durationSeconds, storageKey]);
 
