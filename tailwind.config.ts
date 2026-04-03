@@ -21,7 +21,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-dm-sans)'],
-        heading: ['var(--font-cormorant)'],
+        heading: ['var(--font-lora)'],
       },
       keyframes: {
         'cta-pulse': {

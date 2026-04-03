@@ -3,18 +3,18 @@ import { content } from '@/config/content';
 
 export default function GuaranteeSection(): JSX.Element {
   return (
-    <section aria-labelledby="guarantee-heading" className="bg-charcoal px-4 py-14 text-white">
-      <div className="mx-auto max-w-5xl space-y-8">
-        <h2 id="guarantee-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+    <section aria-labelledby="guarantee-heading" className="section-shell bg-charcoal text-white">
+      <div className="section-container space-y-8">
+        <h2 id="guarantee-heading" className="section-title">
           {content.guarantee.heading}
         </h2>
-        <p className="text-base leading-relaxed md:text-lg">{content.guarantee.text}</p>
+        <p className="body-copy">{content.guarantee.text}</p>
 
         <article className="rounded-2xl bg-white/10 p-6">
           <h3 className="font-heading text-2xl font-semibold md:text-3xl">
             {content.guarantee.trustHeading}
           </h3>
-          <p className="mt-3 text-base leading-relaxed md:text-lg">{content.guarantee.trustText}</p>
+          <p className="body-copy mt-3">{content.guarantee.trustText}</p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {content.guarantee.badges.map((badge) => (
@@ -26,7 +26,7 @@ export default function GuaranteeSection(): JSX.Element {
                   height={120}
                   className="mx-auto h-auto w-20 object-contain"
                 />
-                <p className="mt-3 text-center text-sm">{badge.label}</p>
+                <p className="mt-3 text-center text-base font-medium">{badge.label}</p>
               </div>
             ))}
           </div>

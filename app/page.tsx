@@ -14,7 +14,7 @@ export default function HomePage(): JSX.Element {
     <>
       <ScrollMilestoneTracker />
       <StickyHeader />
-      <main className="pt-24 md:pt-20">
+      <main className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
         <HeroSection />
         <EmpathySection />
         <ValueStackSection />

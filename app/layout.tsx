@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { Lora, DM_Sans } from 'next/font/google';
 import './globals.css';
 import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
+import ScrollRestoration from '@/components/ScrollRestoration';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -11,10 +12,10 @@ const dmSans = DM_Sans({
   variable: '--font-dm-sans',
 });
 
-const cormorant = Cormorant_Garamond({
+const lora = Lora({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-cormorant',
+  variable: '--font-lora',
   weight: ['500', '600', '700'],
 });
 
@@ -40,7 +41,8 @@ export default function RootLayout({
 
   return (
     <html lang="es" translate="no" className="notranslate" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${cormorant.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+      <body className={`${dmSans.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+        <ScrollRestoration />
         <PriceProvider>
           {children}
         </PriceProvider>

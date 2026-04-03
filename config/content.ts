@@ -28,7 +28,7 @@ export const content = {
       'Descubre el metodo de alimentacion practica que ya ayudo a miles de mujeres en America Latina a reducir picos de azucar sin eliminar por completo sus comidas favoritas. Incluye recetas, guia de porciones y planes semanales listos para usar desde hoy.',
     imageAlt:
       'Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2',
-    ctaLabel: '👉 ¡Si! Quiero Mi Plato Seguro Ahora',
+    ctaLabel: '👉 Quiero Empezar Hoy',
     trustLine: 'Compra 100% segura • Acceso instantaneo por email',
   },
   empathy: {
@@ -96,7 +96,7 @@ export const content = {
       totalLabel: 'Valor Total Real: $104.95 USD',
       discountLabel: 'Llevate TODO con un 85% OFF (Solo por los proximos 15 minutos):',
       expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $29.99 USD',
-      ctaLabel: '👉 Desbloquear Mi Descuento: Comprar por',
+      ctaLabel: '👉 Quiero Mi Descuento Hoy',
     },
   },
   testimonials: {
@@ -196,7 +196,7 @@ export const content = {
     paragraph:
       'Hoy puedes elegir seguir posponiendote o tomar una decision que te devuelva energia, confianza y libertad en cada comida. Empieza ahora con una inversion pequena y resultados que impactan toda tu vida.',
     signature: "Con carino, Clara y el equipo de 'El Plato Seguro'",
-    ctaLabel: '👉 Quiero Mi Paquete Completo',
+    ctaLabel: '👉 Quiero Acceso Inmediato',
   },
   footer: {
     copyright:
