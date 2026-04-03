@@ -56,7 +56,7 @@ export default function Footer(): JSX.Element {
           <a
             href={content.footer.facebookUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={content.footer.facebookLabel}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 transition hover:bg-white/10"
           >
@@ -65,7 +65,7 @@ export default function Footer(): JSX.Element {
           <a
             href={content.footer.instagramUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={content.footer.instagramLabel}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 transition hover:bg-white/10"
           >
@@ -74,7 +74,7 @@ export default function Footer(): JSX.Element {
           <a
             href={content.footer.tiktokUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={content.footer.tiktokLabel}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 transition hover:bg-white/10"
           >
@@ -83,7 +83,7 @@ export default function Footer(): JSX.Element {
           <a
             href={content.footer.youtubeUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={content.footer.youtubeLabel}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 transition hover:bg-white/10"
           >

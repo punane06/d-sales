@@ -7,8 +7,8 @@ export const content = {
   offer: {
     durationSeconds: 1800,
     storageKey: 'elplatoseguro-timer-expiry-v2',
-    salePrice: '$16,97',
-    expiredPrice: '$27,97',
+    salePrice: '$16.97',
+    expiredPrice: '$27.97',
     totalValue: '$87.75 USD',
     saleUrl: 'https://pay.hotmart.com/Q105210520I?off=7md7qkuo',
     expiredUrl: 'https://pay.hotmart.com/Q105210520I?off=f6rm4qp2',
