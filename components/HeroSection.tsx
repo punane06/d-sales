@@ -18,17 +18,18 @@ export default function HeroSection(): JSX.Element {
             {content.hero.heading}
           </h1>
           <p className="font-heading text-base italic sm:text-xl md:text-3xl">{content.hero.subheadline}</p>
-          <p className="body-copy">{content.hero.description}</p>
 
-          <div className="flex justify-center">
-            <Image
-              src="/media/products/hero-mockup.png"
-              alt={content.hero.imageAlt}
-              width={540}
-              height={640}
-              priority
-              className="h-auto w-full max-w-[10.5rem] rounded-2xl object-contain shadow-xl sm:max-w-sm"
-            />
+          <div className="mx-auto w-full max-w-[22rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg">
+            <div className="relative aspect-[16/8.4] w-full">
+              <Image
+                src="/media/products/hero-mockup.png"
+                alt={content.hero.imageAlt}
+                fill
+                sizes="(min-width: 768px) 32rem, (min-width: 640px) 28rem, 22rem"
+                priority
+                className="object-cover object-[50%_53%]"
+              />
+            </div>
           </div>
 
           <div className="pt-1">
@@ -38,6 +39,8 @@ export default function HeroSection(): JSX.Element {
             />
             <p className="mt-2 text-base text-charcoal/80 md:text-xl">{content.hero.trustLine}</p>
           </div>
+
+          <p className="body-copy">{content.hero.description}</p>
         </div>
       </div>
     </section>

@@ -95,7 +95,7 @@ export const content = {
     pricing: {
       totalLabel: 'Valor Total Real: $87.75 USD',
       discountLabel: 'Llevate TODO con un 80% OFF (Solo por los proximos 30 minutos):',
-      expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $27,97 USD (68% OFF)',
+      expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $27.97 USD (68% OFF)',
       ctaLabel: '👉 Quiero Mi Descuento Hoy',
     },
   },
