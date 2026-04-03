@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { content } from '@/config/content';
 import { usePrice } from '@/context/PriceContext';
 import CtaButton from '@/components/CtaButton';
@@ -8,13 +9,20 @@ export default function ValueStackSection(): JSX.Element {
   const { currentPrice } = usePrice();
 
   return (
-    <section aria-label="Valor" className="bg-sage px-4 py-14 text-white">
+    <section aria-labelledby="value-stack-heading" className="bg-sage px-4 py-14 text-white">
       <div className="mx-auto max-w-6xl space-y-8">
-        <h2 className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+        <h2 id="value-stack-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
           {content.valueStack.heading}
         </h2>
 
         <article className="rounded-2xl bg-charcoal/30 p-6">
+          <Image
+            src={content.valueStack.mainProduct.imageSrc}
+            alt={content.valueStack.mainProduct.imageAlt}
+            width={220}
+            height={280}
+            className="mb-4 h-auto w-44 rounded-xl object-contain shadow-lg"
+          />
           <h3 className="font-heading text-2xl font-semibold md:text-3xl">
             {content.valueStack.mainProduct.title}
           </h3>
@@ -34,6 +42,13 @@ export default function ValueStackSection(): JSX.Element {
         <div className="grid gap-4 md:grid-cols-2">
           {content.valueStack.bonuses.map((bonus) => (
             <article key={bonus.title} className="rounded-2xl bg-charcoal/20 p-5">
+              <Image
+                src={bonus.imageSrc}
+                alt={bonus.imageAlt}
+                width={200}
+                height={240}
+                className="mb-4 h-auto w-36 rounded-lg object-contain shadow-md"
+              />
               <h3 className="font-heading text-xl font-semibold md:text-2xl">
                 {bonus.icon} {bonus.title}
               </h3>

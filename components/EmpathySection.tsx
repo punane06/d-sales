@@ -3,9 +3,9 @@ import { content } from '@/config/content';
 
 export default function EmpathySection(): JSX.Element {
   return (
-    <section aria-label="Empatia" className="bg-white px-4 py-14">
+    <section aria-labelledby="empathy-heading" className="bg-white px-4 py-14">
       <div className="mx-auto max-w-4xl space-y-6">
-        <h2 className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+        <h2 id="empathy-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
           {content.empathy.heading}
         </h2>
         <p className="text-lg font-semibold md:text-xl">{content.empathy.intro}</p>

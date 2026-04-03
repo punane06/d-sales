@@ -36,8 +36,11 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${cormorant.variable} bg-offwhite font-sans text-charcoal`}>
+    <html lang="es" translate="no" className="notranslate" suppressHydrationWarning>
+      <body className={`${dmSans.variable} ${cormorant.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+        <head>
+          <meta name="google" content="notranslate" />
+        </head>
         <PriceProvider>
           {children}
         </PriceProvider>

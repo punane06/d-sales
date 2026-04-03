@@ -3,9 +3,9 @@ import { content } from '@/config/content';
 
 export default function GuaranteeSection(): JSX.Element {
   return (
-    <section aria-label="Garantia" className="bg-charcoal px-4 py-14 text-white">
+    <section aria-labelledby="guarantee-heading" className="bg-charcoal px-4 py-14 text-white">
       <div className="mx-auto max-w-5xl space-y-8">
-        <h2 className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+        <h2 id="guarantee-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
           {content.guarantee.heading}
         </h2>
         <p className="text-base leading-relaxed md:text-lg">{content.guarantee.text}</p>
