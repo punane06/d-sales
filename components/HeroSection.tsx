@@ -25,6 +25,7 @@ export default function HeroSection(): JSX.Element {
                 src="/media/products/hero-mockup.png"
                 alt={content.hero.imageAlt}
                 fill
+                sizes="(min-width: 768px) 32rem, (min-width: 640px) 28rem, 22rem"
                 priority
                 className="object-cover object-[50%_53%]"
               />
