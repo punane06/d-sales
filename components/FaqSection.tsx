@@ -46,11 +46,13 @@ export default function FaqSection(): JSX.Element {
                 <div
                   id={`faq-answer-${index}`}
                   aria-hidden={!isOpen}
-                  className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${isOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'}`}
+                  className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
                 >
-                  <p className="body-copy border-t border-charcoal/10 bg-charcoal/5 px-5 pb-4 pt-4">
-                    {item.answer}
-                  </p>
+                  <div className="overflow-hidden">
+                    <p className="body-copy border-t border-charcoal/10 bg-charcoal/5 px-5 pb-4 pt-4">
+                      {item.answer}
+                    </p>
+                  </div>
                 </div>
               </article>
             );

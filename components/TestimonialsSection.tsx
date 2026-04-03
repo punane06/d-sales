@@ -28,8 +28,8 @@ export default function TestimonialsSection(): JSX.Element {
                 </div>
               </div>
 
-              <div className="relative mt-4 rounded-2xl bg-[#E6F6E6] px-4 py-3">
-                <span className="absolute -left-1 top-5 h-2.5 w-2.5 rotate-45 bg-[#E6F6E6]" aria-hidden="true" />
+              <div className="relative mt-4 rounded-2xl bg-mint px-4 py-3">
+                <span className="absolute -left-1 top-5 h-2.5 w-2.5 rotate-45 bg-mint" aria-hidden="true" />
                 <p className="text-lg text-terracotta">
                   <span className="sr-only">5 estrellas</span>
                   <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
