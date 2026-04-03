@@ -28,7 +28,7 @@ function TikTokIcon(): JSX.Element {
 export default function Footer(): JSX.Element {
   return (
     <footer className="bg-charcoal px-4 py-10 text-white">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
+      <div className="section-container flex flex-col items-center gap-5 text-center">
         <div className="flex items-center gap-4">
           <a
             href={content.footer.instagramUrl}
@@ -49,7 +49,7 @@ export default function Footer(): JSX.Element {
             <TikTokIcon />
           </a>
         </div>
-        <p className="text-base text-white/90">{content.footer.copyright}</p>
+        <p className="body-copy text-white/90">{content.footer.copyright}</p>
       </div>
     </footer>
   );

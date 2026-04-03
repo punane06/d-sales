@@ -9,9 +9,9 @@ export default function ValueStackSection(): JSX.Element {
   const { currentPrice } = usePrice();
 
   return (
-    <section aria-labelledby="value-stack-heading" className="bg-sage px-4 py-14 text-white">
-      <div className="mx-auto max-w-6xl space-y-8">
-        <h2 id="value-stack-heading" className="font-heading text-3xl font-bold leading-tight md:text-5xl">
+    <section aria-labelledby="value-stack-heading" className="section-shell bg-sage text-white">
+      <div className="section-container space-y-8">
+        <h2 id="value-stack-heading" className="section-title">
           {content.valueStack.heading}
         </h2>
 
@@ -26,12 +26,12 @@ export default function ValueStackSection(): JSX.Element {
           <h3 className="font-heading text-2xl font-semibold md:text-3xl">
             {content.valueStack.mainProduct.title}
           </h3>
-          <ul className="mt-4 space-y-2 text-base md:text-lg">
+          <ul className="body-copy mt-4 space-y-2">
             {content.valueStack.mainProduct.bullets.map((item) => (
               <li key={item}>• {item}</li>
             ))}
           </ul>
-          <p className="mt-4 text-base md:text-lg">
+          <p className="body-copy mt-4">
             <span className="font-semibold">Valor: {content.valueStack.mainProduct.value}</span>
             <span className="ml-3 rounded bg-white/20 px-3 py-1 text-sm">
               {content.valueStack.mainProduct.includedLabel}
@@ -52,23 +52,25 @@ export default function ValueStackSection(): JSX.Element {
               <h3 className="font-heading text-xl font-semibold md:text-2xl">
                 {bonus.icon} {bonus.title}
               </h3>
-              <p className="mt-2 text-base md:text-lg">{bonus.description}</p>
+              <p className="body-copy mt-2">{bonus.description}</p>
               <p className="mt-3 font-semibold">Valor: {bonus.value}</p>
             </article>
           ))}
         </div>
 
-        <article className="rounded-2xl bg-white p-6 text-charcoal">
-          <p className="text-base text-softred line-through md:text-lg">
+        <article className="surface-card text-charcoal">
+          <p className="body-copy text-softred line-through">
             {content.valueStack.pricing.totalLabel}
           </p>
-          <p className="mt-3 text-base font-semibold md:text-lg">
+          <p className="body-copy mt-3 font-semibold">
             {content.valueStack.pricing.discountLabel}
           </p>
           <p className="mt-4 font-heading text-5xl font-bold md:text-6xl">{currentPrice} USD</p>
-          <p className="mt-3 text-base text-charcoal/80 md:text-lg">
-            ({content.valueStack.pricing.expiryNotice})
-          </p>
+          <div className="notice-card mt-4">
+            <p className="body-copy font-medium text-charcoal">
+              ⚠️ {content.valueStack.pricing.expiryNotice}
+            </p>
+          </div>
           <div className="mt-6">
             <CtaButton
               baseLabel={content.valueStack.pricing.ctaLabel}

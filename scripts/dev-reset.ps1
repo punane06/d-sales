@@ -31,6 +31,11 @@ try {
     Write-Output 'Removed .next cache'
   }
 
+  if (Test-Path .next-dev) {
+    Remove-Item -Recurse -Force .next-dev -ErrorAction Stop
+    Write-Output 'Removed .next-dev cache'
+  }
+
   npm.cmd run dev -- --port 3001
 }
 finally {
