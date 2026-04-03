@@ -35,15 +35,18 @@ export default function StickyHeader(): JSX.Element {
 
     updateOffset();
 
-    const resizeObserver = new ResizeObserver(() => {
-      updateOffset();
-    });
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        updateOffset();
+      });
+      resizeObserver.observe(headerElement);
+    }
 
-    resizeObserver.observe(headerElement);
     globalThis.addEventListener('resize', updateOffset);
 
     return () => {
-      resizeObserver.disconnect();
+      resizeObserver?.disconnect();
       globalThis.removeEventListener('resize', updateOffset);
     };
   }, []);
@@ -57,9 +60,8 @@ export default function StickyHeader(): JSX.Element {
         <div
           className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
           role="timer"
-          aria-label={`Tiempo restante: ${timerText}`}
+          aria-label="Tiempo restante de la oferta"
         >
-          <span className="sr-only">Tiempo restante de la oferta</span>
           <span className="inline-block w-[2ch] text-center">{isMounted ? hours : '00'}</span>
           <span className="inline-block w-1.5 text-center">:</span>
           <span className="inline-block w-[2ch] text-center">{isMounted ? minutes : '00'}</span>
@@ -67,7 +69,7 @@ export default function StickyHeader(): JSX.Element {
           <span className="inline-block w-[2ch] text-center">{isMounted ? seconds : '00'}</span>
         </div>
         <div className="flex items-center justify-center sm:justify-end">
-          <p className="text-sm font-medium sm:text-base md:text-lg" aria-label="Current price">
+          <p className="text-sm font-medium sm:text-base md:text-lg">
             <span className="mr-1.5 opacity-80 sm:mr-2">{content.header.currentPriceLabel}:</span>
             <strong className="font-bold text-offwhite">{currentPrice} USD</strong>
           </p>

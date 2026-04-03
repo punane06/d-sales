@@ -4,26 +4,70 @@ import { useEffect } from 'react';
 
 export default function ScrollRestoration(): null {
   useEffect(() => {
-    // Restore scroll position from sessionStorage on page load
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
-    if (savedScrollPosition) {
-      // Use requestAnimationFrame to ensure DOM is fully ready
-      requestAnimationFrame(() => {
-        window.scrollTo(0, Number.parseInt(savedScrollPosition, 10));
-      });
-      sessionStorage.removeItem('scrollPosition');
+    if (!savedScrollPosition) {
+      return;
     }
+
+    const targetY = Number.parseInt(savedScrollPosition, 10);
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, targetY);
+
+      // Clear only after a real scroll event confirms the position was applied
+      const clearOnScroll = (): void => {
+        sessionStorage.removeItem('scrollPosition');
+        window.removeEventListener('scroll', clearOnScroll);
+      };
+      window.addEventListener('scroll', clearOnScroll, { passive: true, once: true });
+    });
   }, []);
 
   useEffect(() => {
-    // Save scroll position to sessionStorage when user scrolls
+    let frameId: number | null = null;
+    let latestScrollY = window.scrollY;
+
+    const saveScrollPosition = (): void => {
+      sessionStorage.setItem('scrollPosition', String(latestScrollY));
+    };
+
+    // Coalesce scroll writes to at most one per animation frame
     const handleScroll = (): void => {
-      sessionStorage.setItem('scrollPosition', String(window.scrollY));
+      latestScrollY = window.scrollY;
+      if (frameId !== null) {
+        return;
+      }
+      frameId = requestAnimationFrame(() => {
+        frameId = null;
+        saveScrollPosition();
+      });
+    };
+
+    // Also persist on tab hide and page unload
+    const handleVisibilityChange = (): void => {
+      if (document.visibilityState === 'hidden') {
+        latestScrollY = window.scrollY;
+        saveScrollPosition();
+      }
+    };
+
+    const handlePageHide = (): void => {
+      latestScrollY = window.scrollY;
+      saveScrollPosition();
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+
     return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      saveScrollPosition();
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
     };
   }, []);
 
