@@ -2,7 +2,7 @@ export const content = {
   meta: {
     title: 'El Plato Seguro | Recetario Digital para Estabilizar la Glucosa',
     description:
-      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Más de 100 recetas caseras para mujeres con diabetes tipo 2 o resistencia a la insulina. Acceso inmediato por $16.97 USD.',
+      'Recupera el control de tu glucosa en 30 dias con recetas reales, sabrosas y faciles de preparar para mujeres con diabetes tipo 2 o resistencia a la insulina.',
   },
   offer: {
     durationSeconds: 1800,
@@ -12,97 +12,93 @@ export const content = {
     totalValue: '$87.75',
     saleUrl: 'https://pay.hotmart.com/Q105210520I?off=7md7qkuo',
     expiredUrl: 'https://pay.hotmart.com/Q105210520I?off=f6rm4qp2',
-    guarantee: '15 días',
+    guarantee: '15 dias',
   },
   header: {
-    warning: '⚠️ Oferta de Lanzamiento (80% OFF) termina en:',
+    warning: '⚠️ Oferta de Lanzamiento termina en:',
     currentPriceLabel: 'Precio actual',
   },
   hero: {
     attention:
-      'Atención: Para mujeres agotadas de las dietas de hospital y el miedo a la insulina...',
+      'Atencion: Para mujeres agotadas de las dietas de hospital y el miedo a la insulina...',
     heading:
-      'El método comprobado para disfrutar tus comidas latinas favoritas, sin picos de azúcar y sin cocinar dos veces.',
+      'COMO ESTABILIZAR TU GLUCOSA EN 30 DIAS COMIENDO PIZZA, PAN Y POSTRES',
     description:
-      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Sin culpa, sin pasar hambre y sin miedo al medidor.',
+      'Descubre el metodo de alimentacion practica que ya ayudo a miles de mujeres en America Latina a reducir picos de azucar sin eliminar por completo sus comidas favoritas. Incluye recetas, guia de porciones y planes semanales listos para usar desde hoy.',
     imageAlt:
       'Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2',
-    ctaLabel: '¡Sí, Clara! Quiero Comer Rico y Bajar Mi Azúcar Ahora',
-    trustLine: 'Compra 100% segura • Fácil de abrir: Te llega directo a tu celular o correo en 1 minuto.',
+    ctaLabel: 'Quiero Empezar Hoy',
+    trustLine: 'Compra 100% segura • Acceso instantaneo por email',
   },
   empathy: {
-    heading: '¿Sientes un nudo en el estómago cada vez que te mides el azúcar?',
+    heading: '¿Sientes un nudo en el estomago cada vez que te mides el azucar?',
     intro: 'Hola, soy Clara.',
     story: [
-      'Sé exactamente el terror que se siente. Ese miedo silencioso de ver los números subir en el medidor. La ansiedad de irte a dormir temiendo amanecer con la glucosa por las nubes.',
-      'Mientras tu familia disfruta de las cenas los fines de semana, tú te obligas a masticar lechuga y pollo hervido.',
-      'Sientes que te han robado la alegría de comer, tus raíces y tus tradiciones.',
-      'Conozco la frustración de llegar al médico y salir con una lista deprimente de alimentos prohibidos y el temido ultimátum: "Si no bajas esto, tendremos que usar insulina."',
-      'De repente, te conviertes en la "enferma" de la mesa.',
-      'Pero escúchame bien: Tu médico tiene razón sobre cuidar tu salud... pero se equivoca rotundamente en el menú.',
-      'Comer sano no tiene que ser un castigo con sabor a cartón.',
-      'Me negué a vivir así el resto de mi vida. Después de meses de pruebas, errores y mucha investigación en mi propia cocina, logré lo imposible.',
-      'Descubrí el secreto para transformar nuestras recetas tradicionales de siempre, usando ingredientes económicos que deleitan tu paladar y protegen tu salud al mismo tiempo.',
-      'Así nació El Plato Seguro. Un refugio donde puedes comer delicioso, sentirte llena de energía y ver cómo tus niveles de glucosa se mantienen planos todos los días.',
+      'Si estas aqui, probablemente estas cansada de vivir entre el miedo, la culpa y la confusion. Miedo cuando ves el glucometro, culpa cuando comes algo que te gusta, y confusion por tantas recomendaciones que se contradicen.',
+      'Yo tambien estuve ahi. Pase anos creyendo que para mejorar mi salud tenia que comer sin sabor, contar cada migaja y vivir con ansiedad. Cada comida parecia un examen, y cada numero alto en sangre me hacia sentir que estaba fallando.',
+      'Lo peor no era solo el cansancio fisico. Era la carga emocional de pensar: "¿Esto va a empeorar? ¿Voy directo a la insulina?" Ese pensamiento me acompano durante mucho tiempo, incluso en momentos felices con mi familia.',
+      'Un dia entendi que no necesitaba castigarme para cuidarme. Necesitaba un sistema claro, sabroso y sostenible. Empece a adaptar recetas cotidianas con balance metabolico, y por primera vez senti paz al sentarme a la mesa.',
+      'Con el tiempo, esos pequenos cambios se convirtieron en resultados reales: glucosa mas estable, menos antojos, mas energia y, sobre todo, menos miedo. Descubri que si era posible disfrutar pizza, pan y postres en porciones inteligentes.',
+      'Por eso cree El Plato Seguro: para que no tengas que recorrer este camino sola. Quiero darte una ruta simple, en espanol, pensada para mujeres reales que quieren recuperar su salud sin dejar de vivir.',
     ],
   },
   valueStack: {
-    heading: 'Aquí tienes la llave para tu libertad en la cocina. Esto es lo que recibes de forma inmediata HOY:',
+    heading: 'Aqui tienes la llave para tu libertad. Esto es lo que recibes HOY:',
     mainProduct: {
       title: '📘 EL PROGRAMA CENTRAL: GLUCOSA PLANA',
       imageSrc: '/media/products/section3.webp',
       imageAlt: 'Portada del programa central Glucosa Plana',
       bullets: [
-        'Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días.',
-        'Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria.',
-        'Nunca más tendrás que cocinar dos comidas separadas para tu familia y para ti.',
+        '100+ recetas para desayuno, almuerzo, cena y antojos',
+        'Guia visual para combinar carbohidratos, fibra y proteina',
+        'Menus semanales listos para ahorrar tiempo y decisiones',
       ],
       value: '$29.95',
-      includedLabel: '¡HOY INCLUIDO!',
+      includedLabel: 'Incluido hoy sin costo adicional',
     },
     bonuses: [
       {
-        title: 'Bono #1: PILOTO AUTOMÁTICO METABÓLICO',
+        title: 'Bono #1: PILOTO AUTOMATICO METABOLICO',
         imageSrc: '/media/products/section3-1.webp',
-        imageAlt: 'Portada del bono Piloto Automático Metabólico',
-        description: 'Tu planificador semanal visual con menú de lunes a domingo y lista del súper para que no tengas que pensar ni estresarte en la cocina.',
+        imageAlt: 'Portada del bono Piloto Automatico Metabolico',
+        description: 'Rutina simple de 7 minutos para mejorar sensibilidad a la insulina.',
         value: '$17.95',
         icon: '🧠',
       },
       {
-        title: 'Bono #2: BAÑO DE SABOR (Salsas y Patés)',
+        title: 'Bono #2: BANO DE SABOR',
         imageSrc: '/media/products/section3-2.webp',
-        imageAlt: 'Portada del bono Baño de Sabor',
-        description: '20 aderezos, mayonesas y patés para revivir tus comidas sin añadir azúcar. Despídete de la comida seca y aburrida.',
+        imageAlt: 'Portada del bono Bano de Sabor',
+        description: 'Salsas y aderezos anti-picos para comer rico todos los dias.',
         value: '$14.95',
         icon: '🥗',
       },
       {
-        title: 'Bono #3: DULZURA LÍQUIDA (Bebidas y Tés)',
+        title: 'Bono #3: DULZURA LIQUIDA',
         imageSrc: '/media/products/section3-3.webp',
-        imageAlt: 'Portada del bono Dulzura Líquida',
-        description: '15 batidos frutales y tés antiestrés listos en 3 minutos para calmar antojos dulces y apoyar tus noches.',
+        imageAlt: 'Portada del bono Dulzura Liquida',
+        description: 'Bebidas, batidos y cafes que no sabotean tu glucosa.',
         value: '$14.95',
         icon: '🥤',
       },
       {
-        title: 'Bono #4: EL HACK DE LAS MASAS (Harinas y Leches)',
+        title: 'Bono #4: EL HACK DE LAS MASAS',
         imageSrc: '/media/products/section3-4.webp',
         imageAlt: 'Portada del bono El Hack de las Masas',
-        description: '12 bases caseras y súper económicas para hornear panes, tortillas y arepas sin provocar picos de insulina.',
+        description: 'Bases y masas inteligentes para pizza, pan y wraps caseros.',
         value: '$9.95',
         icon: '🍕',
       },
     ],
     pricing: {
-      totalLabel: 'Valor Total Real: $87.75 USD',
-      discountLabel: 'Llévate TODO con un 80% OFF (Solo por los próximos 30 minutos):',
-      expiryNotice: 'Atención: Al expirar el contador, el precio subirá automáticamente a $27.97 USD.',
-      ctaLabel: '¡Sí! Quiero Mi Paquete Completo por Solo $16.97 USD',
+      totalLabel: 'Valor Total Real: $87.75',
+      discountLabel: 'Llevate TODO con un 80% OFF (Solo por los proximos 30 minutos):',
+      expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $27.97 (68% OFF)',
+      ctaLabel: 'Quiero Mi Descuento Hoy',
     },
   },
   testimonials: {
-    heading: 'Mira lo que dicen las mujeres que ya escaparon de la "dieta de hospital"...',
+    heading: 'Mas de 2.500 mujeres ya recuperaron su vida y su salud...',
     entries: [
       {
         name: 'Marta S.',
@@ -110,23 +106,23 @@ export const content = {
         avatarSrc: '/media/testimonials/Colombia.webp',
         avatarAlt: 'Foto de perfil de Marta, clienta de Colombia',
         quote:
-          'Lloraba de frustración porque sentía que no podía comer nada rico. Desde que preparo las recetas de Clara, ceno pizza o tacos con mi familia sin sentirme la "enferma" de la mesa. Mis niveles en ayunas nunca habían estado tan estables.',
+          'En 3 semanas deje de tener esos sube y baja de energia. Volvi a desayunar con gusto y mis controles salieron mucho mejor. Lo mejor: no senti que estaba a dieta.',
       },
       {
         name: 'Elena M.',
-        country: 'México',
+        country: 'Mexico',
         avatarSrc: '/media/testimonials/mexico.webp',
-        avatarAlt: 'Foto de perfil de Elena, clienta de México',
+        avatarAlt: 'Foto de perfil de Elena, clienta de Mexico',
         quote:
-          'Le tenía terror a amanecer con la glucosa alta. Mi médico ya me había amenazado con la insulina. Compré este recetario, empecé a cenar como Clara enseña, y mi doctor no podía creer mis últimos exámenes. Las galletas son mi adicción y no me suben el azúcar.',
+          'Tenia panico de terminar usando mas medicacion. Con El Plato Seguro aprendi a armar platos que me sacian y mi ansiedad por dulce bajo un monton.',
       },
       {
         name: 'Rosa V.',
-        country: 'Perú',
+        country: 'Peru',
         avatarSrc: '/media/testimonials/Peru.webp',
-        avatarAlt: 'Foto de perfil de Rosa, clienta de Perú',
+        avatarAlt: 'Foto de perfil de Rosa, clienta de Peru',
         quote:
-          'Pensé que nunca en mi vida volvería a comer pan. Con el "Hack de las Masas" aprendí a hacer mis propias tortillas en minutos sin que me suba el azúcar. Me devolvieron la vida. Gracias, Clara.',
+          'Pensaba que comer rico era incompatible con cuidar la glucosa. Ahora hago pizza casera con mis hijas y me siento tranquila porque se como equilibrarla.',
       },
       {
         name: 'Carmen R.',
@@ -134,7 +130,7 @@ export const content = {
         avatarSrc: '/media/testimonials/USA.webp',
         avatarAlt: 'Foto de perfil de Carmen, clienta de USA',
         quote:
-          'Soy pésima con la tecnología, pero me llegó directo al correo y lo abrí en mi celular rapidísimo. Ya no tengo que pensar qué hacerme de comer, sigo el plan semanal y listo. Vale cada centavo.',
+          'Trabajo todo el dia y no tenia tiempo para planes complicados. Las guias son practicas, en espanol y faciles de seguir. Mi glucometro ya no me asusta.',
       },
       {
         name: 'Lucia G.',
@@ -142,20 +138,20 @@ export const content = {
         avatarSrc: '/media/testimonials/chile.webp',
         avatarAlt: 'Foto de perfil de Lucia, clienta de Chile',
         quote:
-          'Creí que cocinar para diabéticos era carísimo y requería ingredientes raros. Me encantó que todo lo que pide Clara lo encuentro en el mercadito de la esquina, súper económico y fácil.',
+          'Me devolvio la esperanza. Pase de vivir con culpa a comer con estrategia. Mi familia tambien se beneficio porque ahora todos comemos mejor.',
       },
     ],
   },
   guarantee: {
-    heading: '🔒 Mi Garantía Incondicional Familiar de 15 Días',
+    heading: '🔒 Mi Garantia Incondicional de 15 Dias',
     text:
-      'Tu salud no tiene precio y tu paz mental tampoco. Prueba El Plato Seguro hoy mismo. Descarga los libritos digitales y prepara tus platos favoritos. Si en 15 días sientes que las recetas no son absolutamente deliciosas y fáciles de hacer, o si tu familia no te pide repetir el plato, te devolvemos el 100% de tu dinero. Sin preguntas. Sin letra pequeña. El riesgo es todo mío.',
-    trustHeading: '⏳ Tu descuento del 80% desaparece pronto...',
+      'Pruebalo durante 15 dias completos. Si sientes que no es para ti, solo escribenos y te devolvemos el 100% de tu dinero. Sin preguntas incomodas, sin letras pequenas. Queremos que compres con total tranquilidad.',
+    trustHeading: '✅ ¿Esto es seguro?',
     trustText:
-      'Recuerda, esta oferta especial de $16.97 USD solo está disponible mientras el temporizador esté corriendo. Cuando llegue a cero, el precio subirá a $27.97 USD automáticamente. No dejes pasar esta oportunidad de sanar comiendo rico.',
+      'Si. Tu pago se procesa por Hotmart, una plataforma internacional con cifrado SSL y altos estandares de seguridad. No guardamos tus datos bancarios y recibes acceso inmediato en tu correo.',
     badges: [
       {
-        label: 'Sello de garantía de 15 días',
+        label: 'Sello de garantia de 15 dias',
         src: '/media/trust/guarantee-ribbon.svg',
       },
       {
@@ -172,43 +168,43 @@ export const content = {
     heading: 'Preguntas Frecuentes',
     items: [
       {
-        question: '¿Este recetario sirve si tengo Diabetes Tipo 2 o Resistencia a la Insulina?',
+        question: '¿Este recetario es solo para mujeres con diabetes tipo 2?',
         answer:
-          'Absolutamente. Todo el sistema usa ingredientes probados de bajo índice glucémico, ideales para estabilizar la insulina, aplanar tus curvas de glucosa y ayudarte a controlar la Diabetes Tipo 2 de forma natural.',
+          'Esta pensado principalmente para mujeres con diabetes tipo 2 o resistencia a la insulina, pero tambien ayuda a cualquier persona que quiera estabilizar su glucosa con una alimentacion practica y sabrosa.',
       },
       {
-        question: '¿Mi familia puede comer esto también o es solo para mí?',
+        question: '¿Necesito dejar por completo el pan, pizza o postres?',
         answer:
-          'Esa es la mejor parte. El propósito de El Plato Seguro es que dejes de cocinar dos veces. Las recetas son tan deliciosas que tu esposo e hijos comerán sano sin darse cuenta de que es un menú para el control del azúcar.',
+          'No. Aprenderas a prepararlos y combinarlos de forma estrategica para reducir picos de azucar. El enfoque es equilibrio y porciones inteligentes, no prohibiciones extremas.',
       },
       {
-        question: '¿Los ingredientes son caros o difíciles de conseguir?',
+        question: '¿En cuanto tiempo recibo acceso al material?',
         answer:
-          'No. Sé que la economía familiar es importante. Todas las recetas utilizan ingredientes accesibles que encuentras en cualquier supermercado o mercadito local en tu país.',
+          'El acceso es inmediato. Apenas se confirma tu pago en Hotmart, recibes un correo con tus datos de ingreso para empezar en minutos.',
       },
       {
-        question: '¿Necesito ser una experta en la cocina?',
+        question: '¿El contenido incluye menus listos o solo recetas sueltas?',
         answer:
-          'Para nada. Las instrucciones son simples, rápidas y directas al grano. Muchas recetas, como los batidos o los panes rápidos, están listas en menos de 5 a 10 minutos.',
+          'Incluye ambas cosas: recetario completo y menus semanales guiados para que sepas exactamente que comer sin perder tiempo planificando.',
       },
       {
-        question: '¿Y si nunca he comprado un recurso digital?',
+        question: '¿Puedo seguir el plan si tengo poco tiempo para cocinar?',
         answer:
-          'No te preocupes, está pensado para ti. Solo debes hacer clic en el botón de comprar, completar tus datos y recibirás tus libritos en formato PDF para descargar y leer en tu celular, tablet o computadora de inmediato. Es súper fácil y rápido.',
+          'Si. Las recetas estan pensadas para la vida real: ingredientes comunes, pasos simples y preparaciones que puedes adaptar a tu rutina familiar.',
       },
       {
-        question: '¿Es un pago mensual?',
+        question: '¿Que pasa si siento que no me funciona?',
         answer:
-          'No, es un pago único. No hay cobros ocultos ni suscripciones. Una vez que lo adquieres, todo el material es tuyo de por vida.',
+          'Estas protegida por la garantia de 15 dias. Si no es lo que esperabas, solicitas el reembolso y recuperas tu dinero sin complicaciones.',
       },
     ],
   },
   finalCta: {
-    heading: '✨ Tu salud no tiene precio... pero hoy puedes empezar a sanar con un delicioso postre saludable.',
+    heading: '✨ Tu salud no tiene precio...',
     paragraph:
-      'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones. La decisión es tuya.',
-    signature: "Con cariño, Clara y el equipo de 'El Plato Seguro'",
-    ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97 USD)',
+      'Hoy puedes elegir seguir posponiendote o tomar una decision que te devuelva energia, confianza y libertad en cada comida. Empieza ahora con una inversion pequena y resultados que impactan toda tu vida.',
+    signature: "Con carino, Clara y el equipo de 'El Plato Seguro'",
+    ctaLabel: 'Quiero Acceso Inmediato',
   },
   footer: {
     copyright:

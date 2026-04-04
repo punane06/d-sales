@@ -7,10 +7,6 @@ import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
 import { getSiteUrl } from '@/utils/site-url';
 
-type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
-}>;
-
 const lato = Lato({
   subsets: ['latin'],
   display: 'swap',
@@ -31,13 +27,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: content.meta.title,
   description: content.meta.description,
-  alternates: {
-    canonical: '/',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
   openGraph: {
     title: content.meta.title,
     description: content.meta.description,
@@ -65,7 +54,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>): JSX.Element {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 

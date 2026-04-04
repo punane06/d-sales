@@ -8,67 +8,10 @@ import FaqSection from '@/components/FaqSection';
 import FinalCtaSection from '@/components/FinalCtaSection';
 import Footer from '@/components/Footer';
 import ScrollMilestoneTracker from '../components/ScrollMilestoneTracker';
-import { content } from '@/config/content';
-import { getSiteUrl } from '@/utils/site-url';
-
-const siteUrl = getSiteUrl();
-const canonicalUrl = `${siteUrl}/`;
-
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': `${canonicalUrl}#organization`,
-      name: 'El Plato Seguro',
-      url: canonicalUrl,
-      sameAs: [
-        content.footer.instagramUrl,
-        content.footer.facebookUrl,
-        content.footer.youtubeUrl,
-        content.footer.tiktokUrl,
-      ],
-    },
-    {
-      '@type': 'Product',
-      '@id': `${canonicalUrl}#product`,
-      name: 'El Plato Seguro',
-      description: content.hero.description,
-      image: [`${siteUrl}/media/products/hero-mockup.png`],
-      brand: {
-        '@type': 'Brand',
-        name: 'El Plato Seguro',
-      },
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'USD',
-        price: content.offer.salePrice.replace('$', ''),
-        url: content.offer.saleUrl,
-        availability: 'https://schema.org/InStock',
-      },
-    },
-    {
-      '@type': 'FAQPage',
-      '@id': `${canonicalUrl}#faq`,
-      mainEntity: content.faq.items.map((item) => ({
-        '@type': 'Question',
-        name: item.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.answer,
-        },
-      })),
-    },
-  ],
-};
 
 export default function HomePage(): JSX.Element {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
       <ScrollMilestoneTracker />
       <StickyHeader />
       <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
