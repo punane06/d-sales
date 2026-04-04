@@ -44,8 +44,8 @@
 
 ## Changelog
 - 2026-04-04:
-	- Hero simplified to single primary headline (removed optional subheadline block in UI).
-	- Pricing copy now uses compact money format (e.g., `$16.97`) without forced `USD` suffix in labels.
+  - Hero simplified to single primary headline (removed optional subheadline block in UI).
+  - Pricing copy now uses compact money format (e.g., `$16.97`) without forced `USD` suffix in labels.
 
 ## Do and Don't
 

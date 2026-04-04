@@ -9,7 +9,7 @@ export default function HeroSection(): JSX.Element {
       className="section-shell-tight bg-offwhite pt-4 sm:pt-10"
     >
       <div className="section-container-narrow">
-        <div className="section-stack-compact sm:space-y-5">
+        <div className="section-stack-compact">
           <p className="body-copy font-semibold text-softred">{content.hero.attention}</p>
           <h1
             id="hero-heading"
