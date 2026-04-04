@@ -34,7 +34,6 @@ export const content = {
   empathy: {
     heading: '¿Sientes un nudo en el estomago cada vez que te mides el azucar?',
     intro: 'Hola, soy Clara.',
-    imageAlt: 'Mujer latina cocinando con tranquilidad en su cocina',
     story: [
       'Si estas aqui, probablemente estas cansada de vivir entre el miedo, la culpa y la confusion. Miedo cuando ves el glucometro, culpa cuando comes algo que te gusta, y confusion por tantas recomendaciones que se contradicen.',
       'Yo tambien estuve ahi. Pase anos creyendo que para mejorar mi salud tenia que comer sin sabor, contar cada migaja y vivir con ansiedad. Cada comida parecia un examen, y cada numero alto en sangre me hacia sentir que estaba fallando.',
