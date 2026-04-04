@@ -5,6 +5,7 @@ import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
+import { getSiteUrl } from '@/utils/site-url';
 
 const lato = Lato({
   subsets: ['latin'],
@@ -20,8 +21,10 @@ const lora = Lora({
   weight: ['500', '600', '700'],
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elplatoseguro.com'),
+  metadataBase: new URL(siteUrl),
   title: content.meta.title,
   description: content.meta.description,
   openGraph: {
