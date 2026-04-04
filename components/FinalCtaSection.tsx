@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
 
@@ -15,6 +16,19 @@ export default function FinalCtaSection(): JSX.Element {
             baseLabel={content.finalCta.ctaLabel}
             sectionName={content.analytics.sectionNames.finalCta}
           />
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+          {content.guarantee.badges.map((badge) => (
+            <div key={badge.label} className="flex items-center justify-center rounded-xl border border-charcoal/10 bg-white px-4 py-3">
+              <Image
+                src={badge.src}
+                alt={badge.label}
+                width={80}
+                height={40}
+                className="h-8 w-auto object-contain"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
