@@ -149,6 +149,7 @@ export const content = {
     trustHeading: '✅ ¿Esto es seguro?',
     trustText:
       'Si. Tu pago se procesa por Hotmart, una plataforma internacional con cifrado SSL y altos estandares de seguridad. No guardamos tus datos bancarios y recibes acceso inmediato en tu correo.',
+    paymentMethodsLabel: 'Formas de pago aceptadas:',
     badges: [
       {
         label: 'Sello de garantia de 15 dias',

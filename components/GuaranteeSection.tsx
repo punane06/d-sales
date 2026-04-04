@@ -31,7 +31,7 @@ export default function GuaranteeSection(): JSX.Element {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="label-copy text-white/60">Formas de pago aceptadas:</span>
+            <span className="label-copy text-white/60">{content.guarantee.paymentMethodsLabel}</span>
             <Image src="/media/payment/visa.svg" alt="Visa" width={48} height={32} className="h-6 w-auto" />
             <Image src="/media/payment/mastercard.svg" alt="Mastercard" width={48} height={32} className="h-6 w-auto" />
             <Image src="/media/payment/paypal.svg" alt="PayPal" width={48} height={32} className="h-6 w-auto" />
