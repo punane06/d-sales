@@ -6,20 +6,19 @@ export default function HeroSection(): JSX.Element {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="section-shell-tight bg-offwhite pt-3 sm:pt-10"
+      className="section-shell-tight bg-offwhite pt-4 sm:pt-10"
     >
       <div className="section-container-narrow">
-        <div className="space-y-2.5 sm:space-y-4">
+        <div className="section-stack-compact sm:space-y-5">
           <p className="body-copy font-semibold text-softred">{content.hero.attention}</p>
           <h1
             id="hero-heading"
-            className="font-heading text-2xl font-bold leading-tight sm:text-4xl md:text-6xl"
+            className="display-title"
           >
             {content.hero.heading}
           </h1>
-          <p className="font-heading text-base italic sm:text-xl md:text-3xl">{content.hero.subheadline}</p>
 
-          <div className="mx-auto w-full max-w-[22rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg">
+          <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg">
             <div className="relative aspect-[16/8.4] w-full">
               <Image
                 src="/media/products/hero-mockup.png"
@@ -32,15 +31,15 @@ export default function HeroSection(): JSX.Element {
             </div>
           </div>
 
-          <div className="pt-1">
+          <div className="pt-2">
             <CtaButton
               baseLabel={content.hero.ctaLabel}
               sectionName={content.analytics.sectionNames.hero}
             />
-            <p className="mt-2 text-base text-charcoal/80 md:text-xl">{content.hero.trustLine}</p>
+            <p className="label-copy mt-2 text-charcoal/75">{content.hero.trustLine}</p>
           </div>
 
-          <p className="body-copy">{content.hero.description}</p>
+          <p className="body-copy max-w-prose">{content.hero.description}</p>
         </div>
       </div>
     </section>

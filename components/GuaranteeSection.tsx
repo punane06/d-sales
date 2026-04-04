@@ -4,14 +4,14 @@ import { content } from '@/config/content';
 export default function GuaranteeSection(): JSX.Element {
   return (
     <section aria-labelledby="guarantee-heading" className="section-shell bg-charcoal text-white">
-      <div className="section-container space-y-8">
+      <div className="section-container section-stack">
         <h2 id="guarantee-heading" className="section-title">
           {content.guarantee.heading}
         </h2>
         <p className="body-copy">{content.guarantee.text}</p>
 
         <article className="rounded-2xl bg-white/10 p-6">
-          <h3 className="font-heading text-2xl font-semibold md:text-3xl">
+          <h3 className="subsection-title">
             {content.guarantee.trustHeading}
           </h3>
           <p className="body-copy mt-3">{content.guarantee.trustText}</p>
@@ -26,7 +26,7 @@ export default function GuaranteeSection(): JSX.Element {
                   height={120}
                   className="mx-auto h-auto w-20 object-contain"
                 />
-                <p className="mt-3 text-center text-base font-medium">{badge.label}</p>
+                <p className="label-copy mt-3 text-center font-medium">{badge.label}</p>
               </div>
             ))}
           </div>

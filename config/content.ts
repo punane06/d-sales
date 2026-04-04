@@ -9,7 +9,7 @@ export const content = {
     storageKey: 'elplatoseguro-timer-expiry-v2',
     salePrice: '$16.97',
     expiredPrice: '$27.97',
-    totalValue: '$87.75 USD',
+    totalValue: '$87.75',
     saleUrl: 'https://pay.hotmart.com/Q105210520I?off=7md7qkuo',
     expiredUrl: 'https://pay.hotmart.com/Q105210520I?off=f6rm4qp2',
     guarantee: '15 dias',
@@ -23,12 +23,11 @@ export const content = {
       'Atencion: Para mujeres agotadas de las dietas de hospital y el miedo a la insulina...',
     heading:
       'COMO ESTABILIZAR TU GLUCOSA EN 30 DIAS COMIENDO PIZZA, PAN Y POSTRES',
-    subheadline: '(Sin Culpa, Sin Pasar Hambre y Sin Miedo)',
     description:
       'Descubre el metodo de alimentacion practica que ya ayudo a miles de mujeres en America Latina a reducir picos de azucar sin eliminar por completo sus comidas favoritas. Incluye recetas, guia de porciones y planes semanales listos para usar desde hoy.',
     imageAlt:
       'Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2',
-    ctaLabel: '👉 Quiero Empezar Hoy',
+    ctaLabel: 'Quiero Empezar Hoy',
     trustLine: 'Compra 100% segura • Acceso instantaneo por email',
   },
   empathy: {
@@ -54,7 +53,7 @@ export const content = {
         'Guia visual para combinar carbohidratos, fibra y proteina',
         'Menus semanales listos para ahorrar tiempo y decisiones',
       ],
-      value: '$29.95 USD',
+      value: '$29.95',
       includedLabel: 'Incluido hoy sin costo adicional',
     },
     bonuses: [
@@ -63,7 +62,7 @@ export const content = {
         imageSrc: '/media/products/section3-1.png',
         imageAlt: 'Portada del bono Piloto Automatico Metabolico',
         description: 'Rutina simple de 7 minutos para mejorar sensibilidad a la insulina.',
-        value: '$17.95 USD',
+        value: '$17.95',
         icon: '🧠',
       },
       {
@@ -71,7 +70,7 @@ export const content = {
         imageSrc: '/media/products/section3-2.png',
         imageAlt: 'Portada del bono Bano de Sabor',
         description: 'Salsas y aderezos anti-picos para comer rico todos los dias.',
-        value: '$14.95 USD',
+        value: '$14.95',
         icon: '🥗',
       },
       {
@@ -79,7 +78,7 @@ export const content = {
         imageSrc: '/media/products/section3-3.png',
         imageAlt: 'Portada del bono Dulzura Liquida',
         description: 'Bebidas, batidos y cafes que no sabotean tu glucosa.',
-        value: '$14.95 USD',
+        value: '$14.95',
         icon: '🥤',
       },
       {
@@ -87,15 +86,15 @@ export const content = {
         imageSrc: '/media/products/section3-4.png',
         imageAlt: 'Portada del bono El Hack de las Masas',
         description: 'Bases y masas inteligentes para pizza, pan y wraps caseros.',
-        value: '$9.95 USD',
+        value: '$9.95',
         icon: '🍕',
       },
     ],
     pricing: {
-      totalLabel: 'Valor Total Real: $87.75 USD',
+      totalLabel: 'Valor Total Real: $87.75',
       discountLabel: 'Llevate TODO con un 80% OFF (Solo por los proximos 30 minutos):',
-      expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $27.97 USD (68% OFF)',
-      ctaLabel: '👉 Quiero Mi Descuento Hoy',
+      expiryNotice: 'Atencion: Al expirar el contador, el precio subira a $27.97 (68% OFF)',
+      ctaLabel: 'Quiero Mi Descuento Hoy',
     },
   },
   testimonials: {
@@ -205,7 +204,7 @@ export const content = {
     paragraph:
       'Hoy puedes elegir seguir posponiendote o tomar una decision que te devuelva energia, confianza y libertad en cada comida. Empieza ahora con una inversion pequena y resultados que impactan toda tu vida.',
     signature: "Con carino, Clara y el equipo de 'El Plato Seguro'",
-    ctaLabel: '👉 Quiero Acceso Inmediato',
+    ctaLabel: 'Quiero Acceso Inmediato',
   },
   footer: {
     copyright:
