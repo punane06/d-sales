@@ -21,17 +21,8 @@ const config: Config = {
         softred: '#D9381E',
       },
       fontFamily: {
-        sans: ['var(--font-dm-sans)'],
+        sans: ['var(--font-lato)'],
         heading: ['var(--font-lora)'],
-      },
-      keyframes: {
-        'cta-pulse': {
-          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.03)', opacity: '0.9' },
-        },
-      },
-      animation: {
-        'cta-pulse': 'cta-pulse 2s ease-in-out infinite',
       },
     },
   },

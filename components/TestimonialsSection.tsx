@@ -4,7 +4,7 @@ import { content } from '@/config/content';
 export default function TestimonialsSection(): JSX.Element {
   return (
     <section aria-labelledby="testimonials-heading" className="section-shell bg-offwhite">
-      <div className="section-container space-y-8">
+      <div className="section-container section-stack">
         <h2 id="testimonials-heading" className="section-title">
           {content.testimonials.heading}
         </h2>
@@ -23,8 +23,8 @@ export default function TestimonialsSection(): JSX.Element {
                   />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-charcoal">{item.name}</p>
-                  <p className="text-xs text-charcoal/70">{item.country}</p>
+                  <p className="label-copy font-semibold text-charcoal">{item.name}</p>
+                  <p className="meta-copy text-charcoal/70">{item.country}</p>
                 </div>
               </div>
 

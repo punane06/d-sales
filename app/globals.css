@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply text-base leading-relaxed;
+    @apply text-[18px] leading-[1.65];
   }
 }
 
@@ -29,12 +29,68 @@
     @apply mx-auto max-w-4xl;
   }
 
+  .section-stack {
+    @apply space-y-8;
+  }
+
+  .section-stack-compact {
+    @apply space-y-6;
+  }
+
+  .display-title {
+    @apply font-heading text-3xl font-bold leading-[1.1] sm:text-4xl md:text-6xl;
+  }
+
   .section-title {
     @apply font-heading text-3xl font-bold leading-tight md:text-5xl;
   }
 
+  .subsection-title {
+    @apply font-heading text-2xl font-semibold leading-tight md:text-3xl;
+  }
+
+  .card-title {
+    @apply font-heading text-xl font-semibold leading-snug md:text-2xl;
+  }
+
+  .lead-copy {
+    @apply text-lg font-semibold leading-snug md:text-xl;
+  }
+
   .body-copy {
-    @apply text-base leading-relaxed md:text-lg;
+    @apply text-[1rem] leading-[1.7] md:text-[1.06rem];
+  }
+
+  .label-copy {
+    @apply text-sm font-medium leading-snug md:text-base;
+  }
+
+  .meta-copy {
+    @apply text-xs leading-snug md:text-sm;
+  }
+
+  .tag-pill {
+    @apply inline-block rounded bg-white/20 px-3 py-1 text-sm font-semibold leading-tight;
+  }
+
+  .faq-question {
+    @apply text-base font-semibold leading-snug md:text-lg;
+  }
+
+  .cta-main {
+    @apply max-w-[24ch] leading-tight [text-wrap:balance];
+  }
+
+  .cta-price {
+    @apply whitespace-nowrap text-sm font-semibold leading-tight md:text-[0.95rem];
+  }
+
+  .cta-shell {
+    @apply inline-flex min-h-12 w-full flex-col items-center justify-center gap-0.5 rounded-lg bg-terracotta px-5 py-3.5 text-center text-[0.95rem] font-bold text-white shadow-md transition-all duration-200 hover:brightness-110 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-charcoal md:w-auto md:px-8 md:text-base motion-safe:[animation:cta-pulse_2s_ease-in-out_infinite];
+  }
+
+  .price-display {
+    @apply font-heading text-5xl font-bold leading-none md:text-6xl;
   }
 
   .surface-card {

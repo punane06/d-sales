@@ -51,7 +51,7 @@ function YouTubeIcon(): JSX.Element {
 export default function Footer(): JSX.Element {
   return (
     <footer className="bg-charcoal px-4 py-10 text-white">
-      <div className="section-container flex flex-col items-center gap-5 text-center">
+      <div className="section-container section-stack-compact flex flex-col items-center text-center">
         <div className="flex items-center gap-4">
           <a
             href={content.footer.facebookUrl}

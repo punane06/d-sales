@@ -54,7 +54,7 @@ export default function StickyHeader(): JSX.Element {
     <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 bg-charcoal text-white shadow-lg">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-2 px-4 py-2 text-center sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:gap-3 sm:text-left">
         <div>
-          <p className="text-sm font-semibold text-softred sm:text-base md:text-lg">{content.header.warning}</p>
+          <p className="label-copy font-semibold text-softred">{content.header.warning}</p>
         </div>
         <div
           className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
@@ -68,9 +68,9 @@ export default function StickyHeader(): JSX.Element {
           <span className="inline-block w-[2ch] text-center">{isMounted ? seconds : '00'}</span>
         </div>
         <div className="flex items-center justify-center sm:justify-end">
-          <p className="text-sm font-medium sm:text-base md:text-lg">
+          <p className="label-copy">
             <span className="mr-1.5 opacity-80 sm:mr-2">{content.header.currentPriceLabel}:</span>
-            <strong className="font-bold text-offwhite">{currentPrice} USD</strong>
+            <strong className="font-bold text-offwhite">{currentPrice}</strong>
           </p>
         </div>
       </div>

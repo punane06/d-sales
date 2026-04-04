@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
-import { Lora, DM_Sans } from 'next/font/google';
+import { Lora, Lato } from 'next/font/google';
 import './globals.css';
 import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
 
-const dmSans = DM_Sans({
+const lato = Lato({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-dm-sans',
+  variable: '--font-lato',
+  weight: ['400', '700', '900'],
 });
 
 const lora = Lora({
@@ -37,7 +38,7 @@ export default function RootLayout({
 
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+      <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
           Ir al contenido principal
         </a>
