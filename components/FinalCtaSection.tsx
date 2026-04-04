@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
 
@@ -15,6 +16,11 @@ export default function FinalCtaSection(): JSX.Element {
             baseLabel={content.finalCta.ctaLabel}
             sectionName={content.analytics.sectionNames.finalCta}
           />
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Image src="/media/payment/visa.svg" alt="Visa" width={48} height={32} className="h-6 w-auto" />
+          <Image src="/media/payment/mastercard.svg" alt="Mastercard" width={48} height={32} className="h-6 w-auto" />
+          <Image src="/media/payment/paypal.svg" alt="PayPal" width={48} height={32} className="h-6 w-auto" />
         </div>
       </div>
     </section>
