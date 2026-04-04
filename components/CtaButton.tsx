@@ -1,7 +1,7 @@
 'use client';
 
 import { usePrice } from '@/context/PriceContext';
-import { trackEvent } from '@/utils/analytics';
+import { trackEvent, trackMetaInitiateCheckout } from '@/utils/analytics';
 
 interface CtaButtonProps {
   baseLabel: string;
@@ -23,6 +23,14 @@ export default function CtaButton({
       timer_expired: isExpired,
       cta_label: baseLabel,
       destination_url: currentUrl,
+    });
+
+    // Meta Pixel is optional; this no-ops until fbq is available.
+    trackMetaInitiateCheckout({
+      currency: 'USD',
+      value: Number.parseFloat(currentPrice.replace('$', '')),
+      content_name: baseLabel,
+      content_category: sectionName,
     });
   };
 

@@ -40,8 +40,11 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="es" translate="no" className="notranslate" suppressHydrationWarning>
+    <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
       <body className={`${dmSans.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
+          Ir al contenido principal
+        </a>
         <ScrollRestoration />
         <PriceProvider>
           {children}
