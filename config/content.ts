@@ -46,7 +46,7 @@ export const content = {
     heading: 'Aqui tienes la llave para tu libertad. Esto es lo que recibes HOY:',
     mainProduct: {
       title: '📘 EL PROGRAMA CENTRAL: GLUCOSA PLANA',
-      imageSrc: '/media/products/section3.png',
+      imageSrc: '/media/products/section3.webp',
       imageAlt: 'Portada del programa central Glucosa Plana',
       bullets: [
         '100+ recetas para desayuno, almuerzo, cena y antojos',
@@ -59,7 +59,7 @@ export const content = {
     bonuses: [
       {
         title: 'Bono #1: PILOTO AUTOMATICO METABOLICO',
-        imageSrc: '/media/products/section3-1.png',
+        imageSrc: '/media/products/section3-1.webp',
         imageAlt: 'Portada del bono Piloto Automatico Metabolico',
         description: 'Rutina simple de 7 minutos para mejorar sensibilidad a la insulina.',
         value: '$17.95',
@@ -67,7 +67,7 @@ export const content = {
       },
       {
         title: 'Bono #2: BANO DE SABOR',
-        imageSrc: '/media/products/section3-2.png',
+        imageSrc: '/media/products/section3-2.webp',
         imageAlt: 'Portada del bono Bano de Sabor',
         description: 'Salsas y aderezos anti-picos para comer rico todos los dias.',
         value: '$14.95',
@@ -75,7 +75,7 @@ export const content = {
       },
       {
         title: 'Bono #3: DULZURA LIQUIDA',
-        imageSrc: '/media/products/section3-3.png',
+        imageSrc: '/media/products/section3-3.webp',
         imageAlt: 'Portada del bono Dulzura Liquida',
         description: 'Bebidas, batidos y cafes que no sabotean tu glucosa.',
         value: '$14.95',
@@ -83,7 +83,7 @@ export const content = {
       },
       {
         title: 'Bono #4: EL HACK DE LAS MASAS',
-        imageSrc: '/media/products/section3-4.png',
+        imageSrc: '/media/products/section3-4.webp',
         imageAlt: 'Portada del bono El Hack de las Masas',
         description: 'Bases y masas inteligentes para pizza, pan y wraps caseros.',
         value: '$9.95',
@@ -103,7 +103,7 @@ export const content = {
       {
         name: 'Marta S.',
         country: 'Colombia',
-        avatarSrc: '/media/testimonials/Colombia.jpeg',
+        avatarSrc: '/media/testimonials/Colombia.webp',
         avatarAlt: 'Foto de perfil de Marta, clienta de Colombia',
         quote:
           'En 3 semanas deje de tener esos sube y baja de energia. Volvi a desayunar con gusto y mis controles salieron mucho mejor. Lo mejor: no senti que estaba a dieta.',
@@ -111,7 +111,7 @@ export const content = {
       {
         name: 'Elena M.',
         country: 'Mexico',
-        avatarSrc: '/media/testimonials/mexico.jpeg',
+        avatarSrc: '/media/testimonials/mexico.webp',
         avatarAlt: 'Foto de perfil de Elena, clienta de Mexico',
         quote:
           'Tenia panico de terminar usando mas medicacion. Con El Plato Seguro aprendi a armar platos que me sacian y mi ansiedad por dulce bajo un monton.',
@@ -119,7 +119,7 @@ export const content = {
       {
         name: 'Rosa V.',
         country: 'Peru',
-        avatarSrc: '/media/testimonials/Peru.jpeg',
+        avatarSrc: '/media/testimonials/Peru.webp',
         avatarAlt: 'Foto de perfil de Rosa, clienta de Peru',
         quote:
           'Pensaba que comer rico era incompatible con cuidar la glucosa. Ahora hago pizza casera con mis hijas y me siento tranquila porque se como equilibrarla.',
@@ -127,7 +127,7 @@ export const content = {
       {
         name: 'Carmen R.',
         country: 'USA',
-        avatarSrc: '/media/testimonials/USA.jpeg',
+        avatarSrc: '/media/testimonials/USA.webp',
         avatarAlt: 'Foto de perfil de Carmen, clienta de USA',
         quote:
           'Trabajo todo el dia y no tenia tiempo para planes complicados. Las guias son practicas, en espanol y faciles de seguir. Mi glucometro ya no me asusta.',
@@ -135,7 +135,7 @@ export const content = {
       {
         name: 'Lucia G.',
         country: 'Chile',
-        avatarSrc: '/media/testimonials/chile.jpeg',
+        avatarSrc: '/media/testimonials/chile.webp',
         avatarAlt: 'Foto de perfil de Lucia, clienta de Chile',
         quote:
           'Me devolvio la esperanza. Pase de vivir con culpa a comer con estrategia. Mi familia tambien se beneficio porque ahora todos comemos mejor.',

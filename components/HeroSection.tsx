@@ -21,7 +21,7 @@ export default function HeroSection(): JSX.Element {
           <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg">
             <div className="relative aspect-[16/8.4] w-full">
               <Image
-                src="/media/products/hero-mockup.png"
+                src="/media/products/hero-mockup.webp"
                 alt={content.hero.imageAlt}
                 fill
                 sizes="(min-width: 768px) 32rem, (min-width: 640px) 28rem, 22rem"

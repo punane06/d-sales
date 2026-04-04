@@ -21,8 +21,31 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elplatoseguro.com'),
   title: content.meta.title,
   description: content.meta.description,
+  openGraph: {
+    title: content.meta.title,
+    description: content.meta.description,
+    url: '/',
+    siteName: 'El Plato Seguro',
+    locale: 'es_MX',
+    type: 'website',
+    images: [
+      {
+        url: '/media/products/hero-mockup.png',
+        width: 1200,
+        height: 630,
+        alt: 'El Plato Seguro bundle',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: content.meta.title,
+    description: content.meta.description,
+    images: ['/media/products/hero-mockup.png'],
+  },
   other: {
     google: 'notranslate',
   },
