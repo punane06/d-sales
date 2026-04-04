@@ -5,6 +5,7 @@ import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
+import { getSiteUrl } from '@/utils/site-url';
 
 const lato = Lato({
   subsets: ['latin'],
@@ -20,9 +21,34 @@ const lora = Lora({
   weight: ['500', '600', '700'],
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: content.meta.title,
   description: content.meta.description,
+  openGraph: {
+    title: content.meta.title,
+    description: content.meta.description,
+    url: '/',
+    siteName: 'El Plato Seguro',
+    locale: 'es_MX',
+    type: 'website',
+    images: [
+      {
+        url: '/media/products/hero-mockup.png',
+        width: 1200,
+        height: 630,
+        alt: 'El Plato Seguro bundle',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: content.meta.title,
+    description: content.meta.description,
+    images: ['/media/products/hero-mockup.png'],
+  },
   other: {
     google: 'notranslate',
   },
