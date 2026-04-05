@@ -68,7 +68,20 @@ function parsePayload(value: string | null): TimerPayload | null {
   }
 
   try {
-    return JSON.parse(value) as TimerPayload;
+    const parsed = JSON.parse(value) as unknown;
+
+    if (typeof parsed !== 'object' || parsed === null) {
+      return null;
+    }
+
+    const expiry = Reflect.get(parsed, 'expiry');
+    const signature = Reflect.get(parsed, 'signature');
+
+    if (typeof expiry !== 'number' || typeof signature !== 'string') {
+      return null;
+    }
+
+    return { expiry, signature };
   } catch {
     return null;
   }
@@ -151,7 +164,7 @@ export function useCountdownTimer(
 
     const updateRemaining = (): number => {
       const seconds = Math.max(0, Math.floor((trustedExpiry - Date.now()) / 1000));
-      setTimeLeft(seconds);
+      setTimeLeft((previous) => (previous === seconds ? previous : seconds));
       return seconds;
     };
 
