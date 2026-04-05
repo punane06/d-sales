@@ -41,12 +41,12 @@ try {
     Write-Output 'Removed .next-dev cache'
   }
 
+  $devArgs = @('run', 'dev', '--', '--port', '3001')
   if ($Lan) {
-    npm.cmd run dev -- --hostname 0.0.0.0 --port 3001
+    $devArgs += @('--hostname', '0.0.0.0')
   }
-  else {
-    npm.cmd run dev -- --port 3001
-  }
+
+  npm.cmd @devArgs
 }
 finally {
   $ErrorActionPreference = $previousErrorActionPreference
