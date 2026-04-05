@@ -28,9 +28,9 @@ export default function MetaPixelScript({ pixelId }: Readonly<MetaPixelScriptPro
       _fbp?: string;
     };
 
-    // Initialize fbq if not already done
+    // Set up fbq stub so init/track calls queue correctly before fbevents.js loads.
+    // init + PageView are fired in onLoad — not here — to ensure correct ordering.
     if (!win.fbq) {
-      // Create fbq function stub
       const fbqStub: FbqFunction = (...args: unknown[]) => {
         if (fbqStub.callMethod) {
           fbqStub.callMethod(...args);
@@ -46,9 +46,6 @@ export default function MetaPixelScript({ pixelId }: Readonly<MetaPixelScriptPro
 
       win.fbq = fbqStub;
     }
-
-    // Track page view
-    win.fbq('track', 'PageView');
   }, [pixelId, hasPixelId]);
 
   if (!hasPixelId || !pixelId) {

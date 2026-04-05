@@ -8,6 +8,9 @@ interface TimerPayload {
 }
 
 const COOKIE_SUFFIX = '-timer';
+// NOTE: This signing is best-effort tamper detection only. A motivated user can still
+// recompute the hash client-side. Server-side enforcement (e.g. HttpOnly cookie set
+// by an Edge Function) would be required for true integrity guarantees.
 const SIGNING_SALT = 'el-plate-seguro-timer-v1';
 
 function signExpiry(expiry: number, storageKey: string): string {
@@ -27,24 +30,36 @@ function toPayload(expiry: number, storageKey: string): TimerPayload {
 }
 
 function isValidPayload(payload: TimerPayload | null, storageKey: string): payload is TimerPayload {
-  if (!payload || Number.isNaN(payload.expiry) || payload.expiry <= 0) {
+  if (!payload) {
     return false;
   }
 
-  return payload.signature === signExpiry(payload.expiry, storageKey);
+  const { expiry, signature } = payload;
+
+  if (typeof expiry !== 'number' || !Number.isFinite(expiry) || expiry <= 0) {
+    return false;
+  }
+
+  if (typeof signature !== 'string') {
+    return false;
+  }
+
+  return signature === signExpiry(expiry, storageKey);
 }
 
 function readCookie(name: string): string | null {
   const prefix = `${name}=`;
   const match = document.cookie
-    .split('; ')
+    .split(';')
+    .map((cookiePart) => cookiePart.trim())
     .find((cookiePart) => cookiePart.startsWith(prefix));
 
   return match ? decodeURIComponent(match.slice(prefix.length)) : null;
 }
 
 function writeCookie(name: string, value: string): void {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax`;
+  const secureAttribute = globalThis.location.protocol === 'https:' ? '; secure' : '';
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax${secureAttribute}`;
 }
 
 function parsePayload(value: string | null): TimerPayload | null {
