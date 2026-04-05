@@ -61,6 +61,14 @@ export const metadata: Metadata = {
     description: content.meta.description,
     images: ['/media/products/hero-mockup.png'],
   },
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
+  },
+  manifest: '/site.webmanifest',
   other: {
     google: 'notranslate',
   },
