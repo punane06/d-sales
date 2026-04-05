@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import ScrollMilestoneTracker from '../components/ScrollMilestoneTracker';
 import { content } from '@/config/content';
 import { getSiteUrl } from '@/utils/site-url';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const siteUrl = getSiteUrl();
 const canonicalUrl = `${siteUrl}/`;
@@ -72,13 +73,15 @@ export default function HomePage(): JSX.Element {
       <ScrollMilestoneTracker />
       <StickyHeader />
       <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
-        <HeroSection />
-        <EmpathySection />
-        <ValueStackSection />
-        <TestimonialsSection />
-        <GuaranteeSection />
-        <FaqSection />
-        <FinalCtaSection />
+          <ErrorBoundary>
+            <HeroSection />
+            <EmpathySection />
+            <ValueStackSection />
+            <TestimonialsSection />
+            <GuaranteeSection />
+            <FaqSection />
+            <FinalCtaSection />
+          </ErrorBoundary>
       </main>
       <Footer />
     </>
