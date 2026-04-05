@@ -34,10 +34,6 @@ function isValidPayload(payload: TimerPayload | null, storageKey: string): paylo
     return false;
   }
 
-  if (typeof payload !== 'object') {
-    return false;
-  }
-
   const { expiry, signature } = payload;
 
   if (typeof expiry !== 'number' || !Number.isFinite(expiry) || expiry <= 0) {
@@ -186,52 +182,12 @@ export function useCountdownTimer(
     };
 
     let intervalId: number | null = win.setInterval(tick, 1000);
-    let rafId: number | null = null;
-
-    const startRafLoop = (): void => {
-      if (typeof win.requestAnimationFrame !== 'function' || rafId !== null) {
-        return;
-      }
-
-      let lastUpdateAt = 0;
-
-      const frame = (timestamp: number): void => {
-        if (lastUpdateAt === 0 || timestamp - lastUpdateAt >= 1000) {
-          const remaining = tick();
-          lastUpdateAt = timestamp;
-
-          if (remaining <= 0) {
-            if (rafId !== null) {
-              win.cancelAnimationFrame(rafId);
-              rafId = null;
-            }
-            return;
-          }
-        }
-
-        rafId = win.requestAnimationFrame(frame);
-      };
-
-      rafId = win.requestAnimationFrame(frame);
-    };
-
-    const stopRafLoop = (): void => {
-      if (rafId !== null) {
-        win.cancelAnimationFrame(rafId);
-        rafId = null;
-      }
-    };
-
-    startRafLoop();
 
     const handleVisibility = (): void => {
       if (document.visibilityState === 'visible') {
         const remaining = tick();
         if (intervalId === null && remaining > 0) {
           intervalId = win.setInterval(tick, 1000);
-        }
-        if (remaining > 0) {
-          startRafLoop();
         }
       }
     };
@@ -240,9 +196,6 @@ export function useCountdownTimer(
       const remaining = tick();
       if (intervalId === null && remaining > 0) {
         intervalId = win.setInterval(tick, 1000);
-      }
-      if (remaining > 0) {
-        startRafLoop();
       }
     };
 
@@ -254,7 +207,6 @@ export function useCountdownTimer(
       if (intervalId !== null) {
         win.clearInterval(intervalId);
       }
-      stopRafLoop();
       document.removeEventListener('visibilitychange', handleVisibility);
       win.removeEventListener('focus', handleFocus);
       win.removeEventListener('pageshow', handleFocus);
