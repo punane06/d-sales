@@ -8,8 +8,9 @@ export default function ScrollMilestoneTracker(): null {
 
   useEffect(() => {
     const milestones = [25, 50, 75, 100];
+    let frameId: number | null = null;
 
-    const onScroll = (): void => {
+    const evaluateMilestones = (): void => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
       const fullHeight = document.documentElement.scrollHeight - viewportHeight;
@@ -21,12 +22,31 @@ export default function ScrollMilestoneTracker(): null {
           trackEvent('scroll_milestone', { milestone_percent: milestone });
         }
       });
+
+      // Stop observing once all milestones were emitted.
+      if (milestonesRef.current.size === milestones.length) {
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+
+    const onScroll = (): void => {
+      if (frameId !== null) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        evaluateMilestones();
+      });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    evaluateMilestones();
 
     return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
