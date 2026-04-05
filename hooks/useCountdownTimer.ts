@@ -76,8 +76,58 @@ function parsePayload(value: string | null): TimerPayload | null {
 
 function persistPayload(payload: TimerPayload, storageKey: string): void {
   const serialized = JSON.stringify(payload);
-  globalThis.window.localStorage.setItem(storageKey, serialized);
-  writeCookie(`${storageKey}${COOKIE_SUFFIX}`, serialized);
+
+  // Storage can throw on privacy-restricted browsers; keep timer running in-memory.
+  try {
+    globalThis.window.localStorage.setItem(storageKey, serialized);
+  } catch {
+    // noop
+  }
+
+  try {
+    writeCookie(`${storageKey}${COOKIE_SUFFIX}`, serialized);
+  } catch {
+    // noop
+  }
+}
+
+function resolveTrustedExpiry(durationSeconds: number, storageKey: string, now: number): number {
+  if (globalThis.window === undefined) {
+    return now + durationSeconds * 1000;
+  }
+
+  let localPayload: TimerPayload | null = null;
+  let cookiePayload: TimerPayload | null = null;
+
+  try {
+    localPayload = parsePayload(globalThis.window.localStorage.getItem(storageKey));
+  } catch {
+    localPayload = null;
+  }
+
+  try {
+    cookiePayload = parsePayload(readCookie(`${storageKey}${COOKIE_SUFFIX}`));
+  } catch {
+    cookiePayload = null;
+  }
+
+  const hasValidLocal = isValidPayload(localPayload, storageKey);
+  const hasValidCookie = isValidPayload(cookiePayload, storageKey);
+
+  if (hasValidLocal && hasValidCookie && localPayload && cookiePayload) {
+    // Keep the earlier expiry to avoid extending the offer window by editing one store.
+    return Math.min(localPayload.expiry, cookiePayload.expiry);
+  }
+
+  if (hasValidLocal && localPayload) {
+    return localPayload.expiry;
+  }
+
+  if (hasValidCookie && cookiePayload) {
+    return cookiePayload.expiry;
+  }
+
+  return now + durationSeconds * 1000;
 }
 
 // Returns [timeLeftSeconds, isExpired]
@@ -85,7 +135,7 @@ export function useCountdownTimer(
   durationSeconds: number,
   storageKey: string,
 ): [number, boolean] {
-  // Keep the initial render deterministic to avoid hydration text mismatch.
+  // Keep first render deterministic to match server HTML and avoid hydration mismatch.
   const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
 
   useEffect(() => {
@@ -94,25 +144,8 @@ export function useCountdownTimer(
       return;
     }
 
-    const localPayload = parsePayload(win.localStorage.getItem(storageKey));
-    const cookiePayload = parsePayload(readCookie(`${storageKey}${COOKIE_SUFFIX}`));
     const now = Date.now();
-
-    const hasValidLocal = isValidPayload(localPayload, storageKey);
-    const hasValidCookie = isValidPayload(cookiePayload, storageKey);
-
-    let trustedExpiry: number;
-
-    if (hasValidLocal && hasValidCookie) {
-      // Keep the earlier expiry to avoid extending the offer window by editing one store.
-      trustedExpiry = Math.min(localPayload.expiry, cookiePayload.expiry);
-    } else if (hasValidLocal) {
-      trustedExpiry = localPayload.expiry;
-    } else if (hasValidCookie) {
-      trustedExpiry = cookiePayload.expiry;
-    } else {
-      trustedExpiry = now + durationSeconds * 1000;
-    }
+    const trustedExpiry = resolveTrustedExpiry(durationSeconds, storageKey, now);
 
     persistPayload(toPayload(trustedExpiry, storageKey), storageKey);
 
@@ -124,15 +157,46 @@ export function useCountdownTimer(
 
     updateRemaining();
 
-    const intervalId = win.setInterval(() => {
+    const tick = (): number => {
       const remaining = updateRemaining();
       if (remaining <= 0) {
-        win.clearInterval(intervalId);
+        if (intervalId !== null) {
+          win.clearInterval(intervalId);
+          intervalId = null;
+        }
       }
-    }, 1000);
+      return remaining;
+    };
+
+    let intervalId: number | null = win.setInterval(tick, 1000);
+
+    const handleVisibility = (): void => {
+      if (document.visibilityState === 'visible') {
+        const remaining = tick();
+        if (intervalId === null && remaining > 0) {
+          intervalId = win.setInterval(tick, 1000);
+        }
+      }
+    };
+
+    const handleFocus = (): void => {
+      const remaining = tick();
+      if (intervalId === null && remaining > 0) {
+        intervalId = win.setInterval(tick, 1000);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    win.addEventListener('focus', handleFocus);
+    win.addEventListener('pageshow', handleFocus);
 
     return () => {
-      win.clearInterval(intervalId);
+      if (intervalId !== null) {
+        win.clearInterval(intervalId);
+      }
+      document.removeEventListener('visibilitychange', handleVisibility);
+      win.removeEventListener('focus', handleFocus);
+      win.removeEventListener('pageshow', handleFocus);
     };
   }, [durationSeconds, storageKey]);
 

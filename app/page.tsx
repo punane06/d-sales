@@ -73,15 +73,15 @@ export default function HomePage(): JSX.Element {
       <ScrollMilestoneTracker />
       <StickyHeader />
       <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
-          <ErrorBoundary>
-            <HeroSection />
-            <EmpathySection />
-            <ValueStackSection />
-            <TestimonialsSection />
-            <GuaranteeSection />
-            <FaqSection />
-            <FinalCtaSection />
-          </ErrorBoundary>
+        <ErrorBoundary>
+          <HeroSection />
+          <EmpathySection />
+          <ValueStackSection />
+          <TestimonialsSection />
+          <GuaranteeSection />
+          <FaqSection />
+          <FinalCtaSection />
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

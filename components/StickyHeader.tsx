@@ -1,21 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { content } from '@/config/content';
 import { usePrice } from '@/context/PriceContext';
 
 export default function StickyHeader(): JSX.Element {
   const { timeLeft, currentPrice } = usePrice();
-  const [isMounted, setIsMounted] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const safeTime = Math.max(0, timeLeft);
   const hours = String(Math.floor(safeTime / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((safeTime % 3600) / 60)).padStart(2, '0');
   const seconds = String(safeTime % 60).padStart(2, '0');
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const headerElement = headerRef.current;
@@ -57,7 +52,7 @@ export default function StickyHeader(): JSX.Element {
           <p className="label-copy font-semibold text-softred">{content.header.warning}</p>
         </div>
         <div
-          className={`mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl ${isMounted ? 'visible' : 'invisible'}`}
+          className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
           role="timer"
           aria-label="Tiempo restante de la oferta"
           aria-live="polite"
