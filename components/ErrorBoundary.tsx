@@ -44,12 +44,11 @@ export default class ErrorBoundary extends Component<Props, State> {
                 type="button"
                 className="font-semibold underline"
                 onClick={() => {
-                  this.setState({ hasError: false });
+                  globalThis.location.reload();
                 }}
               >
-                recarga la página
+                recarga la página.
               </button>
-                {'.'}
             </p>
           </div>
         )
