@@ -5,9 +5,9 @@ Marketing landing page for El Plato Seguro, built with Next.js (App Router) and 
 ## Stack
 
 - Next.js 16.2.2
-- React 18
-- TypeScript
-- Tailwind CSS
+- React 18.3.1
+- TypeScript 5.5.4
+- Tailwind CSS 3.4.7
 - Static export (`output: 'export'`)
 
 ## Requirements
