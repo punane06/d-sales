@@ -223,6 +223,7 @@ export const content = {
     tiktokLabel: 'TikTok de El Plato Seguro',
   },
   analytics: {
+    metaPixelId: 'xxxxxxxxxx',
     sectionNames: {
       hero: 'hero',
       valueStack: 'value_stack',

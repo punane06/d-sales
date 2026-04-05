@@ -57,15 +57,17 @@ export default function StickyHeader(): JSX.Element {
           <p className="label-copy font-semibold text-softred">{content.header.warning}</p>
         </div>
         <div
-          className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
+          className={`mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl ${isMounted ? 'visible' : 'invisible'}`}
           role="timer"
           aria-label="Tiempo restante de la oferta"
+          aria-live="polite"
+          aria-atomic="true"
         >
-          <span className="inline-block w-[2ch] text-center">{isMounted ? hours : '00'}</span>
+          <span className="inline-block w-[2ch] text-center">{hours}</span>
           <span className="inline-block w-1.5 text-center">:</span>
-          <span className="inline-block w-[2ch] text-center">{isMounted ? minutes : '00'}</span>
+          <span className="inline-block w-[2ch] text-center">{minutes}</span>
           <span className="inline-block w-1.5 text-center">:</span>
-          <span className="inline-block w-[2ch] text-center">{isMounted ? seconds : '00'}</span>
+          <span className="inline-block w-[2ch] text-center">{seconds}</span>
         </div>
         <div className="flex items-center justify-center sm:justify-end">
           <p className="label-copy">
