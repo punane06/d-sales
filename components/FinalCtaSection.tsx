@@ -30,7 +30,8 @@ export default function FinalCtaSection(): JSX.Element {
             </div>
           ))}
         </div>
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-3" aria-label="Formas de pago aceptadas: Visa, Mastercard, PayPal">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+          <span className="sr-only">Formas de pago aceptadas:</span>
           <Image src="/media/payment/visa.svg" alt="Visa" width={48} height={32} className="h-6 w-auto" />
           <Image src="/media/payment/mastercard.svg" alt="Mastercard" width={48} height={32} className="h-6 w-auto" />
           <Image src="/media/payment/paypal.svg" alt="PayPal" width={48} height={32} className="h-6 w-auto" />

@@ -30,7 +30,6 @@ export default function CtaButton({
     <a
       href={currentUrl}
       onClick={handleClick}
-      aria-label={`${baseLabel} ${currentPrice}`}
       className={`cta-shell ${className ?? ''}`}
     >
       <span className="cta-main">{baseLabel}</span>
