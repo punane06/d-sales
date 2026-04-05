@@ -43,6 +43,9 @@
 - Any typography or spacing change should update this file with a short changelog entry.
 
 ## Changelog
+- 2026-04-05:
+  - `meta-copy` readability increased from `text-xs` baseline to `text-sm` / `md:text-base`.
+  - Sticky header timer rendering stabilized for hydration consistency and mobile resume behavior.
 - 2026-04-04:
   - Hero simplified to single primary headline (removed optional subheadline block in UI).
   - Pricing copy now uses compact money format (e.g., `$16.97`) without forced `USD` suffix in labels.

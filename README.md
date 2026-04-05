@@ -22,6 +22,8 @@ Create `.env.local` from `.env.local.example` and set values:
 - `NEXT_PUBLIC_GA_ID`
 - `NEXT_PUBLIC_CLARITY_ID`
 - `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_META_PIXEL_ID`
+- `NEXT_ALLOWED_DEV_ORIGINS` (for LAN mobile testing in dev)
 
 Example source: [.env.local.example](.env.local.example)
 
@@ -37,6 +39,12 @@ Standard dev server:
 
 ```bash
 npm run dev
+```
+
+LAN/mobile testing example:
+
+```bash
+npm.cmd run dev -- --hostname 0.0.0.0 --port 3001
 ```
 
 Windows-safe reset flow (clears dev cache and avoids common PowerShell policy issues):
