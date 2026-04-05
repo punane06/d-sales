@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:lan": "next dev --hostname 0.0.0.0 --port 3001",
     "dev:reset": "node ./scripts/run-dev-reset.cjs",
     "build": "next build",
     "start": "next start",

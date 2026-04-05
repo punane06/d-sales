@@ -44,7 +44,7 @@ npm run dev
 LAN/mobile testing example:
 
 ```bash
-npm.cmd run dev -- --hostname 0.0.0.0 --port 3001
+npm run dev:lan
 ```
 
 Recommended `.env.local` value for LAN testing:
