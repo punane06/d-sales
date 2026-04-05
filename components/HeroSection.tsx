@@ -5,7 +5,6 @@ import CtaButton from '@/components/CtaButton';
 export default function HeroSection(): JSX.Element {
   return (
     <section
-      id="hero-section"
       aria-labelledby="hero-heading"
       className="section-shell-tight bg-offwhite pt-4 sm:pt-10"
     >
