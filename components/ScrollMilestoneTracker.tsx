@@ -10,7 +10,7 @@ export default function ScrollMilestoneTracker(): null {
     const milestones = [25, 50, 75, 100];
     let frameId: number | null = null;
 
-    const evaluateMilestones = (): void => {
+    function evaluateMilestones(): void {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
       const fullHeight = document.documentElement.scrollHeight - viewportHeight;
@@ -27,25 +27,25 @@ export default function ScrollMilestoneTracker(): null {
       if (milestonesRef.current.size === milestones.length) {
         window.removeEventListener('scroll', onScroll);
       }
-    };
+    }
 
-    const onScroll = (): void => {
+    function onScroll(): void {
       if (frameId !== null) {
         return;
       }
 
-      frameId = window.requestAnimationFrame(() => {
+      frameId = globalThis.requestAnimationFrame(() => {
         frameId = null;
         evaluateMilestones();
       });
-    };
+    }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     evaluateMilestones();
 
     return () => {
       if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
+        globalThis.cancelAnimationFrame(frameId);
       }
       window.removeEventListener('scroll', onScroll);
     };
