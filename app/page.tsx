@@ -11,6 +11,7 @@ import ScrollMilestoneTracker from '../components/ScrollMilestoneTracker';
 import { content } from '@/config/content';
 import { getSiteUrl } from '@/utils/site-url';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import StickyCtaBar from '@/components/StickyCtaBar';
 
 const siteUrl = getSiteUrl();
 const canonicalUrl = `${siteUrl}/`;
@@ -72,7 +73,7 @@ export default function HomePage(): JSX.Element {
       />
       <ScrollMilestoneTracker />
       <StickyHeader />
-      <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
+      <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] pb-20 transition-[padding] duration-200 md:pb-0">
           <ErrorBoundary>
             <HeroSection />
             <EmpathySection />
@@ -83,6 +84,7 @@ export default function HomePage(): JSX.Element {
             <FinalCtaSection />
           </ErrorBoundary>
       </main>
+          <StickyCtaBar />
       <Footer />
     </>
   );
