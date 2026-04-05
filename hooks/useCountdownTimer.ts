@@ -157,7 +157,7 @@ export function useCountdownTimer(
 
     updateRemaining();
 
-    const tick = (): void => {
+    const tick = (): number => {
       const remaining = updateRemaining();
       if (remaining <= 0) {
         if (intervalId !== null) {
@@ -165,22 +165,23 @@ export function useCountdownTimer(
           intervalId = null;
         }
       }
+      return remaining;
     };
 
     let intervalId: number | null = win.setInterval(tick, 1000);
 
     const handleVisibility = (): void => {
       if (document.visibilityState === 'visible') {
-        tick();
-        if (intervalId === null && updateRemaining() > 0) {
+        const remaining = tick();
+        if (intervalId === null && remaining > 0) {
           intervalId = win.setInterval(tick, 1000);
         }
       }
     };
 
     const handleFocus = (): void => {
-      tick();
-      if (intervalId === null && updateRemaining() > 0) {
+      const remaining = tick();
+      if (intervalId === null && remaining > 0) {
         intervalId = win.setInterval(tick, 1000);
       }
     };
