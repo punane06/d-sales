@@ -59,6 +59,12 @@ Windows-safe reset flow (clears dev cache and avoids common PowerShell policy is
 npm run dev:reset
 ```
 
+LAN + reset in one command:
+
+```bash
+npm run dev:lan:reset
+```
+
 If needed on restricted PowerShell environments, prefer `npm.cmd` over `npm`.
 
 ## Build

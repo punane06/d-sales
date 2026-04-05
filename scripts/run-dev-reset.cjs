@@ -25,9 +25,10 @@ if (!shellCommand) {
 }
 
 const scriptPath = path.join(__dirname, 'dev-reset.ps1');
+const extraArgs = process.argv.slice(2);
 const result = spawnSync(
   shellCommand,
-  ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath],
+  ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath, ...extraArgs],
   { stdio: 'inherit' },
 );
 
