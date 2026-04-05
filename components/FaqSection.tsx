@@ -29,7 +29,7 @@ export default function FaqSection(): JSX.Element {
             const isOpen = openIndex === index;
 
             return (
-              <article key={index} className="overflow-hidden rounded-xl border border-charcoal/15 bg-white">
+              <article key={item.question} className="overflow-hidden rounded-xl border border-charcoal/15 bg-white">
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}

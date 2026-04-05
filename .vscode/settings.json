@@ -2,5 +2,10 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "css.lint.unknownAtRules": "warning"
+  "css.lint.unknownAtRules": "warning",
+  "css.validate": false,
+  "scss.validate": false,
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  }
 }

@@ -45,8 +45,8 @@ export default function ValueStackSection(): JSX.Element {
 
         <h2 className="sr-only">Bonos incluidos</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          {content.valueStack.bonuses.map((bonus, index) => (
-            <article key={index} className="rounded-2xl bg-charcoal/20 p-5">
+          {content.valueStack.bonuses.map((bonus) => (
+            <article key={bonus.title} className="rounded-2xl bg-charcoal/20 p-5">
               <Image
                 src={bonus.imageSrc}
                 alt={bonus.imageAlt}

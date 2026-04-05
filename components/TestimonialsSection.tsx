@@ -10,8 +10,8 @@ export default function TestimonialsSection(): JSX.Element {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {content.testimonials.entries.map((item, index) => (
-            <article key={index} className="rounded-2xl border border-charcoal/10 bg-white p-5 shadow-sm">
+          {content.testimonials.entries.map((item) => (
+            <article key={item.name} className="rounded-2xl border border-charcoal/10 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="overflow-hidden rounded-full ring-2 ring-sage/20 ring-offset-2 ring-offset-white">
                   <Image

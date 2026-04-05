@@ -18,8 +18,8 @@ export default function FinalCtaSection(): JSX.Element {
           />
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-          {content.guarantee.badges.map((badge, index) => (
-            <div key={index} className="flex items-center justify-center rounded-xl border border-charcoal/10 bg-white px-4 py-3">
+          {content.guarantee.badges.map((badge) => (
+            <div key={badge.label} className="flex items-center justify-center rounded-xl border border-charcoal/10 bg-white px-4 py-3">
               <Image
                 src={badge.src}
                 alt={badge.label}
