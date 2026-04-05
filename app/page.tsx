@@ -66,6 +66,7 @@ const structuredData = {
 export default function HomePage(): JSX.Element {
   return (
     <>
+      {/* Safe: structuredData is built entirely from server-side static config — no user input. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

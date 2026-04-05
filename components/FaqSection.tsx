@@ -29,7 +29,7 @@ export default function FaqSection(): JSX.Element {
             const isOpen = openIndex === index;
 
             return (
-              <article key={item.question} className="overflow-hidden rounded-xl border border-charcoal/15 bg-white">
+              <article key={index} className="overflow-hidden rounded-xl border border-charcoal/15 bg-white">
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
@@ -46,7 +46,7 @@ export default function FaqSection(): JSX.Element {
                 <div
                   id={`faq-answer-${index}`}
                   aria-hidden={!isOpen}
-                  className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                  className={`grid motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
                 >
                   <div className="overflow-hidden">
                     <p className="body-copy border-t border-charcoal/10 bg-charcoal/5 px-5 pb-4 pt-4">

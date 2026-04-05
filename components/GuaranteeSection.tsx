@@ -17,8 +17,8 @@ export default function GuaranteeSection(): JSX.Element {
           <p className="body-copy mt-3">{content.guarantee.trustText}</p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {content.guarantee.badges.map((badge) => (
-              <div key={badge.label} className="rounded-xl bg-white/5 p-4">
+            {content.guarantee.badges.map((badge, index) => (
+              <div key={index} className="rounded-xl bg-white/5 p-4">
                 <Image
                   src={badge.src}
                   alt={badge.label}
