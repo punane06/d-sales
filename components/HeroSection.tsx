@@ -1,6 +1,31 @@
+
+'use client';
+
+
+
 import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
+import { usePrice } from '@/context/PriceContext';
+
+function LockIcon() {
+  return (
+    <Image src="/media/trust/ssl-lock.svg" alt="Lock" width={16} height={16} className="inline align-text-bottom mx-1" />
+  );
+}
+function SmartphoneIcon() {
+  return (
+    <Image src="/media/trust/smartphone.svg" alt="Smartphone" width={16} height={16} className="inline align-text-bottom mx-1" />
+  );
+}
+function HeroPriceLabel() {
+  const { currentPrice } = usePrice();
+  return (
+    <span className="block text-center label-copy font-semibold text-softred">
+      {content.header.currentPriceLabel}: {currentPrice}
+    </span>
+  );
+}
 
 export default function HeroSection(): JSX.Element {
   return (
@@ -10,7 +35,7 @@ export default function HeroSection(): JSX.Element {
     >
       <div className="section-container-narrow">
         <div className="section-stack-compact">
-          <p className="body-copy font-semibold text-softred">{content.hero.attention}</p>
+          <p className="label-copy font-semibold text-softred mb-1">{content.hero.attention}</p>
           <h1
             id="hero-heading"
             className="display-title"
@@ -18,8 +43,11 @@ export default function HeroSection(): JSX.Element {
             {content.hero.heading}
           </h1>
 
-          <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg">
-            <div className="relative aspect-[16/8.4] w-full">
+          {/* Descubre lõik ENNE pilti */}
+          <p className="body-copy max-w-prose mb-4">{content.hero.description}</p>
+
+          <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg mb-0">
+            <div className="relative aspect-[16/8] w-full">
               <Image
                 src="/media/products/hero-mockup.webp"
                 alt={content.hero.imageAlt}
@@ -31,17 +59,20 @@ export default function HeroSection(): JSX.Element {
             </div>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col items-center -mt-16">
             <CtaButton
               baseLabel={content.hero.ctaLabel}
               sectionName={content.analytics.sectionNames.hero}
+              className="mb-2"
             />
-            <p className="label-copy mt-2 text-charcoal/75">{content.hero.trustLine}</p>
+            <HeroPriceLabel />
+            <p className="label-copy mt-2 text-charcoal/75 text-center">
+              <LockIcon />Compra 100% segura<SmartphoneIcon />Fácil de abrir: Te llega directo a tu celular o correo en 1 minuto.
+            </p>
           </div>
-
-          <p className="body-copy max-w-prose">{content.hero.description}</p>
         </div>
       </div>
     </section>
   );
+
 }

@@ -33,7 +33,6 @@ export default function CtaButton({
       className={`cta-shell ${className ?? ''}`}
     >
       <span className="cta-main">{baseLabel}</span>
-      <span className="cta-price">({currentPrice})</span>
     </a>
   );
 }
