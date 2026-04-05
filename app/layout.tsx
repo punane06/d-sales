@@ -5,6 +5,7 @@ import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
+import MetaPixelScript from '@/components/MetaPixelScript';
 import { getSiteUrl } from '@/utils/site-url';
 
 type RootLayoutProps = Readonly<{
@@ -68,6 +69,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
 
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
@@ -80,6 +82,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           {children}
         </PriceProvider>
         <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
+        <MetaPixelScript pixelId={metaPixelId} />
       </body>
     </html>
   );
