@@ -143,13 +143,14 @@ function resolveTrustedExpiry(durationSeconds: number, storageKey: string, now: 
   return now + durationSeconds * 1000;
 }
 
-// Returns [timeLeftSeconds, isExpired]
+// Returns [timeLeftSeconds, isExpired, ready]
 export function useCountdownTimer(
   durationSeconds: number,
   storageKey: string,
-): [number, boolean] {
-  // Keep first render deterministic to match server HTML and avoid hydration mismatch.
+): [number, boolean, boolean] {
+  // Hydration-safe: always use durationSeconds on first render, update to real value in effect
   const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const win = globalThis.window;
@@ -169,6 +170,7 @@ export function useCountdownTimer(
     };
 
     updateRemaining();
+    setReady(true);
 
     const tick = (): number => {
       const remaining = updateRemaining();
@@ -213,5 +215,5 @@ export function useCountdownTimer(
     };
   }, [durationSeconds, storageKey]);
 
-  return [timeLeft, timeLeft <= 0];
+  return [timeLeft, timeLeft <= 0, ready];
 }
