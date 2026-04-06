@@ -14,15 +14,18 @@ export default function EmpathySection(): JSX.Element {
         <div className="body-copy space-y-5">
           <p>{content.empathy.story[0]}</p>
           <div className="my-4 flex justify-center">
-            <Image
-              src="/media/products/section3.webp"
-              alt="Empathy section illustration"
-              width={320}
-              height={220}
-              className="object-cover"
-            />
+            <div className="bg-white rounded-2xl overflow-hidden max-w-md w-full flex items-center justify-center">
+              <Image
+                src="/media/products/section3.webp"
+                alt="Empathy section illustration"
+                width={480}
+                height={180}
+                className="object-contain w-full h-auto"
+                priority={false}
+              />
+            </div>
           </div>
-          {content.empathy.story.slice(1).map((paragraph) => {
+          {content.empathy.story.slice(1).map((paragraph: string) => {
             let text = paragraph;
             text = text.replace(
               'De repente, te conviertes en la "enferma" de la mesa.',
@@ -36,9 +39,7 @@ export default function EmpathySection(): JSX.Element {
               'El Plato Seguro.',
               '<strong>El Plato Seguro.</strong>'
             );
-            return (
-              <p key={paragraph} dangerouslySetInnerHTML={{ __html: text }} />
-            );
+            return <p key={paragraph} dangerouslySetInnerHTML={{ __html: text }} />;
           })}
         </div>
       </div>
