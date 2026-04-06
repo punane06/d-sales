@@ -6,7 +6,6 @@ import { usePrice } from "@/context/PriceContext";
 
 export default function FinalCtaSection(): JSX.Element {
   const { currentPrice } = usePrice();
-  // Lõhesta paragrahv reavahetuse kohalt
   const [firstPart, ...rest] = content.finalCta.paragraph.split("\n");
   return (
     <section

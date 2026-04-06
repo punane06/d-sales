@@ -4,12 +4,6 @@ import sharp from 'sharp';
 
 const imageJobs = [
   {
-    input: 'public/media/products/hero-mockup.png',
-    output: 'public/media/products/hero-mockup.webp',
-    width: 880,
-    quality: 74,
-  },
-  {
     input: 'public/media/products/section3.png',
     output: 'public/media/products/section3.webp',
     width: 560,

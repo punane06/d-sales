@@ -197,6 +197,10 @@ export const content = {
         answer:
           'No, es un pago único. No hay cobros ocultos ni suscripciones. Una vez que lo adquieres, todo el material es tuyo de por vida.',
       },
+      {
+        question: '¿Cómo funciona la garantía? ¿Es difícil pedir la devolución de mi dinero si no me gusta?',
+        answer: 'Es súper fácil, automático y 100% seguro. Como tu pago se procesa a través de Hotmart (la plataforma de productos digitales más grande y segura de Latinoamérica), tu dinero está protegido por ellos. Si dentro de tus primeros 15 días decides que el material no es para ti, solo tienes que hacer un par de clics en el correo que recibiste o enviarnos un mensaje, y el sistema de Hotmart te devolverá el 100% de tu dinero a tu tarjeta. Sin tener que dar explicaciones, sin preguntas incómodas y sin llamar a nadie. Tu paz mental es mi prioridad.'
+      },
     ],
   },
   finalCta: {

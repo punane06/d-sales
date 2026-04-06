@@ -35,7 +35,7 @@ const structuredData = {
       '@id': `${canonicalUrl}#product`,
       name: 'El Plato Seguro',
       description: content.hero.description,
-      image: [`${siteUrl}/media/products/hero-mockup.png`],
+      image: [`${siteUrl}/media/products/hero-mockup.webp`],
       brand: {
         '@type': 'Brand',
         name: 'El Plato Seguro',
