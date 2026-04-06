@@ -32,11 +32,7 @@ export default function ValueStackSection(): JSX.Element {
             <h3 className="subsection-title">
               {content.valueStack.mainProduct.title}
             </h3>
-            <ul className="body-copy mt-4 space-y-2 text-left">
-              {content.valueStack.mainProduct.bullets.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
+            <p className="body-copy mt-4 text-left" dangerouslySetInnerHTML={{ __html: content.valueStack.mainProduct.description }} />
             <p className="body-copy mt-4 flex items-center gap-1">
               <span className="font-semibold">Valor Normal: <span className="line-through medium-strike">{content.valueStack.mainProduct.value}</span></span>
               <span className="tag-pill text-xs px-2 py-0.5">¡HOY INCLUIDO!</span>

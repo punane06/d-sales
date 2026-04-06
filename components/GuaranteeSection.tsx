@@ -7,7 +7,7 @@ export default function GuaranteeSection(): JSX.Element {
         <h2 id="guarantee-heading" className="section-title">
           {content.guarantee.heading}
         </h2>
-        <p className="body-copy">{content.guarantee.text}</p>
+        <p className="body-copy" dangerouslySetInnerHTML={{ __html: content.guarantee.text }} />
 
         <article className="rounded-2xl bg-white/10 p-6">
           <h3 className="subsection-title">
