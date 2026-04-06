@@ -1,6 +1,8 @@
+
+
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useRef, useState, useLayoutEffect } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
 import { content } from '@/config/content';
 import { useCountdownTimer } from '@/hooks/useCountdownTimer';
 import { trackEvent } from '@/utils/analytics';
@@ -10,26 +12,37 @@ interface PriceContextValue {
   currentUrl: string;
   isExpired: boolean;
   timeLeft: number;
-  isMounted: boolean;
+  ready: boolean;
 }
 
 const PriceContext = createContext<PriceContextValue | null>(null);
 
-interface PriceProviderProps {
-  children: React.ReactNode;
-}
+type PriceProviderProps = {
+  readonly children: React.ReactNode;
+};
 
-function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.Element {
-  const [timeLeft, isExpired] = useCountdownTimer(
+function PriceProvider({ children }: PriceProviderProps): JSX.Element {
+  // Auto-refresh if Hotmart return param is present to sync timer/price state
+  // Refresh if Hotmart marker is present when tab becomes visible again
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (
+        document.visibilityState === 'visible' &&
+        globalThis.window.localStorage.getItem('awaitingHotmartReturn') === 'true'
+      ) {
+        globalThis.window.localStorage.removeItem('awaitingHotmartReturn');
+        globalThis.window.location.reload();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
+  const [timeLeft, isExpired, ready] = useCountdownTimer(
     content.offer.durationSeconds,
     content.offer.storageKey,
   );
-  const [isMounted, setIsMounted] = useState(false);
   const didTrackExpiry = useRef(false);
-
-  useLayoutEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (isExpired && !didTrackExpiry.current) {
@@ -44,11 +57,10 @@ function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.Element 
       currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
       isExpired,
       timeLeft,
-      isMounted,
+      ready,
     }),
-    [isExpired, timeLeft, isMounted],
+    [isExpired, timeLeft, ready],
   );
-
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }
 
@@ -63,5 +75,3 @@ export function usePrice(): PriceContextValue {
 
   return contextValue;
 }
-
-export type { PriceContextValue };

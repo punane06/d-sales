@@ -16,7 +16,14 @@ export default function CtaButton({
 }: Readonly<CtaButtonProps>): JSX.Element {
   const { currentPrice, currentUrl, isExpired } = usePrice();
 
+
   const handleClick = (): void => {
+    // Set marker for Hotmart return detection
+    try {
+      if (globalThis.window !== undefined && currentUrl.includes('hotmart.com')) {
+        globalThis.window.localStorage.setItem('awaitingHotmartReturn', 'true');
+      }
+    } catch { }
     trackEvent('cta_click', {
       price_shown: currentPrice,
       section_name: sectionName,

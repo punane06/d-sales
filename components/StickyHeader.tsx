@@ -5,7 +5,7 @@ import { content } from '@/config/content';
 import { usePrice } from '@/context/PriceContext';
 
 function StickyHeader(): JSX.Element {
-  const { timeLeft, currentPrice, isMounted } = usePrice();
+  const { timeLeft, currentPrice, ready } = usePrice();
   const headerRef = useRef<HTMLElement | null>(null);
   const safeTime = Math.max(0, timeLeft);
   const hours = String(Math.floor(safeTime / 3600)).padStart(2, '0');
@@ -51,32 +51,27 @@ function StickyHeader(): JSX.Element {
         <div>
           <p className="label-copy font-semibold text-softred">{content.header.warning}</p>
         </div>
-        {isMounted && (
-          <>
-            <div
-              className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
-              role="timer"
-              aria-label="Tiempo restante de la oferta"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <span className="inline-block w-[2ch] text-center">{hours}</span>
-              <span className="inline-block w-1.5 text-center">:</span>
-              <span className="inline-block w-[2ch] text-center">{minutes}</span>
-              <span className="inline-block w-1.5 text-center">:</span>
-              <span className="inline-block w-[2ch] text-center">{seconds}</span>
-            </div>
-            <div className="flex items-center justify-center sm:justify-end">
-              <p className="label-copy">
-                <span className="mr-1.5 opacity-80 sm:mr-2">{content.header.currentPriceLabel}:</span>
-                <strong className="font-bold text-offwhite">{currentPrice}</strong>
-              </p>
-            </div>
-          </>
-        )}
+        <div
+          className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
+          role="timer"
+          aria-label="Tiempo restante de la oferta"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span className="inline-block w-[2ch] text-center">{ready ? hours : '--'}</span>
+          <span className="inline-block w-1.5 text-center">:</span>
+          <span className="inline-block w-[2ch] text-center">{ready ? minutes : '--'}</span>
+          <span className="inline-block w-1.5 text-center">:</span>
+          <span className="inline-block w-[2ch] text-center">{ready ? seconds : '--'}</span>
+        </div>
+        <div className="flex items-center justify-center sm:justify-end">
+          <p className="label-copy">
+            <span className="mr-1.5 opacity-80 sm:mr-2">{content.header.currentPriceLabel}:</span>
+            <strong className="font-bold text-offwhite">{ready ? currentPrice : '--'}</strong>
+          </p>
+        </div>
       </div>
     </header>
   );
 }
-
 export default StickyHeader;
