@@ -16,25 +16,35 @@ export default function GuaranteeSection(): JSX.Element {
           </h3>
           <p className="body-copy mt-3">{content.guarantee.trustText}</p>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {content.guarantee.badges.map((badge) => (
-              <div key={badge.label} className="rounded-xl bg-white/5 p-4">
+          {/* Trust icons, Hotmart ja garantii 72x72, lukk 48x48 */}
+          <div className="mt-6 flex flex-row-reverse items-center justify-center gap-8">
+            {content.guarantee.badges.map((badge) => {
+              let size = 72;
+              if (
+                badge.label.toLowerCase().includes('ssl') ||
+                badge.label.toLowerCase().includes('lukk') ||
+                badge.label.toLowerCase().includes('lock')
+              ) {
+                size = 48;
+              }
+              return (
                 <Image
+                  key={badge.label}
                   src={badge.src}
                   alt={badge.label}
-                  width={120}
-                  height={120}
-                  className="mx-auto h-auto w-20 object-contain"
+                  width={size}
+                  height={size}
+                  className={`object-contain ${size === 72 ? 'h-18 w-18' : 'h-12 w-12'}`}
                 />
-                <p className="label-copy mt-3 text-center font-medium">{badge.label}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="label-copy text-white/60">Formas de pago aceptadas:</span>
-            <Image src="/media/payment/visa.svg" alt="Visa" width={48} height={32} className="h-6 w-auto" />
-            <Image src="/media/payment/mastercard.svg" alt="Mastercard" width={48} height={32} className="h-6 w-auto" />
-            <Image src="/media/payment/paypal.svg" alt="PayPal" width={48} height={32} className="h-6 w-auto" />
+
+          {/* Payment icons, ainult ikoonid, ühel real */}
+          <div className="mt-8 flex items-center justify-center gap-6">
+            <Image src="/media/payment/visa.svg" alt="Visa" width={48} height={32} className="h-8 w-auto object-contain" />
+            <Image src="/media/payment/mastercard.svg" alt="Mastercard" width={48} height={32} className="h-8 w-auto object-contain" />
+            <Image src="/media/payment/paypal.svg" alt="PayPal" width={48} height={32} className="h-8 w-auto object-contain" />
           </div>
         </article>
       </div>

@@ -2,7 +2,7 @@ export const content = {
   meta: {
     title: 'El Plato Seguro | Recetario Digital para Estabilizar la Glucosa',
     description:
-      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Más de 100 recetas caseras para mujeres con diabetes tipo 2 o resistencia a la insulina. Acceso inmediato por $16.97 USD.',
+      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Más de 100 recetas caseras para mujeres con diabetes tipo 2 o resistencia a la insulina. Acceso inmediato por $16.97.',
   },
   offer: {
     durationSeconds: 1800,
@@ -95,10 +95,10 @@ export const content = {
       },
     ],
     pricing: {
-      totalLabel: 'Valor Total Real: $87.75 USD',
+      totalLabel: 'Valor Total Real: $87.75',
       discountLabel: 'Llévate TODO con un 80% OFF (Solo por los próximos 30 minutos):',
-      expiryNotice: 'Atención: Al expirar el contador, el precio subirá automáticamente a $27.97 USD.',
-      ctaLabel: '¡Sí! Quiero Mi Paquete Completo por Solo $16.97 USD',
+      expiryNotice: 'Atención: Al expirar el contador, el precio subirá automáticamente a $27.97.',
+      ctaLabel: '¡Sí! Quiero Mi Paquete Completo por Solo $16.97',
     },
   },
   testimonials: {
@@ -152,7 +152,7 @@ export const content = {
       'Tu salud no tiene precio y tu paz mental tampoco. Prueba El Plato Seguro hoy mismo. Descarga los libritos digitales y prepara tus platos favoritos. Si en 15 días sientes que las recetas no son absolutamente deliciosas y fáciles de hacer, o si tu familia no te pide repetir el plato, te devolvemos el 100% de tu dinero. Sin preguntas. Sin letra pequeña. El riesgo es todo mío.',
     trustHeading: '⏳ Tu descuento del 80% desaparece pronto...',
     trustText:
-      'Recuerda, esta oferta especial de $16.97 USD solo está disponible mientras el temporizador esté corriendo. Cuando llegue a cero, el precio subirá a $27.97 USD automáticamente. No dejes pasar esta oportunidad de sanar comiendo rico.',
+      'Recuerda, esta oferta especial de $16.97 solo está disponible mientras el temporizador esté corriendo. Cuando llegue a cero, el precio subirá a $27.97 automáticamente. No dejes pasar esta oportunidad de sanar comiendo rico.',
     badges: [
       {
         label: 'Sello de garantía de 15 días',
@@ -208,7 +208,7 @@ export const content = {
     paragraph:
       'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones. La decisión es tuya.',
     signature: "Con cariño, Clara y el equipo de 'El Plato Seguro'",
-    ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97 USD)',
+    ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97)',
   },
   footer: {
     copyright:
