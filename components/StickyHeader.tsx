@@ -1,16 +1,20 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { content } from '@/config/content';
 import { usePrice } from '@/context/PriceContext';
 
 function StickyHeader(): JSX.Element {
-  const { timeLeft, currentPrice, isMounted } = usePrice();
+  const { timeLeft, currentPrice } = usePrice();
   const headerRef = useRef<HTMLElement | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const safeTime = Math.max(0, timeLeft);
   const hours = String(Math.floor(safeTime / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((safeTime % 3600) / 60)).padStart(2, '0');
   const seconds = String(safeTime % 60).padStart(2, '0');
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const headerElement = headerRef.current;
@@ -51,7 +55,7 @@ function StickyHeader(): JSX.Element {
         <div>
           <p className="label-copy font-semibold text-softred">{content.header.warning}</p>
         </div>
-        {isMounted && (
+        {isClient && (
           <>
             <div
               className="mx-auto flex w-44 items-center justify-center rounded-md bg-white/10 px-2 py-1 font-sans text-xl font-semibold leading-tight tabular-nums sm:mx-0 sm:text-2xl md:text-3xl"
@@ -78,5 +82,4 @@ function StickyHeader(): JSX.Element {
     </header>
   );
 }
-
 export default StickyHeader;
