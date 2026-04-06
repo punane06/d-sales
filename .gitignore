@@ -1,3 +1,4 @@
+scripts/optimize-images.mjs
 node_modules
 .next
 .next-dev

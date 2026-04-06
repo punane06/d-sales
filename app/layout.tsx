@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/media/products/hero-mockup.png',
+        url: '/media/products/hero-mockup.webp',
         width: 1200,
         height: 630,
         alt: 'El Plato Seguro bundle',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: content.meta.title,
     description: content.meta.description,
-    images: ['/media/products/hero-mockup.png'],
+    images: ['/media/products/hero-mockup.webp'],
   },
   icons: {
     icon: [
