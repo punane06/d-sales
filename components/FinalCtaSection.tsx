@@ -14,10 +14,10 @@ export default function FinalCtaSection(): JSX.Element {
       className="section-shell bg-offwhite"
     >
       <div className="section-container section-stack text-center">
-        <h2 id="final-cta-heading" className="section-title text-left mx-auto max-w-2xl">
+        <h2 id="final-cta-heading" className="section-title text-center mx-auto max-w-2xl">
           {content.finalCta.heading}
         </h2>
-        <p className="body-copy text-left mx-auto max-w-2xl">
+        <p className="body-copy text-center mx-auto max-w-2xl">
           {firstPart}
           {rest.length > 0 && (
             <>
@@ -28,8 +28,9 @@ export default function FinalCtaSection(): JSX.Element {
             </>
           )}
         </p>
-        <p className="subsection-title italic text-left mx-auto max-w-2xl">
-          {content.finalCta.signature}
+        <p className="subsection-title italic text-center mx-auto max-w-2xl">
+          {content.finalCta.signature1}<br />
+          {content.finalCta.signature2}
         </p>
         <div className="pt-2">
           <CtaButton

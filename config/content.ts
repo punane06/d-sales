@@ -206,8 +206,9 @@ export const content = {
   finalCta: {
     heading: '✨ Tu salud no tiene precio... pero hoy puedes empezar a sanar con un delicioso postre saludable.',
     paragraph:
-      'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones. La decisión es tuya.',
-    signature: "Con cariño, Clara y el equipo de 'El Plato Seguro'",
+      'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones.\nLa decisión es tuya. ❤️',
+    signature1: "Con cariño,",
+    signature2: "Clara y el equipo de 'El Plato Seguro'",
     ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97)',
   },
   footer: {
