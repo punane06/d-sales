@@ -170,7 +170,7 @@ export function useCountdownTimer(
     };
 
     updateRemaining();
-    setReady(true);
+    Promise.resolve().then(() => setReady(true));
 
     const tick = (): number => {
       const remaining = updateRemaining();
