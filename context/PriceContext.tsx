@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { content } from '@/config/content';
 import { useCountdownTimer } from '@/hooks/useCountdownTimer';
 import { trackEvent } from '@/utils/analytics';
@@ -10,6 +10,7 @@ interface PriceContextValue {
   currentUrl: string;
   isExpired: boolean;
   timeLeft: number;
+  isMounted: boolean;
 }
 
 const PriceContext = createContext<PriceContextValue | null>(null);
@@ -18,12 +19,17 @@ interface PriceProviderProps {
   children: React.ReactNode;
 }
 
-export function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.Element {
+function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.Element {
   const [timeLeft, isExpired] = useCountdownTimer(
     content.offer.durationSeconds,
     content.offer.storageKey,
   );
+  const [isMounted, setIsMounted] = useState(false);
   const didTrackExpiry = useRef(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isExpired && !didTrackExpiry.current) {
@@ -38,12 +44,15 @@ export function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.E
       currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
       isExpired,
       timeLeft,
+      isMounted,
     }),
-    [isExpired, timeLeft],
+    [isExpired, timeLeft, isMounted],
   );
 
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }
+
+export { PriceProvider };
 
 export function usePrice(): PriceContextValue {
   const contextValue = useContext(PriceContext);

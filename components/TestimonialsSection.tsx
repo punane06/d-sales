@@ -37,7 +37,7 @@ export default function TestimonialsSection(): JSX.Element {
         <div
           ref={scrollRef}
           className="flex gap-4 overflow-x-auto scroll-smooth pb-4 hide-scrollbar"
-          aria-label="Kliendi tagasiside, keritav horisontaalselt"
+          aria-label="Testimonios de clientes, desplazable horizontalmente"
         >
           {content.testimonials.entries.map((item) => (
             <article
@@ -62,7 +62,7 @@ export default function TestimonialsSection(): JSX.Element {
               <div className="relative mt-4 rounded-2xl bg-mint px-4 py-3">
                 <span className="absolute -left-1 top-5 h-2.5 w-2.5 rotate-45 bg-mint" aria-hidden="true" />
                 <p className="text-lg text-terracotta">
-                  <span className="sr-only">5 tärni</span>
+                  <span className="sr-only">5 estrellas</span>
                   <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
                 </p>
                 <p className="body-copy mt-2">“{item.quote}”</p>

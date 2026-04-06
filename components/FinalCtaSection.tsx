@@ -21,7 +21,7 @@ export default function FinalCtaSection(): JSX.Element {
           {rest.length > 0 && (
             <>
               <br />
-              {rest.join("\n").replace("❤️", "")} <span aria-label="süda" role="img">
+              {rest.join("\n").replace("❤️", "")} <span aria-label="corazón" role="img">
                 ❤️
               </span>
             </>
