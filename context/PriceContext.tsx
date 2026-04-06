@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, useLayoutEffect } from 'react';
 import { content } from '@/config/content';
 import { useCountdownTimer } from '@/hooks/useCountdownTimer';
 import { trackEvent } from '@/utils/analytics';
@@ -27,7 +27,7 @@ function PriceProvider({ children }: Readonly<PriceProviderProps>): JSX.Element 
   const [isMounted, setIsMounted] = useState(false);
   const didTrackExpiry = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsMounted(true);
   }, []);
 
