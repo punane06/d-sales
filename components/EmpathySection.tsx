@@ -16,7 +16,7 @@ export default function EmpathySection(): JSX.Element {
           <div className="my-4 flex justify-center">
             <div className="bg-white rounded-2xl overflow-hidden max-w-md w-full flex items-center justify-center">
               <Image
-                src="/media/products/section3.webp"
+                src="/media/products/empathy.webp"
                 alt="Empathy section illustration"
                 width={480}
                 height={180}

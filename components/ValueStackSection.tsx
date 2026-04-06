@@ -38,7 +38,7 @@ export default function ValueStackSection(): JSX.Element {
               ))}
             </ul>
             <p className="body-copy mt-4 flex items-center gap-1">
-              <span className="font-semibold line-through medium-strike">Valor Normal: {content.valueStack.mainProduct.value}</span>
+              <span className="font-semibold">Valor Normal: <span className="line-through medium-strike">{content.valueStack.mainProduct.value}</span></span>
               <span className="tag-pill text-xs px-2 py-0.5">¡HOY INCLUIDO!</span>
             </p>
           </div>
@@ -76,17 +76,20 @@ export default function ValueStackSection(): JSX.Element {
           <p className="body-copy text-softred line-through">
             {content.valueStack.pricing.totalLabel}
           </p>
+          <p className="body-copy mt-3 font-semibold">
+            {isExpired ? (
+              <>Llévate TODO con un 68% OFF</>
+            ) : (
+              <>
+                Llévate TODO con un 80% OFF (Solo por los próximos {formatCountdown(timeLeft)}):
+              </>
+            )}
+          </p>
+          <p className="price-display mt-5">
+            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold">{currentPrice}</span>
+          </p>
           {!isExpired && (
-            <p className="body-copy mt-3 font-semibold">
-              {content.valueStack.pricing.discountLabel.replace(
-                /\[INSERT COUNTDOWN TIMER:[^\]]*\]/,
-                formatCountdown(timeLeft)
-              )}
-            </p>
-          )}
-          <p className="price-display mt-4">{currentPrice}</p>
-          {!isExpired && (
-            <div className="notice-card mt-4">
+            <div className="notice-card mt-8">
               <p className="body-copy font-medium text-charcoal">
                 ⚠️ {content.valueStack.pricing.expiryNotice}
               </p>

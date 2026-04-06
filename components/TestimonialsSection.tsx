@@ -24,7 +24,7 @@ export default function TestimonialsSection(): JSX.Element {
         container.scrollBy({ left: testimonialWidth, behavior: 'smooth' });
       }
     }
-    interval = setInterval(scrollNext, 6000);
+    interval = setInterval(scrollNext, 12000);
     return () => clearInterval(interval);
   }, []);
 

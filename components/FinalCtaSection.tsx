@@ -38,21 +38,38 @@ export default function FinalCtaSection(): JSX.Element {
             sectionName={content.analytics.sectionNames.finalCta}
           />
         </div>
-        <div className="mt-6 flex items-center justify-center gap-8">
-          {content.guarantee.badges.map((badge) => {
-            // Lukuikoon väiksemaks
-            const isLock = badge.label.toLowerCase().includes("ssl") || badge.label.toLowerCase().includes("lukk") || badge.label.toLowerCase().includes("lock");
-            return (
-              <Image
-                key={badge.label}
-                src={badge.src}
-                alt={badge.label}
-                width={isLock ? 48 : 72}
-                height={isLock ? 48 : 72}
-                className={`object-contain ${isLock ? "h-12" : "h-14"}`}
-              />
-            );
-          })}
+        <div className="mt-6 flex flex-row items-center justify-center">
+          <div className="flex flex-row items-center gap-x-0">
+            {content.guarantee.badges.slice(0, 2).map((badge) => {
+              const isLock = badge.label.toLowerCase().includes("ssl") || badge.label.toLowerCase().includes("lukk") || badge.label.toLowerCase().includes("lock");
+              return (
+                <Image
+                  key={badge.label}
+                  src={badge.src}
+                  alt={badge.label}
+                  width={isLock ? 48 : 72}
+                  height={isLock ? 48 : 72}
+                  className={`object-contain ${isLock ? "h-12" : "h-14"}`}
+                />
+              );
+            })}
+          </div>
+          {/* Add a little more space before Hotmart icon */}
+          <div className="ml-3">
+            {(() => {
+              const badge = content.guarantee.badges[2];
+              return (
+                <Image
+                  key={badge.label}
+                  src={badge.src}
+                  alt={badge.label}
+                  width={72}
+                  height={72}
+                  className="object-contain h-14"
+                />
+              );
+            })()}
+          </div>
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
           <span className="sr-only">Formas de pago aceptadas:</span>
