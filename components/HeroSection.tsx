@@ -19,10 +19,10 @@ function SmartphoneIcon() {
   );
 }
 function HeroPriceLabel() {
-  const { currentPrice } = usePrice();
+  const { currentPrice, ready } = usePrice();
   return (
     <span className="block text-center label-copy font-semibold text-softred">
-      {content.header.currentPriceLabel}: {currentPrice}
+      {content.header.currentPriceLabel}: {ready ? currentPrice : '--'}
     </span>
   );
 }

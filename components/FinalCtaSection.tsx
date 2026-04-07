@@ -5,7 +5,7 @@ import CtaButton from "@/components/CtaButton";
 import { usePrice } from "@/context/PriceContext";
 
 export default function FinalCtaSection(): JSX.Element {
-  const { currentPrice } = usePrice();
+  const { currentPrice, ready } = usePrice();
   const [firstPart, ...rest] = content.finalCta.paragraph.split("\n");
   return (
     <section
@@ -33,7 +33,7 @@ export default function FinalCtaSection(): JSX.Element {
         </p>
         <div className="pt-2">
           <CtaButton
-            baseLabel={`Quiero Mi Paquete Completo por Solo ${currentPrice}`}
+            baseLabel={ready ? `Quiero Mi Paquete Completo por Solo ${currentPrice}` : 'Quiero Mi Paquete Completo'}
             sectionName={content.analytics.sectionNames.finalCta}
           />
         </div>
