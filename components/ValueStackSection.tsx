@@ -7,7 +7,7 @@ import CtaButton from '@/components/CtaButton';
 
 
 export default function ValueStackSection(): JSX.Element {
-  const { currentPrice, isExpired, timeLeft } = usePrice();
+  const { currentPrice, isExpired, timeLeft, ready } = usePrice();
 
 
   return (
@@ -77,12 +77,12 @@ export default function ValueStackSection(): JSX.Element {
               <>Llévate TODO con un 68% OFF</>
             ) : (
               <>
-                Llévate TODO con un 80% OFF (Solo por los próximos {formatCountdown(timeLeft)}):
+                Llévate TODO con un 80% OFF (Solo por los próximos {ready ? formatCountdown(timeLeft) : '--:--'}):
               </>
             )}
           </p>
           <p className="price-display mt-5">
-            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold">{currentPrice}</span>
+            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold">{ready ? currentPrice : '--'}</span>
           </p>
           {!isExpired && (
             <div className="notice-card mt-8">
