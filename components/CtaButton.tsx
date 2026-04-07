@@ -34,12 +34,14 @@ export default function CtaButton({
   };
 
   return (
-    <a
-      href={currentUrl}
-      onClick={handleClick}
-      className={`cta-shell ${className ?? ''}`}
-    >
-      <span className="cta-main">{baseLabel}</span>
-    </a>
+    <div className="flex flex-col items-center">
+      <a
+        href={currentUrl}
+        onClick={handleClick}
+        className={`cta-shell ${className ?? ''}`}
+      >
+        <span className="cta-main">{baseLabel}</span>
+      </a>
+    </div>
   );
 }
