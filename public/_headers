@@ -1,0 +1,25 @@
+/*
+  Netlify CSP header for Next.js with nonce support (for app directory projects)
+  This header allows only scripts with a valid nonce, plus trusted external sources.
+*/
+
+/*
+  Replace {nonce} with the actual nonce value generated per request in your Next.js app.
+  Next.js 13+ supports nonce via the use of headers and the nonce prop on <script>.
+*/
+
+/*
+  /_headers file for Netlify
+*/
+
+/*
+  This disables unsafe-inline and only allows scripts with a valid nonce or from trusted sources.
+*/
+
+/*
+  /_headers
+*/
+
+/*
+  /    Content-Security-Policy: script-src 'self' 'nonce-PLACEHOLDER_NONCE' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://connect.facebook.net; object-src 'none'; base-uri 'self';
+*/

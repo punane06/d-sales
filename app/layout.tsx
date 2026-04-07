@@ -6,6 +6,7 @@ import { PriceProvider } from '@/context/PriceContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
 import MetaPixelScript from '@/components/MetaPixelScript';
+import { headers } from 'next/headers';
 import StickyHeaderWrapper from '@/components/StickyHeaderWrapper';
 import { getSiteUrl } from '@/utils/site-url';
 
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
+  const nonce = headers().get('x-nonce') || undefined;
 
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
@@ -91,8 +93,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <StickyHeaderWrapper />
           {children}
         </PriceProvider>
-        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
-        <MetaPixelScript pixelId={metaPixelId} />
+        <AnalyticsScripts gaId={gaId} clarityId={clarityId} nonce={nonce} />
+        <MetaPixelScript pixelId={metaPixelId} nonce={nonce} />
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import Script from 'next/script';
 
 interface MetaPixelScriptProps {
   pixelId?: string;
+  nonce?: string;
 }
 
 type FbqFunction = ((...args: unknown[]) => void) & {
@@ -15,7 +16,7 @@ type FbqFunction = ((...args: unknown[]) => void) & {
   version?: string;
 };
 
-export default function MetaPixelScript({ pixelId }: Readonly<MetaPixelScriptProps>): JSX.Element | null {
+export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelScriptProps>): JSX.Element | null {
   const hasPixelId = Boolean(pixelId && pixelId !== 'xxxxxxxxxx' && pixelId !== 'PIXEL_ID');
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function MetaPixelScript({ pixelId }: Readonly<MetaPixelScriptPro
       <Script
         src={`https://connect.facebook.net/en_US/fbevents.js`}
         strategy="afterInteractive"
+        nonce={nonce}
         onLoad={() => {
           const win = globalThis.window as Window & {
             fbq?: FbqFunction;
