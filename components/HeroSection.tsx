@@ -6,7 +6,8 @@
 import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
-import { usePrice } from '@/context/PriceContext';
+import dynamic from 'next/dynamic';
+const HeroPriceLabel = dynamic(() => import('@/components/HeroPriceLabel.client'), { ssr: false });
 
 function LockIcon() {
   return (
@@ -16,14 +17,6 @@ function LockIcon() {
 function SmartphoneIcon() {
   return (
     <Image src="/media/trust/smartphone.svg" alt="Smartphone" width={16} height={16} className="inline align-text-bottom mx-1" />
-  );
-}
-function HeroPriceLabel() {
-  const { currentPrice, ready } = usePrice();
-  return (
-    <span className="block text-center label-copy font-semibold text-softred">
-      {content.header.currentPriceLabel}: {ready ? currentPrice : '--'}
-    </span>
   );
 }
 

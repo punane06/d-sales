@@ -6,9 +6,10 @@ import Script from 'next/script';
 interface AnalyticsScriptsProps {
   gaId?: string;
   clarityId?: string;
+  nonce?: string;
 }
 
-export default function AnalyticsScripts({ gaId, clarityId }: Readonly<AnalyticsScriptsProps>): JSX.Element | null {
+export default function AnalyticsScripts({ gaId, clarityId, nonce }: Readonly<AnalyticsScriptsProps>): JSX.Element | null {
   const hasGaId = Boolean(gaId && gaId !== 'G-XXXXXXXXXX' && gaId !== 'GA_MEASUREMENT_ID');
   const hasClarityId = Boolean(
     clarityId && clarityId !== 'xxxxxxxxxx' && clarityId !== 'CLARITY_PROJECT_ID',
@@ -54,6 +55,7 @@ export default function AnalyticsScripts({ gaId, clarityId }: Readonly<Analytics
     <Script
       src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
       strategy="afterInteractive"
+      nonce={nonce}
       onLoad={() => {
         const win = globalThis.window as Window & {
           dataLayer?: unknown[];
