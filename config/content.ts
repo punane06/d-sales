@@ -7,8 +7,8 @@ export const content = {
   offer: {
     durationSeconds: 1800,
     storageKey: 'elplatoseguro-timer-expiry-v2',
-    salePrice: '$16.97',
-    expiredPrice: '$27.97',
+    salePrice: '$16.97 USD',
+    expiredPrice: '$27.97 USD',
     totalValue: '$87.75',
     saleUrl: 'https://pay.hotmart.com/Q105210520I?off=7md7qkuo',
     expiredUrl: 'https://pay.hotmart.com/Q105210520I?off=f6rm4qp2',
@@ -91,9 +91,9 @@ export const content = {
       },
     ],
     pricing: {
-      totalLabel: 'Valor Total Real: $87.75',
+      totalLabel: 'Valor Total Real: $87.75 USD',
       discountLabel: 'Llévate TODO con un 80% OFF (Solo por los próximos 30 minutos):',
-      expiryNotice: 'Atención: Al expirar el contador, el precio subirá automáticamente a $27.97.',
+      expiryNotice: 'Atención: Al expirar el contador, el precio subirá automáticamente a $27.97 USD.',
       ctaLabel: '¡Sí! Quiero Mi Paquete Completo por Solo $16.97',
     },
   },

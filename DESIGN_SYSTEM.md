@@ -48,7 +48,6 @@
   - Sticky header timer rendering stabilized for hydration consistency and mobile resume behavior.
 - 2026-04-04:
   - Hero simplified to single primary headline (removed optional subheadline block in UI).
-  - Pricing copy now uses compact money format (e.g., `$16.97`) without forced `USD` suffix in labels.
 
 ## Do and Don't
 
@@ -62,4 +61,3 @@
 | Tags and Badges | Use `tag-pill` for short highlight labels (e.g., included/bonus chips) | Create custom chip styles per section with inconsistent radius/padding |
 | Price Emphasis | Use `price-display` for big offer price moments | Recreate large price styles ad hoc in each section |
 | Spacing | Use `section-shell`/`section-shell-tight` + `section-stack`/`section-stack-compact` tokens | Hardcode unique vertical spacing patterns in each section |
-| Pricing Copy | Keep compact currency style (e.g., `$16.97`) consistent in labels, CTA and price blocks | Mix compact and verbose currency formats in nearby UI blocks |

@@ -92,10 +92,15 @@ export default function ValueStackSection(): JSX.Element {
             </div>
           )}
           <div className="mt-6">
-            <CtaButton
-              baseLabel={`${content.valueStack.pricing.ctaLabel.replace(/ por Solo.*$/i, '')} ${currentPrice}`}
-              sectionName={content.analytics.sectionNames.valueStack}
-            />
+            <div className="flex flex-col items-center">
+              <CtaButton
+                baseLabel={'¡Sí! Quiero Mi Paquete Completo'}
+                sectionName={content.analytics.sectionNames.valueStack}
+              />
+              <span className="label-copy mt-3 text-xs text-charcoal/70 text-center">
+                Precio en dólares americanos. El cobro se hará automáticamente en la moneda de tu país al tipo de cambio del día.
+              </span>
+            </div>
           </div>
         </article>
       </div>
