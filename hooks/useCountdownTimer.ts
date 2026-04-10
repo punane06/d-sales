@@ -1,87 +1,78 @@
+/* Evergreen timer logic with cycleStart and 24h reset */
 'use client';
 
 import { useEffect, useState } from 'react';
 
 interface TimerPayload {
   expiry: number;
+  cycleStart: number;
   signature: string;
 }
 
 const COOKIE_SUFFIX = '-timer';
-// NOTE: This signing is best-effort tamper detection only. A motivated user can still
-// recompute the hash client-side. Server-side enforcement (e.g. HttpOnly cookie set
-// by an Edge Function) would be required for true integrity guarantees.
-const SIGNING_SALT = 'el-plate-seguro-timer-v1';
+const SIGNING_SALT = 'el-plate-seguro-timer-v3';
+const CYCLE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-function signExpiry(expiry: number, storageKey: string): string {
-  const raw = `${expiry}:${storageKey}:${SIGNING_SALT}`;
+// NOTE: This signing is best-effort tamper detection only.
+function signPayload(expiry: number, cycleStart: number, storageKey: string): string {
+  const raw = `${expiry}:${cycleStart}:${storageKey}:${SIGNING_SALT}`;
   let hash = 5381;
-  for (let index = 0; index < raw.length; index += 1) {
-    hash = (hash * 33) ^ (raw.codePointAt(index) ?? 0);
+  for (let i = 0; i < raw.length; i += 1) {
+    hash = (hash * 33) ^ (raw.codePointAt(i) ?? 0);
   }
   return (hash >>> 0).toString(16);
 }
 
-function toPayload(expiry: number, storageKey: string): TimerPayload {
+function toPayload(expiry: number, cycleStart: number, storageKey: string): TimerPayload {
   return {
     expiry,
-    signature: signExpiry(expiry, storageKey),
+    cycleStart,
+    signature: signPayload(expiry, cycleStart, storageKey),
   };
 }
 
-function isValidPayload(payload: TimerPayload | null, storageKey: string): payload is TimerPayload {
-  if (!payload) {
-    return false;
-  }
-
-  const { expiry, signature } = payload;
-
-  if (typeof expiry !== 'number' || !Number.isFinite(expiry) || expiry <= 0) {
-    return false;
-  }
-
-  if (typeof signature !== 'string') {
-    return false;
-  }
-
-  return signature === signExpiry(expiry, storageKey);
+function isValidPayload(
+  payload: TimerPayload | null,
+  storageKey: string
+): payload is TimerPayload {
+  if (!payload) return false;
+  const { expiry, cycleStart, signature } = payload;
+  if (typeof expiry !== 'number' || !Number.isFinite(expiry) || expiry <= 0) return false;
+  if (typeof cycleStart !== 'number' || !Number.isFinite(cycleStart) || cycleStart <= 0) return false;
+  if (typeof signature !== 'string') return false;
+  return signature === signPayload(expiry, cycleStart, storageKey);
 }
 
 function readCookie(name: string): string | null {
   const prefix = `${name}=`;
   const match = document.cookie
     .split(';')
-    .map((cookiePart) => cookiePart.trim())
-    .find((cookiePart) => cookiePart.startsWith(prefix));
-
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(prefix));
   return match ? decodeURIComponent(match.slice(prefix.length)) : null;
 }
 
 function writeCookie(name: string, value: string): void {
-  const secureAttribute = globalThis.location.protocol === 'https:' ? '; secure' : '';
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax${secureAttribute}`;
+  const secureAttr = globalThis.location.protocol === 'https:' ? '; secure' : '';
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax${secureAttr}`;
 }
 
 function parsePayload(value: string | null): TimerPayload | null {
-  if (!value) {
-    return null;
-  }
-
+  if (!value) return null;
   try {
     const parsed = JSON.parse(value) as unknown;
-
-    if (typeof parsed !== 'object' || parsed === null) {
-      return null;
-    }
-
+    if (typeof parsed !== 'object' || parsed === null) return null;
     const expiry = Reflect.get(parsed, 'expiry');
+    const cycleStart = Reflect.get(parsed, 'cycleStart');
     const signature = Reflect.get(parsed, 'signature');
-
-    if (typeof expiry !== 'number' || typeof signature !== 'string') {
+    if (
+      typeof expiry !== 'number' ||
+      typeof cycleStart !== 'number' ||
+      typeof signature !== 'string'
+    ) {
       return null;
     }
-
-    return { expiry, signature };
+    return { expiry, cycleStart, signature };
   } catch {
     return null;
   }
@@ -89,14 +80,11 @@ function parsePayload(value: string | null): TimerPayload | null {
 
 function persistPayload(payload: TimerPayload, storageKey: string): void {
   const serialized = JSON.stringify(payload);
-
-  // Storage can throw on privacy-restricted browsers; keep timer running in-memory.
   try {
     globalThis.window.localStorage.setItem(storageKey, serialized);
   } catch {
-    // noop
+    // noop — privacy mode or storage full
   }
-
   try {
     writeCookie(`${storageKey}${COOKIE_SUFFIX}`, serialized);
   } catch {
@@ -104,16 +92,22 @@ function persistPayload(payload: TimerPayload, storageKey: string): void {
   }
 }
 
-function resolveTrustedExpiry(durationSeconds: number, storageKey: string, now: number): number {
+function resolveExpiry(
+  durationSeconds: number,
+  storageKey: string,
+  now: number
+): { expiry: number; cycleStart: number } {
   if (globalThis.window === undefined) {
-    return now + durationSeconds * 1000;
+    return { expiry: now + durationSeconds * 1000, cycleStart: now };
   }
 
   let localPayload: TimerPayload | null = null;
   let cookiePayload: TimerPayload | null = null;
 
   try {
-    localPayload = parsePayload(globalThis.window.localStorage.getItem(storageKey));
+    localPayload = parsePayload(
+      globalThis.window.localStorage.getItem(storageKey)
+    );
   } catch {
     localPayload = null;
   }
@@ -127,45 +121,56 @@ function resolveTrustedExpiry(durationSeconds: number, storageKey: string, now: 
   const hasValidLocal = isValidPayload(localPayload, storageKey);
   const hasValidCookie = isValidPayload(cookiePayload, storageKey);
 
+  let bestPayload: TimerPayload | null = null;
+
   if (hasValidLocal && hasValidCookie && localPayload && cookiePayload) {
-    // Keep the earlier expiry to avoid extending the offer window by editing one store.
-    return Math.min(localPayload.expiry, cookiePayload.expiry);
+    // Pick the one with the earlier cycleStart (more conservative)
+    bestPayload =
+      localPayload.cycleStart <= cookiePayload.cycleStart
+        ? localPayload
+        : cookiePayload;
+  } else if (hasValidLocal && localPayload) {
+    bestPayload = localPayload;
+  } else if (hasValidCookie && cookiePayload) {
+    bestPayload = cookiePayload;
   }
 
-  if (hasValidLocal && localPayload) {
-    return localPayload.expiry;
+  if (bestPayload) {
+    // EVERGREEN LOGIC: has 24h cycle passed?
+    if (now - bestPayload.cycleStart >= CYCLE_DURATION_MS) {
+      // Cycle is over → start again
+      return { expiry: now + durationSeconds * 1000, cycleStart: now };
+    }
+    // Cycle is active → use stored values
+    return { expiry: bestPayload.expiry, cycleStart: bestPayload.cycleStart };
   }
 
-  if (hasValidCookie && cookiePayload) {
-    return cookiePayload.expiry;
-  }
-
-  return now + durationSeconds * 1000;
+  // First visit — create new cycle
+  return { expiry: now + durationSeconds * 1000, cycleStart: now };
 }
 
-// Returns [timeLeftSeconds, isExpired, ready]
+// Returns: [secondsLeft, isExpired, ready]
 export function useCountdownTimer(
   durationSeconds: number,
   storageKey: string,
 ): [number, boolean, boolean] {
-  // Hydration-safe: always use durationSeconds on first render, update to real value in effect
   const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const win = globalThis.window;
-    if (!win) {
-      return;
-    }
+    if (!win) return;
 
     const now = Date.now();
-    const trustedExpiry = resolveTrustedExpiry(durationSeconds, storageKey, now);
+    const { expiry, cycleStart } = resolveExpiry(durationSeconds, storageKey, now);
 
-    persistPayload(toPayload(trustedExpiry, storageKey), storageKey);
+    // Save resolved state immediately
+    persistPayload(toPayload(expiry, cycleStart, storageKey), storageKey);
 
     const updateRemaining = (): number => {
-      const seconds = Math.max(0, Math.floor((trustedExpiry - Date.now()) / 1000));
-      setTimeLeft((previous) => (previous === seconds ? previous : seconds));
+      const nowMs = Date.now();
+      const seconds = Math.max(0, Math.floor((expiry - nowMs) / 1000));
+      setTimeLeft((prev) => (prev === seconds ? prev : seconds));
       return seconds;
     };
 
@@ -185,20 +190,28 @@ export function useCountdownTimer(
 
     let intervalId: number | null = win.setInterval(tick, 1000);
 
-    const handleVisibility = (): void => {
-      if (document.visibilityState === 'visible') {
-        const remaining = tick();
-        if (intervalId === null && remaining > 0) {
-          intervalId = win.setInterval(tick, 1000);
-        }
+    // If user returns after 24h → reload → gets a new timer
+    const checkCycleAndResume = (): void => {
+      if (Date.now() - cycleStart >= CYCLE_DURATION_MS) {
+        // 24h has passed: remove old storage and reload page
+        try { win.localStorage.removeItem(storageKey); } catch { /* noop */ }
+        win.location.reload();
+        return;
       }
-    };
-
-    const handleFocus = (): void => {
       const remaining = tick();
       if (intervalId === null && remaining > 0) {
         intervalId = win.setInterval(tick, 1000);
       }
+    };
+
+    const handleVisibility = (): void => {
+      if (document.visibilityState === 'visible') {
+        checkCycleAndResume();
+      }
+    };
+
+    const handleFocus = (): void => {
+      checkCycleAndResume();
     };
 
     document.addEventListener('visibilitychange', handleVisibility);
@@ -206,9 +219,7 @@ export function useCountdownTimer(
     win.addEventListener('pageshow', handleFocus);
 
     return () => {
-      if (intervalId !== null) {
-        win.clearInterval(intervalId);
-      }
+      if (intervalId !== null) win.clearInterval(intervalId);
       document.removeEventListener('visibilitychange', handleVisibility);
       win.removeEventListener('focus', handleFocus);
       win.removeEventListener('pageshow', handleFocus);

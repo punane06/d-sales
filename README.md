@@ -35,11 +35,26 @@ npm install
 
 ## Run Locally
 
+
 Standard dev server:
 
 ```bash
 npm run dev
 ```
+
+
+**Windows/Turbopack issue?**
+
+If you see an error about Turbopack ("Turbopack is not supported on this platform"), use Webpack instead:
+
+```bash
+npm run dev -- --webpack
+# or
+npx next dev --webpack
+```
+
+This will start the dev server with Webpack, which works on Windows without Turbopack native modules.
+
 
 LAN/mobile testing example:
 
@@ -65,7 +80,7 @@ LAN + reset in one command:
 npm run dev:lan:reset
 ```
 
-If needed on restricted PowerShell environments, prefer `npm.cmd` over `npm`.
+If you are on a restricted PowerShell environment, prefer `npm.cmd` over `npm`.
 
 ## Build
 

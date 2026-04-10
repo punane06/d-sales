@@ -6,6 +6,7 @@ import { content } from '@/config/content';
 import { usePrice } from '@/context/PriceContext';
 import CtaButton from '@/components/CtaButton';
 
+
 function formatCountdown(seconds: number): string {
   const m = Math.floor(seconds / 60)
     .toString()
@@ -89,7 +90,7 @@ export default function ValueStackSection(): JSX.Element {
             )}
           </p>
           <p className="price-display mt-5">
-            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold">{ready ? currentPrice : '--'}</span>
+            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold whitespace-nowrap">{ready ? currentPrice : '--'}</span>
           </p>
           {!isExpired && (
             <div className="notice-card mt-8">
