@@ -6,7 +6,7 @@ export const content = {
   },
   offer: {
     durationSeconds: 1800,
-    storageKey: 'elplatoseguro-timer-expiry-v2',
+    storageKey: 'elplatoseguro-timer-expiry-v3',
     salePrice: '$16.97 USD',
     expiredPrice: '$27.97 USD',
     totalValue: '$87.75',
