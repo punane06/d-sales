@@ -8,6 +8,7 @@ import ScrollRestoration from '@/components/ScrollRestoration';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
 import MetaPixelScript from '@/components/MetaPixelScript';
 import StickyHeaderWrapper from '@/components/StickyHeaderWrapper';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import { getSiteUrl } from '@/utils/site-url';
 
 type RootLayoutProps = Readonly<{
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </PriceProvider>
         <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
         <MetaPixelScript pixelId={metaPixelId} />
+        <WhatsAppButton />
       </body>
     </html>
   );
