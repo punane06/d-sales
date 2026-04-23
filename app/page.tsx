@@ -1,4 +1,4 @@
-import StickyHeader from '@/components/StickyHeader';
+// Removed duplicate StickyHeader import
 import HeroSection from '@/components/HeroSection';
 import EmpathySection from '@/components/EmpathySection';
 import ValueStackSection from '@/components/ValueStackSection';
@@ -72,7 +72,7 @@ export default function HomePage(): JSX.Element {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <ScrollMilestoneTracker />
-      <StickyHeader />
+      {/* Removed duplicate StickyHeader, only one header remains via layout */}
       <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
         <ErrorBoundary>
           <HeroSection />
