@@ -37,17 +37,15 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
           fbqStub.callMethod(...args);
           return;
         }
-
         fbqStub.q ??= [];
         fbqStub.q.push(args);
       };
       fbqStub.push = (...args: unknown[]) => fbqStub(...args);
       fbqStub.loaded = true;
       fbqStub.version = '2.0';
-
       win.fbq = fbqStub;
     }
-  }, [pixelId, hasPixelId]);
+  }, [pixelId]);
 
   if (!hasPixelId || !pixelId) {
     return null;
@@ -63,7 +61,6 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
           const win = globalThis.window as Window & {
             fbq?: FbqFunction;
           };
-
           if (win.fbq) {
             win.fbq('init', pixelId);
             win.fbq('track', 'PageView');
@@ -78,7 +75,7 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
             display: 'none',
           }}
           src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
-          alt=""
+          alt="Meta Pixel"
         />
       </noscript>
     </>

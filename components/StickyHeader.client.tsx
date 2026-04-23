@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+// Revert to <img> and remove broken <Image> usage
 // ...existing code...
 import { usePrice } from '@/context/PriceContext';
 
@@ -41,6 +42,8 @@ function StickyHeader(): JSX.Element {
           <img
             src="/media/clara.png"
             alt="Clara smiling"
+            width={48}
+            height={48}
             className="w-12 h-12 rounded-full object-cover"
             style={{ minWidth: 48, minHeight: 48 }}
           />

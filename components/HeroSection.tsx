@@ -3,10 +3,12 @@
 
 
 
+
 import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
 import dynamic from 'next/dynamic';
+import React, { useRef } from 'react';
 const HeroPriceLabel = dynamic(() => import('@/components/HeroPriceLabel.client'), { ssr: false });
 
 function LockIcon() {
@@ -21,6 +23,8 @@ function SmartphoneIcon() {
 }
 
 export default function HeroSection(): JSX.Element {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   return (
     <section
       aria-labelledby="hero-heading"
@@ -41,16 +45,17 @@ export default function HeroSection(): JSX.Element {
 
           <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg mb-0">
             <div className="relative w-full flex justify-center items-center" style={{ minHeight: '17rem', height: '17rem' }}>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video
+                ref={videoRef}
                 className="object-contain w-auto h-full rounded-2xl bg-offwhite mx-auto"
                 poster="/media/products/hero-mockup.webp"
                 src="/media/VideoPromo.webm"
                 playsInline
+                controls
                 autoPlay
-                muted
                 loop
                 preload="none"
-                controls
                 style={{ background: '#e5e7eb', height: '100%', maxHeight: '100%' }}
               >
                 Sorry, your browser does not support embedded videos.
