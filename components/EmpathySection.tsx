@@ -28,16 +28,28 @@ export default function EmpathySection(): JSX.Element {
           {content.empathy.story.slice(1).map((paragraph: string) => {
             let text = paragraph;
             text = text.replace(
-              'De repente, te conviertes en la "enferma" de la mesa.',
-              '<strong>De repente, te conviertes en la "enferma" de la mesa.</strong>'
+              'apretar ese pequeño aparato contra tu dedo cada mañana',
+              '<strong>apretar ese pequeño aparato contra tu dedo cada mañana</strong>'
+            );
+            text = text.replace(
+              'complicaciones silenciosas de la diabetes',
+              '<strong>complicaciones silenciosas de la diabetes</strong>'
+            );
+            text = text.replace(
+              '● El castigo en tu propia mesa:',
+              '<strong>● El castigo en tu propia mesa:</strong>'
+            );
+            text = text.replace(
+              '● La fatiga aplastante:',
+              '<strong>● La fatiga aplastante:</strong>'
+            );
+            text = text.replace(
+              '● El ultimátum médico:',
+              '<strong>● El ultimátum médico:</strong>'
             );
             text = text.replace(
               'pero se equivoca rotundamente en el menú.',
               '<strong>pero se equivoca rotundamente en el menú.</strong>'
-            );
-            text = text.replace(
-              'El Plato Seguro.',
-              '<strong>El Plato Seguro.</strong>'
             );
             return <p key={paragraph} dangerouslySetInnerHTML={{ __html: text }} />;
           })}
