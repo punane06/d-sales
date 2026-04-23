@@ -32,16 +32,16 @@ export default function HeroSection(): JSX.Element {
     >
       <div className="section-container-narrow">
         <div className="section-stack-compact">
-          <p className="text-center text-3xl sm:text-5xl font-extrabold text-charcoal mb-4">{content.hero.attention}</p>
           <h1
             id="hero-heading"
-            className="display-title"
+            className="text-left text-3xl sm:text-5xl font-extrabold text-charcoal mb-4"
           >
-            {content.hero.heading}
+            El fin de las dietas de hospital y el terror a la insulina.
           </h1>
-
-          {/* Descubre lõik ENNE pilti */}
-          <p className="body-copy max-w-prose mb-4">{content.hero.description}</p>
+          <p className="body-copy max-w-prose mb-4 text-left">
+            Descubre el método paso a paso para estabilizar tu glucosa en 30 días comiendo delicioso,<br />
+            abundante y en la misma mesa que toda tu familia.
+          </p>
 
           <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg mb-0">
             <div className="relative w-full flex justify-center items-center" style={{ minHeight: '17rem', height: '17rem' }}>
@@ -64,19 +64,21 @@ export default function HeroSection(): JSX.Element {
           </div>
 
           <p className="body-copy max-w-prose mb-4 text-left">
-            Vuelve a disfrutar de tus comidas favoritas (pizzas, panes y postres)... <strong>sin picos de azúcar, sin pasar hambre y sin cocinar dos veces.</strong>
+            Vuelve a disfrutar de tus comidas favoritas (pizzas, panes y postres)... <strong>sin picos de azúcar,sin pasar hambre y sin cocinar dos veces.</strong>
           </p>
           <div className="pt-2 flex flex-col items-center -mt-16">
             <CtaButton
-              baseLabel={content.hero.ctaLabel}
+              baseLabel="👇 SÍ, CLARA. QUIERO COMER RICO Y SANAR MI CUERPO"
               sectionName={content.analytics.sectionNames.hero}
               className="mb-2"
             />
-            <div className="label-copy mt-2 text-charcoal/75 text-center max-w-prose mx-auto leading-snug text-sm sm:text-base">
-              <span>
-                <span role="img" aria-label="lock">🔒</span> Equivalente a solo ~$17 USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).<br />
-                <span role="img" aria-label="check">✅</span> <strong>Compra 100% segura.</strong> <span role="img" aria-label="smartphone">📱</span> <strong>Fácil de abrir:</strong> Te llega directo a tu celular o correo en 1 minuto.
-              </span>
+            <div className="label-copy mt-2 text-charcoal/75 text-left max-w-prose mx-auto leading-snug text-xs sm:text-sm">
+              <div>🔒 Equivalente a solo ~$17 USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).</div>
+              <div>
+                <span>✅ <strong>Compra 100% segura.</strong></span>
+                <span> &nbsp;|&nbsp; </span>
+                <span>📱 <strong>Fácil de abrir:</strong> Te llega directo a tu celular o correo en 1 minuto.</span>
+              </div>
             </div>
           </div>
         </div>
