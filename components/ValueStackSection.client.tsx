@@ -21,10 +21,6 @@ export default function ValueStackSection(): JSX.Element {
   return (
     <section aria-labelledby="value-stack-heading" className="section-shell bg-sage text-white">
       <div className="section-container section-stack">
-        <h2 id="value-stack-heading" className="section-title">
-          Aquí tienes la llave para tu libertad en la cocina. Esto es todo lo que recibes con acceso inmediato HOY:
-        </h2>
-
         {/* Main Product */}
         <article className="bg-charcoal/30 rounded-2xl overflow-hidden max-w-md mx-auto text-center">
           <div className="relative w-full h-56 bg-white">

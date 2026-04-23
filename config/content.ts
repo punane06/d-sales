@@ -97,7 +97,7 @@ export const content = {
     },
   },
   testimonials: {
-    heading: 'Mira lo que dicen las mujeres que ya escaparon de la "dieta de hospital"...',
+    heading: 'Mira lo que dicen quienes ya escaparon de la "dieta de hospital"...',
     entries: [
       {
         name: 'Marta S.',
@@ -105,7 +105,7 @@ export const content = {
         avatarSrc: '/media/testimonials/Colombia.webp',
         avatarAlt: 'Foto de perfil de Marta, clienta de Colombia',
         quote:
-          'Lloraba de frustración porque sentía que no podía comer nada rico. Desde que preparo las recetas de Clara, ceno pizza o tacos con mi familia sin sentirme la "enferma" de la mesa. Mis niveles en ayunas nunca habían estado tan estables.',
+          'Lloraba de frustración porque sentía que no podía comer nada rico. Desde que preparo las comidas de Clara, ceno pizza o tacos con mi familia y ellos ni se dan cuenta que es saludable. Mis niveles en ayunas nunca habían estado tan estables.',
       },
       {
         name: 'Elena M.',
@@ -113,7 +113,7 @@ export const content = {
         avatarSrc: '/media/testimonials/mexico.webp',
         avatarAlt: 'Foto de perfil de Elena, clienta de México',
         quote:
-          'Le tenía terror a amanecer con la glucosa alta. Mi médico ya me había amenazado con la insulina. Compré este recetario, empecé a cenar como Clara enseña, y mi doctor no podía creer mis últimos exámenes. Las galletas son mi adicción y no me suben el azúcar.',
+          'Mi médico ya me había advertido sobre la insulina. Compré este recetario, empecé a cenar como Clara enseña, y mi doctor no podía creer mis últimos exámenes. Las galletas de nuez son mi adicción y mi azúcar se mantiene intacta.',
       },
       {
         name: 'Rosa V.',
@@ -121,7 +121,7 @@ export const content = {
         avatarSrc: '/media/testimonials/Peru.webp',
         avatarAlt: 'Foto de perfil de Rosa, clienta de Perú',
         quote:
-          'Pensé que nunca en mi vida volvería a comer pan. Con el "Hack de las Masas" aprendí a hacer mis propias tortillas en minutos sin que me suba el azúcar. Me devolvieron la vida. Gracias, Clara.',
+          'Pensé que nunca en mi vida volvería a comer pan. Con el libro "El Hack de las Masas" aprendí a hacer mis propias bases en minutos sin miedo al medidor. Me devolvieron la vida y la alegría de comer. Gracias, Clara.',
       },
       {
         name: 'Carmen R.',
@@ -129,15 +129,15 @@ export const content = {
         avatarSrc: '/media/testimonials/USA.webp',
         avatarAlt: 'Foto de perfil de Carmen, clienta de USA',
         quote:
-          'Soy pésima con la tecnología, pero me llegó directo al correo y lo abrí en mi celular rapidísimo. Ya no tengo que pensar qué hacerme de comer, sigo el plan semanal y listo. Vale cada centavo.',
+          'No me llevo bien con la tecnología y tenía miedo de no saber cómo abrirlo. Pero me llegó directo al correo y lo abrí en mi celular con un solo toque. Ya no tengo que pensar qué hacerme de comer, sigo el plan semanal y listo.',
       },
       {
         name: 'Lucia G.',
-        country: 'Chile',
-        avatarSrc: '/media/testimonials/chile.webp',
-        avatarAlt: 'Foto de perfil de Lucia, clienta de Chile',
+        country: 'España',
+        avatarSrc: '/media/testimonials/espana.webp',
+        avatarAlt: 'Foto de perfil de Lucia, clienta de España',
         quote:
-          'Creí que cocinar para diabéticos era carísimo y requería ingredientes raros. Me encantó que todo lo que pide Clara lo encuentro en el mercadito de la esquina, súper económico y fácil.',
+          'Creí que cocinar para controlar la glucosa era carísimo y requería ingredientes raros. Me encantó que absolutamente todo lo que pide Clara lo encuentro en el mercado de mi barrio o en el súper. Muy económico y real.',
       },
     ],
   },
