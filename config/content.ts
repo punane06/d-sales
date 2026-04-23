@@ -19,15 +19,14 @@ export const content = {
     currentPriceLabel: 'Precio actual',
   },
   hero: {
-    attention:
-      'Atención: Para mujeres agotadas de las dietas de hospital y el miedo a la insulina...',
+    attention: 'El Plato Seguro',
     heading:
-      'El método comprobado para disfrutar tus comidas latinas favoritas, sin picos de azúcar y sin cocinar dos veces.',
+      'El fin de las dietas de hospital y el terror a la insulina.',
     description:
-      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Sin culpa, sin pasar hambre y sin miedo al medidor.',
+      'Descubre el método paso a paso para estabilizar tu glucosa en 30 días comiendo delicioso,\nabundante y en la misma mesa que toda tu familia.',
     imageAlt:
       'Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2',
-    ctaLabel: '¡Sí, Clara! Quiero Comer Rico y Bajar Mi Azúcar Ahora',
+    ctaLabel: '👇 SÍ, CLARA. QUIERO COMER RICO Y SANAR MI CUERPO',
     trustLine: 'Compra 100% segura • Fácil de abrir: Te llega directo a tu celular o correo en 1 minuto.',
   },
   empathy: {
@@ -152,15 +151,15 @@ export const content = {
     badges: [
       {
         label: 'Sello de garantía de 15 días',
-        src: '/media/trust/guarantee-ribbon.svg',
+        src: '/media/logod/GuaranteeLogo.png',
       },
       {
         label: 'Candado de seguridad SSL',
-        src: '/media/trust/ssl-lock.svg',
+        src: '/media/logod/SecureLogo.png',
       },
       {
         label: 'Plataforma de pago Hotmart',
-        src: '/media/trust/hotmart-logo.svg',
+        src: '/media/logod/HotmartLogo.png',
       },
     ],
   },
