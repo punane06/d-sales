@@ -35,6 +35,7 @@ export default function ValueStackSection(): JSX.Element {
               className="object-contain object-center h-full w-auto mx-auto rounded-t-2xl"
               style={{ display: 'block' }}
               priority={false}
+              loading="eager"
             />
           </div>
           <div className="p-6 bg-charcoal/30 rounded-b-2xl text-center">
