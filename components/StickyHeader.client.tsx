@@ -48,7 +48,7 @@ function StickyHeader(): JSX.Element {
             style={{ minWidth: 48, minHeight: 48 }}
           />
           <span className="mx-1 text-xl font-bold text-white select-none">|</span>
-          <span className="font-semibold text-lg sm:text-xl tracking-tight">El Plato Seguro</span>
+          <span className="font-semibold text-2xl sm:text-3xl tracking-tight">El Plato Seguro</span>
         </div>
         {/* Bottom row: Timer with prefix */}
         <div className="flex flex-col items-center justify-center">

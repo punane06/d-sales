@@ -52,9 +52,10 @@ export default function HeroSection(): JSX.Element {
                 poster="/media/products/hero-mockup.webp"
                 src="/media/VideoPromo.webm"
                 playsInline
-                controls
+                muted
                 autoPlay
                 loop
+                controls
                 preload="none"
                 style={{ background: '#e5e7eb', height: '100%', maxHeight: '100%' }}
               >
