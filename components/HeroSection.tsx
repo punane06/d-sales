@@ -28,18 +28,18 @@ export default function HeroSection(): JSX.Element {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="section-shell-tight bg-offwhite pt-4 sm:pt-10"
+      className="section-shell-tight bg-offwhite pt-2 sm:pt-10"
     >
       <div className="section-container-narrow">
         <div className="section-stack-compact">
           <h1
             id="hero-heading"
-            className="text-left text-3xl sm:text-5xl font-extrabold text-charcoal mb-4"
+            className="text-left text-[25px] sm:text-4xl font-extrabold text-charcoal leading-tight"
           >
             El fin de las dietas de hospital y el terror a la insulina.
           </h1>
-          <p className="body-copy max-w-prose mb-4 text-left">
-            Descubre el método paso a paso para estabilizar tu glucosa en 30 días comiendo delicioso,<br />
+          <p className="body-copy max-w-prose mb-2 text-left">
+            Descubre el método paso a paso para estabilizar tu glucosa en 30 días comiendo delicioso,
             abundante y en la misma mesa que toda tu familia.
           </p>
 
@@ -64,9 +64,7 @@ export default function HeroSection(): JSX.Element {
             </div>
           </div>
 
-          <p className="body-copy max-w-prose mb-4 text-left">
-            Vuelve a disfrutar de tus comidas favoritas (pizzas, panes y postres)... <strong>sin picos de azúcar,sin pasar hambre y sin cocinar dos veces.</strong>
-          </p>
+
           <div className="pt-2 flex flex-col items-center -mt-16">
             <CtaButton
               baseLabel="👇 SÍ, CLARA. QUIERO COMER RICO Y SANAR MI CUERPO"
@@ -82,6 +80,9 @@ export default function HeroSection(): JSX.Element {
               </div>
             </div>
           </div>
+          <p className="body-copy max-w-prose pt-2 mb-4 text-left">
+            Vuelve a disfrutar de tus comidas favoritas (pizzas, panes y postres)... <strong>sin picos de azúcar, sin pasar hambre y sin cocinar dos veces.</strong>
+          </p>
         </div>
       </div>
     </section>
