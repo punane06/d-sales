@@ -5,12 +5,11 @@ import { useEffect, useRef } from 'react';
 import { usePrice } from '@/context/PriceContext';
 
 function StickyHeader(): JSX.Element {
-  const { timeLeft, ready } = usePrice();
+  const { ready } = usePrice();
   const headerRef = useRef<HTMLElement | null>(null);
-  const safeTime = Math.max(0, timeLeft);
-  const hours = String(Math.floor(safeTime / 3600)).padStart(2, '0');
-  const minutes = String(Math.floor((safeTime % 3600) / 60)).padStart(2, '0');
-  const seconds = String(safeTime % 60).padStart(2, '0');
+  const hours = '--';
+  const minutes = '--';
+  const seconds = '--';
 
   useEffect(() => {
     const headerElement = headerRef.current;

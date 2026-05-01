@@ -2,34 +2,37 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-// Revert to <img> and remove broken <Image> usage
-// ...existing code...
-import { usePrice } from '@/context/PriceContext';
+import { content } from '@/config/content';
+
+const { durationSeconds } = content.offer;
+
+// Initial server-render values — the plain-JS countdown script (layout.tsx)
+// takes over immediately after the page becomes interactive.
+const initH = String(Math.floor(durationSeconds / 3600)).padStart(2, '0');
+const initM = String(Math.floor((durationSeconds % 3600) / 60)).padStart(2, '0');
+const initS = String(durationSeconds % 60).padStart(2, '0');
 
 function StickyHeader(): JSX.Element {
-  const { timeLeft, ready } = usePrice();
   const headerRef = useRef<HTMLElement | null>(null);
-  const safeTime = Math.max(0, timeLeft);
-  const hours = String(Math.floor(safeTime / 3600)).padStart(2, '0');
-  const minutes = String(Math.floor((safeTime % 3600) / 60)).padStart(2, '0');
-  const seconds = String(safeTime % 60).padStart(2, '0');
 
   useEffect(() => {
-    const headerElement = headerRef.current;
-    if (!headerElement) return;
+    const el = headerRef.current;
+    if (!el) return;
     const updateOffset = (): void => {
-      const headerHeight = headerElement.getBoundingClientRect().height;
-      globalThis.document.documentElement.style.setProperty('--sticky-header-offset', `${headerHeight}px`);
+      globalThis.document.documentElement.style.setProperty(
+        '--sticky-header-offset',
+        `${el.getBoundingClientRect().height}px`,
+      );
     };
     updateOffset();
-    let resizeObserver: ResizeObserver | null = null;
+    let ro: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined') {
-      resizeObserver = new ResizeObserver(() => { updateOffset(); });
-      resizeObserver.observe(headerElement);
+      ro = new ResizeObserver(updateOffset);
+      ro.observe(el);
     }
     globalThis.addEventListener('resize', updateOffset);
     return () => {
-      resizeObserver?.disconnect();
+      ro?.disconnect();
       globalThis.removeEventListener('resize', updateOffset);
     };
   }, []);
@@ -37,7 +40,6 @@ function StickyHeader(): JSX.Element {
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 bg-charcoal text-white shadow-lg">
       <div className="mx-auto max-w-6xl px-4 py-2 flex flex-col gap-1 sm:gap-2">
-        {/* Top row: Clara photo + El Plato Seguro */}
         <div className="flex items-center justify-center gap-2 sm:gap-3">
           <img
             src="/media/clara.png"
@@ -50,7 +52,6 @@ function StickyHeader(): JSX.Element {
           <span className="mx-1 text-xl font-bold text-white select-none">|</span>
           <span className="font-semibold text-2xl sm:text-3xl tracking-tight">El Plato Seguro</span>
         </div>
-        {/* Bottom row: Timer with prefix */}
         <div className="flex flex-col items-center justify-center">
           <span className="flex items-center gap-1 text-base sm:text-lg">
             <span className="mr-0.5">⏳</span>
@@ -62,11 +63,11 @@ function StickyHeader(): JSX.Element {
               aria-live="polite"
               aria-atomic="true"
             >
-              <span className="inline-block w-[2ch] text-center">{ready ? hours : '--'}</span>
+              <span id="t-h" suppressHydrationWarning className="inline-block w-[2ch] text-center">{initH}</span>
               <span className="inline-block w-1.5 text-center">:</span>
-              <span className="inline-block w-[2ch] text-center">{ready ? minutes : '--'}</span>
+              <span id="t-m" suppressHydrationWarning className="inline-block w-[2ch] text-center">{initM}</span>
               <span className="inline-block w-1.5 text-center">:</span>
-              <span className="inline-block w-[2ch] text-center">{ready ? seconds : '--'}</span>
+              <span id="t-s" suppressHydrationWarning className="inline-block w-[2ch] text-center">{initS}</span>
             </span>
           </span>
         </div>

@@ -1,6 +1,7 @@
 
 import type { Metadata } from 'next';
 import { Lora, Lato } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
@@ -98,6 +99,47 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
         <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
+        {/* Countdown timer — plain JS, zero React dependency, immune to hydration/lifecycle issues */}
+        <Script id="countdown-timer" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
+(function(){
+  var KEY=${JSON.stringify(content.offer.storageKey)};
+  var COOKIE=KEY+'-timer';
+  var DUR=${content.offer.durationSeconds};
+  var expiry=0, tid=0;
+
+  function readExpiry(){
+    try{var d=JSON.parse(localStorage.getItem(KEY)||'null');if(d&&typeof d.expiry==='number'&&isFinite(d.expiry))return d.expiry;}catch(e){}
+    try{
+      var pfx=COOKIE+'=',cs=document.cookie.split(';');
+      for(var i=0;i<cs.length;i++){var c=cs[i].trim();if(c.indexOf(pfx)===0){var d2=JSON.parse(decodeURIComponent(c.slice(pfx.length)));if(d2&&typeof d2.expiry==='number'&&isFinite(d2.expiry))return d2.expiry;}}
+    }catch(e){}
+    return 0;
+  }
+
+  function pad(n){return(n<10?'0':'')+n;}
+
+  function tick(){
+    var rem=Math.max(0,Math.floor((expiry-Date.now())/1000));
+    var el;
+    el=document.getElementById('t-h');if(el)el.textContent=pad(Math.floor(rem/3600));
+    el=document.getElementById('t-m');if(el)el.textContent=pad(Math.floor((rem%3600)/60));
+    el=document.getElementById('t-s');if(el)el.textContent=pad(rem%60);
+    el=document.getElementById('t-vs');if(el)el.textContent=pad(Math.floor(rem/60))+':'+pad(rem%60);
+  }
+
+  function start(){
+    var s=readExpiry();
+    if(s>0){expiry=s;}else if(expiry===0){expiry=Date.now()+DUR*1000;}
+    tick();
+    clearInterval(tid);
+    tid=setInterval(tick,1000);
+  }
+
+  start();
+  window.addEventListener('pageshow',start);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')start();});
+})();
+        ` }} />
       </body>
     </html>
   );

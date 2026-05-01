@@ -54,14 +54,17 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
   return (
     <>
       <Script
+        id="fb-pixel"
         src={`https://connect.facebook.net/en_US/fbevents.js`}
         strategy="afterInteractive"
         nonce={nonce}
         onLoad={() => {
           const win = globalThis.window as Window & {
             fbq?: FbqFunction;
+            __fbqInitialized?: boolean;
           };
-          if (win.fbq) {
+          if (win.fbq && !win.__fbqInitialized) {
+            win.__fbqInitialized = true;
             win.fbq('init', pixelId);
             win.fbq('track', 'PageView');
           }

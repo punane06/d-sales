@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
@@ -11,7 +10,6 @@ interface PriceContextValue {
   currentPrice: string;
   currentUrl: string;
   isExpired: boolean;
-  timeLeft: number;
   ready: boolean;
 }
 
@@ -22,23 +20,10 @@ type PriceProviderProps = {
 };
 
 function PriceProvider({ children }: PriceProviderProps): JSX.Element {
-  // Auto-refresh if Hotmart return param is present to sync timer/price state
-  // Refresh if Hotmart marker is present when tab becomes visible again
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (
-        document.visibilityState === 'visible' &&
-        globalThis.window.localStorage.getItem('awaitingHotmartReturn') === 'true'
-      ) {
-        globalThis.window.localStorage.removeItem('awaitingHotmartReturn');
-        globalThis.window.location.reload();
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, []);
-
-  const [timeLeft, isExpired, ready] = useCountdownTimer(
+  // timeLeft is intentionally not exposed through context — components that need
+  // a live countdown read directly from localStorage via their own useEffect so
+  // the display is immune to React scheduler stalls caused by hydration errors.
+  const [, isExpired, ready] = useCountdownTimer(
     content.offer.durationSeconds,
     content.offer.storageKey,
   );
@@ -56,10 +41,9 @@ function PriceProvider({ children }: PriceProviderProps): JSX.Element {
       currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
       currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
       isExpired,
-      timeLeft,
       ready,
     }),
-    [isExpired, timeLeft, ready],
+    [isExpired, ready],
   );
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }

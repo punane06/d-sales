@@ -48,6 +48,7 @@ export default function FinalCtaSection(): JSX.Element {
                   alt={badge.label}
                   width={isLock ? 48 : 72}
                   height={isLock ? 48 : 72}
+                  style={{ width: 'auto' }}
                   className={`object-contain ${isLock ? "h-12" : "h-14"}`}
                 />
               );
@@ -64,6 +65,7 @@ export default function FinalCtaSection(): JSX.Element {
                   alt={badge.label}
                   width={72}
                   height={72}
+                  style={{ width: 'auto' }}
                   className="object-contain h-14"
                 />
               );
