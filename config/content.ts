@@ -144,7 +144,7 @@ export const content = {
   guarantee: {
     heading: '🛡️ Mi Garantía Incondicional Familiar de 15 Días',
     text:
-      'Tu salud no tiene precio y tu paz mental tampoco. Entra a El Plato Seguro hoy mismo.<br />Descarga los libros en tu celular y prepara un par de comidas. Si en 15 días sientes que las recetas no son absolutamente deliciosas, <b>o si tu familia no te pide repetir el plato</b>, mándame un mensaje y te devuelvo el 100% de tu dinero. Sin preguntas. Sin letra pequeña.<br />El riesgo lo asumo yo.',
+      'Tu salud no tiene precio y tu paz mental tampoco. Entra a El Plato Seguro hoy mismo. Descarga los libros en tu celular y prepara un par de comidas. Si en 15 días sientes que las recetas no son absolutamente deliciosas, <b>o si tu familia no te pide repetir el plato</b>, mándame un mensaje y te devuelvo el 100% de tu dinero. Sin preguntas. Sin letra pequeña. El riesgo lo asumo yo.',
     trustHeading: '⏳ Tu descuento del 80% desaparece pronto...',
     trustText:
       'Recuerda, esta oferta especial de $16.97 solo está disponible mientras el temporizador esté corriendo. Cuando llegue a cero, el precio subirá a $27.97 automáticamente. No dejes pasar esta oportunidad de sanar comiendo rico.',

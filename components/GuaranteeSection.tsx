@@ -30,16 +30,14 @@ export default function GuaranteeSection(): JSX.Element {
             <div className="mt-6">
               <div className="flex flex-col items-center">
                 <CtaButton
-                  baseLabel={"👇 SÍ, CLARA. QUIERO TODO ESTO AHORA MISMO"}
+                  baseLabel={"👇 SÍ, CLARA. QUIERO MI PAQUETE COMPLETO"}
                   sectionName="guarantee"
                 />
                 <span className="label-copy mt-3 text-xs text-charcoal/70 text-left block">
-                  🔒 Equivalente a solo ~$17 USD. Al hacer clic, verás el precio exacto adaptado<br />
-                  mágicamente a la moneda de tu país, sin cobros sorpresa).
+                  🔒 Equivalente a solo ~$17 USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).
                 </span>
                 <span className="label-copy mt-1 text-xs text-charcoal/70 text-left block">
-                  <b>📱 Cero complicaciones técnicas:</b> No necesitas descargar aplicaciones pesadas ni gastar<br />
-                  la memoria de tu teléfono. Lo lees directo en tu pantalla al instante.
+                  <b>📱 Cero complicaciones técnicas:</b> No necesitas descargar aplicaciones pesadas ni gastar la memoria de tu teléfono. Lo lees directo en tu pantalla al instante.
                 </span>
               </div>
             </div>
