@@ -1,7 +1,6 @@
 
 import type { Metadata } from 'next';
 import { Lora, Lato } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import { content } from '@/config/content';
 import { PriceProvider } from '@/context/PriceContext';
@@ -99,13 +98,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
         <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
-        {/* Countdown timer — plain JS, zero React dependency, immune to hydration/lifecycle issues */}
-        <Script id="countdown-timer" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
+        {/* Raw <script> — NOT the Next.js Script component — so it is embedded directly in
+            the static HTML output (no RSC payload indirection). Runs as soon as the browser
+            parses it (end of body → DOM already ready). Writes expiry to storage immediately
+            on first visit so the timer persists if the user navigates away before React
+            hydrates and PriceContext has a chance to write. */}
+        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+        <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: `
 (function(){
   var KEY=${JSON.stringify(content.offer.storageKey)};
   var COOKIE=KEY+'-timer';
   var DUR=${content.offer.durationSeconds};
-  var expiry=0, tid=0;
+  var expiry=0,tid=0;
 
   function readExpiry(){
     try{var d=JSON.parse(localStorage.getItem(KEY)||'null');if(d&&typeof d.expiry==='number'&&isFinite(d.expiry))return d.expiry;}catch(e){}
@@ -114,6 +118,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
       for(var i=0;i<cs.length;i++){var c=cs[i].trim();if(c.indexOf(pfx)===0){var d2=JSON.parse(decodeURIComponent(c.slice(pfx.length)));if(d2&&typeof d2.expiry==='number'&&isFinite(d2.expiry))return d2.expiry;}}
     }catch(e){}
     return 0;
+  }
+
+  function writeExpiry(exp){
+    var p=JSON.stringify({expiry:exp,cycleStart:exp-DUR*1000});
+    try{localStorage.setItem(KEY,p);}catch(e){}
+    try{
+      var sec=location.protocol==='https:'?'; secure':'';
+      document.cookie=COOKIE+'='+encodeURIComponent(p)+'; path=/; max-age=31536000; samesite=lax'+sec;
+    }catch(e){}
   }
 
   function pad(n){return(n<10?'0':'')+n;}
@@ -129,13 +142,21 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   function start(){
     var s=readExpiry();
-    if(s>0){expiry=s;}else if(expiry===0){expiry=Date.now()+DUR*1000;}
+    if(s>0){expiry=s;}
+    else if(expiry===0){
+      expiry=Date.now()+DUR*1000;
+      writeExpiry(expiry);
+    }
     tick();
     clearInterval(tid);
     tid=setInterval(tick,1000);
   }
 
-  start();
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start);
+  }else{
+    start();
+  }
   window.addEventListener('pageshow',start);
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')start();});
 })();
