@@ -83,7 +83,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
 
-
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
       <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
@@ -109,6 +108,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
   var KEY=${JSON.stringify(content.offer.storageKey)};
   var COOKIE=KEY+'-timer';
   var DUR=${content.offer.durationSeconds};
+  var SALE_URL=${JSON.stringify(content.offer.saleUrl)};
+  var EXPIRED_URL=${JSON.stringify(content.offer.expiredUrl)};
   var expiry=0,tid=0;
 
   function readExpiry(){
@@ -129,10 +130,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
     }catch(e){}
   }
 
+  function updateCtaHrefs(expired){
+    var url=expired?EXPIRED_URL:SALE_URL;
+    var links=document.querySelectorAll('a.cta-shell');
+    for(var i=0;i<links.length;i++){links[i].href=url;}
+  }
+
   function pad(n){return(n<10?'0':'')+n;}
 
   function tick(){
     var rem=Math.max(0,Math.floor((expiry-Date.now())/1000));
+    if(rem===0&&expiry>0){updateCtaHrefs(true);}
     var el;
     el=document.getElementById('t-h');if(el)el.textContent=pad(Math.floor(rem/3600));
     el=document.getElementById('t-m');if(el)el.textContent=pad(Math.floor((rem%3600)/60));
@@ -147,6 +155,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       expiry=Date.now()+DUR*1000;
       writeExpiry(expiry);
     }
+    updateCtaHrefs(expiry>0&&expiry<=Date.now());
     tick();
     clearInterval(tid);
     tid=setInterval(tick,1000);

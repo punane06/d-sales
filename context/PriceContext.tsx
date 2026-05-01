@@ -16,9 +16,10 @@ const PriceContext = createContext<PriceContextValue | null>(null);
 
 type PriceProviderProps = {
   readonly children: React.ReactNode;
+  readonly initialIsExpired?: boolean;
 };
 
-const { durationSeconds, storageKey } = content.offer;
+const { storageKey } = content.offer;
 const COOKIE_SUFFIX = '-timer';
 
 function readStoredExpiry(): number {
@@ -46,21 +47,8 @@ function readStoredExpiry(): number {
   return 0;
 }
 
-function persistExpiry(expiry: number): void {
-  // Same {expiry, cycleStart} shape that the plain-JS countdown script reads
-  const payload = JSON.stringify({ expiry, cycleStart: expiry - durationSeconds * 1000 });
-  try { globalThis.window?.localStorage?.setItem(storageKey, payload); } catch { /* noop */ }
-  try {
-    const name = storageKey + COOKIE_SUFFIX;
-    const secure = globalThis.location?.protocol === 'https:' ? '; secure' : '';
-    if (globalThis.document) {
-      globalThis.document.cookie = `${name}=${encodeURIComponent(payload)}; path=/; max-age=31536000; samesite=lax${secure}`;
-    }
-  } catch { /* noop */ }
-}
-
-function PriceProvider({ children }: PriceProviderProps): JSX.Element {
-  const [isExpired, setIsExpired] = useState(false);
+function PriceProvider({ children, initialIsExpired = false }: PriceProviderProps): JSX.Element {
+  const [isExpired, setIsExpired] = useState(initialIsExpired);
   const [ready, setReady] = useState(false);
   const didTrackExpiry = useRef(false);
 
@@ -72,40 +60,55 @@ function PriceProvider({ children }: PriceProviderProps): JSX.Element {
   }, [isExpired]);
 
   useEffect(() => {
-    // Runs once on mount (and on pageshow bfcache restore).
-    // Uses setTimeout — NOT setInterval — so PriceProvider never re-renders per-second.
-    function checkAndSchedule(): ReturnType<typeof setTimeout> | null {
-      const now = Date.now();
-      let expiry = readStoredExpiry();
+    // Reads stored expiry from localStorage/cookie and syncs React state.
+    // Does NOT write to storage — the plain-JS countdown script (layout.tsx)
+    // is the sole authority on creating and persisting the initial expiry.
+    // Calling persistExpiry here would reset a past expiry to a future one if
+    // storage reads ever return 0 (e.g. timing quirks on certain navigations).
+    function syncFromStorage(): ReturnType<typeof setTimeout> | null {
+      const expiry = readStoredExpiry();
 
       if (expiry <= 0) {
-        expiry = now + durationSeconds * 1000;
-        persistExpiry(expiry);
+        // No stored data yet (script hasn't written it, or storage unavailable).
+        // Mark ready with the default non-expired state and wait.
+        setReady(true);
+        return null;
       }
 
-      if (expiry <= now) {
+      if (expiry <= Date.now()) {
         setIsExpired(true);
         setReady(true);
         return null;
       }
 
       setReady(true);
-      return setTimeout(() => setIsExpired(true), expiry - now);
+      return setTimeout(() => setIsExpired(true), expiry - Date.now());
     }
 
-    let tid = checkAndSchedule();
+    let tid = syncFromStorage();
 
-    const handlePageShow = (e: PageTransitionEvent): void => {
-      if (e.persisted) {
+    // Re-sync on every pageshow (covers both BFCache restores and fresh loads
+    // triggered by pressing Back from an external site like Hotmart).
+    const handlePageShow = (): void => {
+      if (tid !== null) clearTimeout(tid);
+      tid = syncFromStorage();
+    };
+
+    // Re-sync when the tab becomes visible again (e.g. user opened Hotmart in
+    // a new tab and switched back — pageshow does not fire in this case).
+    const handleVisibilityChange = (): void => {
+      if (globalThis.document?.visibilityState === 'visible') {
         if (tid !== null) clearTimeout(tid);
-        tid = checkAndSchedule();
+        tid = syncFromStorage();
       }
     };
 
-    window.addEventListener('pageshow', handlePageShow);
+    globalThis.window?.addEventListener('pageshow', handlePageShow);
+    globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
     return () => {
       if (tid !== null) clearTimeout(tid);
-      window.removeEventListener('pageshow', handlePageShow);
+      globalThis.window?.removeEventListener('pageshow', handlePageShow);
+      globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -131,4 +134,14 @@ export function usePrice(): PriceContextValue {
   }
 
   return contextValue;
+}
+
+// Reads the stored expiry fresh from storage and returns the correct URL.
+// Call this inside click handlers and on mount — never rely on React state
+// alone, since the setTimeout in PriceProvider can lag behind the plain-JS
+// countdown when the page is restored from BFCache or after tab-switching.
+export function resolveCurrentUrl(): string {
+  const expiry = readStoredExpiry();
+  const expired = expiry > 0 && expiry <= Date.now();
+  return expired ? content.offer.expiredUrl : content.offer.saleUrl;
 }
