@@ -3,12 +3,9 @@
 
 import Image from 'next/image';
 import { content } from '@/config/content';
-import { usePrice } from '@/context/PriceContext';
 import CtaButton from '@/components/CtaButton';
 
 export default function ValueStackSection(): JSX.Element {
-  const { currentPrice, isExpired, ready } = usePrice();
-
   return (
     <section aria-labelledby="value-stack-heading" className="section-shell bg-sage text-white">
       <div className="section-container section-stack">
@@ -28,7 +25,7 @@ export default function ValueStackSection(): JSX.Element {
           <div className="p-6 bg-charcoal/30 rounded-b-2xl text-center">
             <h3 className="subsection-title">📘 EL PROGRAMA CENTRAL: GLUCOSA PLANA</h3>
             <p className="body-copy mt-4 text-left">
-              Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días. Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria. <b>Nunca más tendrás que cocinar dos comidas separadas para tu familia y para ti.</b>
+              Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días. Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria. Nunca más tendrás que cocinar dos comidas separadas para tu familia y para ti.
             </p>
             <p className="body-copy mt-4 flex items-center gap-1">
               <span className="font-semibold">Valor Normal: <span className="line-through medium-strike">$29.95</span></span>
@@ -136,31 +133,7 @@ export default function ValueStackSection(): JSX.Element {
 
         {/* Offer Card */}
         <article className="surface-card mx-auto max-w-2xl border-2 border-terracotta/30 text-charcoal shadow-lg text-center">
-          <p className="body-copy text-softred line-through">
-            Valor Total Real de todo el paquete: $87.75 USD
-          </p>
-          <p className="body-copy mt-3 font-semibold">
-            {isExpired ? (
-              <>Llévate TODO con un 68% OFF</>
-            ) : (
-              <>
-                Llévate TODO hoy con un 80% de descuento aplicado (Solo por los próximos{' '}
-                {/* id="t-vs" is updated by the plain-JS countdown script in layout.tsx */}
-                <span suppressHydrationWarning id="t-vs">--:--</span>):
-              </>
-            )}
-          </p>
-          <p className="price-display mt-5">
-            <span className="bg-yellow-300 text-charcoal px-4 py-1 rounded font-bold whitespace-nowrap">{ready ? currentPrice : '--'}</span>
-          </p>
-          {!isExpired && (
-            <div className="notice-card mt-8">
-              <p className="body-copy font-medium text-charcoal">
-                ⚠️ Atención: Al expirar el contador, el precio subirá automáticamente a $27.97 USD.
-              </p>
-            </div>
-          )}
-          <div className="mt-6">
+          <div className="mt-2">
             <div className="flex flex-col items-center">
               <CtaButton
                 baseLabel={'👇 SÍ, CLARA. QUIERO TODO ESTO AHORA MISMO'}
