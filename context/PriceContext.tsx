@@ -1,9 +1,8 @@
 
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { content } from '@/config/content';
-import { useCountdownTimer } from '@/hooks/useCountdownTimer';
 import { trackEvent } from '@/utils/analytics';
 
 interface PriceContextValue {
@@ -19,14 +18,50 @@ type PriceProviderProps = {
   readonly children: React.ReactNode;
 };
 
+const { durationSeconds, storageKey } = content.offer;
+const COOKIE_SUFFIX = '-timer';
+
+function readStoredExpiry(): number {
+  try {
+    const raw = globalThis.window?.localStorage?.getItem(storageKey);
+    if (raw) {
+      const d = JSON.parse(raw) as Record<string, unknown>;
+      const exp = d?.expiry;
+      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+    }
+  } catch { /* noop */ }
+  try {
+    const name = storageKey + COOKIE_SUFFIX;
+    const prefix = name + '=';
+    const c = globalThis.document?.cookie
+      .split(';')
+      .map((s) => s.trim())
+      .find((s) => s.startsWith(prefix));
+    if (c) {
+      const d = JSON.parse(decodeURIComponent(c.slice(prefix.length))) as Record<string, unknown>;
+      const exp = d?.expiry;
+      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+    }
+  } catch { /* noop */ }
+  return 0;
+}
+
+function persistExpiry(expiry: number): void {
+  // Same {expiry, cycleStart} shape that the plain-JS countdown script reads
+  const payload = JSON.stringify({ expiry, cycleStart: expiry - durationSeconds * 1000 });
+  try { globalThis.window?.localStorage?.setItem(storageKey, payload); } catch { /* noop */ }
+  try {
+    const name = storageKey + COOKIE_SUFFIX;
+    const secure = globalThis.location?.protocol === 'https:' ? '; secure' : '';
+    if (globalThis.document) {
+      globalThis.document.cookie = `${name}=${encodeURIComponent(payload)}; path=/; max-age=31536000; samesite=lax${secure}`;
+    }
+  } catch { /* noop */ }
+}
+
 function PriceProvider({ children }: PriceProviderProps): JSX.Element {
-  // timeLeft is intentionally not exposed through context — components that need
-  // a live countdown read directly from localStorage via their own useEffect so
-  // the display is immune to React scheduler stalls caused by hydration errors.
-  const [, isExpired, ready] = useCountdownTimer(
-    content.offer.durationSeconds,
-    content.offer.storageKey,
-  );
+  const [isExpired, setIsExpired] = useState(false);
+  const [ready, setReady] = useState(false);
   const didTrackExpiry = useRef(false);
 
   useEffect(() => {
@@ -35,6 +70,44 @@ function PriceProvider({ children }: PriceProviderProps): JSX.Element {
       didTrackExpiry.current = true;
     }
   }, [isExpired]);
+
+  useEffect(() => {
+    // Runs once on mount (and on pageshow bfcache restore).
+    // Uses setTimeout — NOT setInterval — so PriceProvider never re-renders per-second.
+    function checkAndSchedule(): ReturnType<typeof setTimeout> | null {
+      const now = Date.now();
+      let expiry = readStoredExpiry();
+
+      if (expiry <= 0) {
+        expiry = now + durationSeconds * 1000;
+        persistExpiry(expiry);
+      }
+
+      if (expiry <= now) {
+        setIsExpired(true);
+        setReady(true);
+        return null;
+      }
+
+      setReady(true);
+      return setTimeout(() => setIsExpired(true), expiry - now);
+    }
+
+    let tid = checkAndSchedule();
+
+    const handlePageShow = (e: PageTransitionEvent): void => {
+      if (e.persisted) {
+        if (tid !== null) clearTimeout(tid);
+        tid = checkAndSchedule();
+      }
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+    return () => {
+      if (tid !== null) clearTimeout(tid);
+      window.removeEventListener('pageshow', handlePageShow);
+    };
+  }, []);
 
   const value = useMemo<PriceContextValue>(
     () => ({
