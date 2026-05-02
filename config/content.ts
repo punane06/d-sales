@@ -161,6 +161,30 @@ export const content = {
         label: 'Plataforma de pago Hotmart',
         src: '/media/logod/HotmartLogo.png',
       },
+      {
+        label: 'Visa y Mastercard',
+        src: '/media/logod/Visa-MasterCardLogo.png',
+      },
+      {
+        label: 'PayPal',
+        src: '/media/logod/PaypalLogo.png',
+      },
+      {
+        label: 'OXXO',
+        src: '/media/logod/OxxoLogo.png',
+      },
+      {
+        label: 'Efecty',
+        src: '/media/logod/EffectyLogo.png',
+      },
+      {
+        label: 'Baloto',
+        src: '/media/logod/BolatoLogo.png',
+      },
+      {
+        label: 'Sencillito',
+        src: '/media/logod/SencillitoLogo.png',
+      },
     ],
   },
   faq: {
