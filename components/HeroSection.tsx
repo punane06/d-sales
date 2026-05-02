@@ -24,6 +24,14 @@ function SmartphoneIcon() {
 
 export default function HeroSection(): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   return (
     <section
@@ -43,6 +51,7 @@ export default function HeroSection(): JSX.Element {
             abundante y en la misma mesa que toda tu familia.
           </p>
 
+
           <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg mb-0">
             <div className="relative w-full flex justify-center items-center" style={{ minHeight: '17rem', height: '17rem' }}>
               {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
@@ -52,15 +61,30 @@ export default function HeroSection(): JSX.Element {
                 poster="/media/products/hero-mockup.webp"
                 src="/media/VideoPromo.webm"
                 playsInline
-                muted
-                autoPlay
+                muted={!isPlaying}
                 loop
-                controls
+                controls={isPlaying}
                 preload="none"
                 style={{ background: '#e5e7eb', height: '100%', maxHeight: '100%' }}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
               >
                 Sorry, your browser does not support embedded videos.
               </video>
+              {!isPlaying && (
+                <button
+                  onClick={handlePlay}
+                  aria-label="Reproducir video"
+                  className="absolute inset-0 flex items-center justify-center w-full h-full bg-black/40 hover:bg-black/60 transition rounded-2xl focus:outline-none z-10"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className="sr-only">Reproducir video</span>
+                  <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="45" cy="45" r="45" fill="#fff" fillOpacity="0.85"/>
+                    <polygon points="36,28 68,45 36,62" fill="#1a202c"/>
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
 
