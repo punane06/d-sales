@@ -164,48 +164,49 @@ export const content = {
     ],
   },
   faq: {
-    heading: 'Preguntas Frecuentes',
+    heading: '¿Tienes dudas? Aquí te las resuelvo:',
     items: [
       {
-        question: '¿Este recetario sirve si tengo Diabetes Tipo 2 o Resistencia a la Insulina?',
+        question: '¿Este programa sirve si tengo Diabetes Tipo 2 o Prediabetes?',
         answer:
-          'Absolutamente. Todo el sistema usa ingredientes probados de bajo índice glucémico, ideales para estabilizar la insulina, aplanar tus curvas de glucosa y ayudarte a controlar la Diabetes Tipo 2 de forma natural.',
+          'Absolutamente. Todo el método de "Glucosa Plana" fue diseñado específicamente para "engañar" a la insulina y aplanar tu curva de azúcar, permitiéndote comer de forma abundante sin alterar tus niveles.',
       },
       {
         question: '¿Mi familia puede comer esto también o es solo para mí?',
         answer:
-          'Esa es la mejor parte. El propósito de El Plato Seguro es que dejes de cocinar dos veces. Las recetas son tan deliciosas que tu esposo e hijos comerán sano sin darse cuenta de que es un menú para el control del azúcar.',
+          '¡Es para todos! Esa es la magia de El Plato Seguro. Las recetas son tan ricas (pizzas, postres, carnes) que tu familia te pedirá que las prepares siempre. Se acabó el castigo de cocinar dos comidas diferentes.',
       },
       {
         question: '¿Los ingredientes son caros o difíciles de conseguir?',
         answer:
-          'No. Sé que la economía familiar es importante. Todas las recetas utilizan ingredientes accesibles que encuentras en cualquier supermercado o mercadito local en tu país.',
+          'Para nada. Mi regla de oro es cocinar con comida real, económica y accesible. Todo lo que necesitas lo vas a encontrar en el mercado de tu barrio o en tu supermercado de confianza.',
       },
       {
-        question: '¿Necesito ser una experta en la cocina?',
+        question: '¿Se necesita experiencia en la cocina?',
         answer:
-          'Para nada. Las instrucciones son simples, rápidas y directas al grano. Muchas recetas, como los batidos o los panes rápidos, están listas en menos de 5 a 10 minutos.',
+          'No. Las recetas están explicadas paso a paso, de forma tan sencilla que cualquier persona, incluso si nunca ha cocinado, puede lograr platillos deliciosos en minutos.',
       },
       {
-        question: '¿Y si nunca he comprado un recurso digital?',
+        question: '¿Y si nunca he comprado un recurso digital? ¿Es difícil de abrir?',
         answer:
-          'No te preocupes, está pensado para ti. Solo debes hacer clic en el botón de comprar, completar tus datos y recibirás tus libritos en formato PDF para descargar y leer en tu celular, tablet o computadora de inmediato. Es súper fácil y rápido.',
+          'Es tan fácil como abrir un mensaje de texto. Inmediatamente después de tu compra segura, recibirás un correo con un botón. Lo tocas y los libros se abrirán en la pantalla de tu celular, tablet o computadora. ¡Cero dolores de cabeza tecnológicos!',
       },
       {
         question: '¿Es un pago mensual?',
         answer:
-          'No, es un pago único. No hay cobros ocultos ni suscripciones. Una vez que lo adquieres, todo el material es tuyo de por vida.',
-      },
-      {
-        question: '¿Cómo funciona la garantía? ¿Es difícil pedir la devolución de mi dinero si no me gusta?',
-        answer: 'Es súper fácil, automático y 100% seguro. Como tu pago se procesa a través de Hotmart (la plataforma de productos digitales más grande y segura de Latinoamérica), tu dinero está protegido por ellos. Si dentro de tus primeros 15 días decides que el material no es para ti, solo tienes que hacer un par de clics en el correo que recibiste o enviarnos un mensaje, y el sistema de Hotmart te devolverá el 100% de tu dinero a tu tarjeta. Sin tener que dar explicaciones, sin preguntas incómodas y sin llamar a nadie. Tu paz mental es mi prioridad.'
+          'No, es un pago único. Pagas una sola vez en tu moneda local y tienes acceso a todos los libros y bonos para toda la vida.',
       },
     ],
   },
   finalCta: {
-    heading: '✨ Tu salud no tiene precio... pero hoy puedes empezar a sanar con un delicioso postre saludable.',
-    paragraph:
-      'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones.\nLa decisión es tuya. ❤️',
+    heading: '✨ La diabetes no espera, pero tu sanación puede empezar en tu próxima cena.',
+    paragraphs: [
+      'Cada día que pasas con picos de glucosa y ansiedad, tu cuerpo sufre un desgaste silencioso. No dejes para mañana la salud, la tranquilidad y la energía que puedes recuperar hoy mismo.',
+      'Llegamos al final del camino y tienes dos opciones:',
+      'Puedes cerrar esta página, seguir viviendo con el terror al glucómetro y esperando con angustia los resultados de tus próximos exámenes...',
+      { text: 'O puedes tomar acción HOY', bold: true, rest: '. Puedes entrar a nuestro santuario, recuperar el placer de comer, sentarte a la mesa con tu familia esta misma noche y disfrutar sabiendo que tu cuerpo está sanando en cada bocado.' },
+      'No tienes que elegir entre el sabor y tu salud. Puedes tener ambos. La decisión es tuya. ❤️',
+    ],
     signature1: "Con cariño,",
     signature2: "Clara y el equipo de 'El Plato Seguro'",
     ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97)',
