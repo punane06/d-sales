@@ -4,7 +4,7 @@ import CtaButton from "@/components/CtaButton";
 import { usePrice } from "@/context/PriceContext";
 
 export default function FinalCtaSection(): JSX.Element {
-  const { ready } = usePrice();
+  const { ready, isExpired } = usePrice();
 
   const renderParagraph = (item: any) => {
     if (typeof item === 'string') {
@@ -51,7 +51,7 @@ export default function FinalCtaSection(): JSX.Element {
             sectionName={content.analytics.sectionNames.finalCta}
           />
         </div>
-        <div className="abel-copy mt-3 text-xs text-charcoal/70 text-left block">🔒 Equivalente a solo ~$17 USD. Al hacer clic, verás el precio exacto adaptado
+        <div className="abel-copy mt-3 text-xs text-charcoal/70 text-left block">🔒 Equivalente a solo {isExpired ? <>$29.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Al hacer clic, verás el precio exacto adaptado
           mágicamente a la moneda de tu país, sin cobros sorpresa</div>
         <div className="mt-8 space-y-6">
           {/* Row 1: Guarantee, SSL, Hotmart */}

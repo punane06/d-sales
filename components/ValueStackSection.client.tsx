@@ -4,8 +4,10 @@
 import Image from 'next/image';
 import { content } from '@/config/content';
 import CtaButton from '@/components/CtaButton';
+import { usePrice } from '@/context/PriceContext';
 
 export default function ValueStackSection(): JSX.Element {
+  const { isExpired } = usePrice();
   return (
     <section aria-labelledby="value-stack-heading" className="section-shell bg-sage text-white">
       <div className="section-container section-stack">
@@ -140,7 +142,7 @@ export default function ValueStackSection(): JSX.Element {
                 sectionName={content.analytics.sectionNames.valueStack}
               />
               <span className="label-copy mt-3 text-xs text-charcoal/70 text-center">
-                🔒 Equivalente a solo ~$17 USD. Cero complicaciones técnicas. Lo abres en tu celular al instante.
+                🔒 Equivalente a solo {isExpired ? <>$29.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Cero complicaciones técnicas. Lo abres en tu celular al instante.
               </span>
             </div>
           </div>
