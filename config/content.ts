@@ -134,7 +134,7 @@ export const content = {
       {
         name: 'Lucia G.',
         country: 'España',
-        avatarSrc: '/media/testimonials/espana.webp',
+        avatarSrc: '/media/testimonials/Espana.webp',
         avatarAlt: 'Foto de perfil de Lucia, clienta de España',
         quote:
           'Creí que cocinar para controlar la glucosa era carísimo y requería ingredientes raros. Me encantó que absolutamente todo lo que pide Clara lo encuentro en el mercado de mi barrio o en el súper. Muy económico y real.',
