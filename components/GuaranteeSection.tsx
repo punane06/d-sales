@@ -34,7 +34,7 @@ export default function GuaranteeSection(): JSX.Element {
                   sectionName="guarantee"
                 />
                 <span className="label-copy mt-3 text-xs text-charcoal/70 text-left block">
-                  🔒 Equivalente a solo {isExpired ? <>$29.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).
+                  🔒 Equivalente a solo {isExpired ? <>$27.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).
                 </span>
                 <span className="label-copy mt-1 text-xs text-charcoal/70 text-left block">
                   <b>📱 Cero complicaciones técnicas:</b> No necesitas descargar aplicaciones pesadas ni gastar la memoria de tu teléfono. Lo lees directo en tu pantalla al instante.

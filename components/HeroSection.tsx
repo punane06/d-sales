@@ -98,7 +98,7 @@ export default function HeroSection(): JSX.Element {
               className="mb-2"
             />
             <div className="label-copy mt-2 text-charcoal/75 text-left max-w-prose mx-auto leading-snug text-xs sm:text-sm">
-              <div>🔒 Equivalente a solo {isExpired ? <>$29.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).</div>
+              <div>🔒 Equivalente a solo {isExpired ? <>$27.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Al hacer clic, verás el precio exacto adaptado mágicamente a la moneda de tu país, sin cobros sorpresa).</div>
               <div>
                 <span>✅ <strong>Compra 100% segura.</strong></span>
                 <span> &nbsp;|&nbsp; </span>

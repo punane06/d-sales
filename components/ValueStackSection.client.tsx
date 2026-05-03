@@ -30,7 +30,7 @@ export default function ValueStackSection(): JSX.Element {
               Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días. Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria. Nunca más tendrás que cocinar dos comidas separadas para tu familia y para ti.
             </p>
             <p className="body-copy mt-4 flex items-center gap-1">
-              <span className="font-semibold">Valor Normal: <span className="line-through medium-strike">$29.95</span></span>
+              <span className="font-semibold">Valor Normal: <span className="line-through medium-strike">$27.95</span></span>
               <span className="tag-pill text-xs px-2 py-0.5">¡HOY INCLUIDO!</span>
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function ValueStackSection(): JSX.Element {
                 sectionName={content.analytics.sectionNames.valueStack}
               />
               <span className="label-copy mt-3 text-xs text-charcoal/70 text-center">
-                🔒 Equivalente a solo {isExpired ? <>$29.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Cero complicaciones técnicas. Lo abres en tu celular al instante.
+                🔒 Equivalente a solo {isExpired ? <>$27.<sup>97</sup></> : <>$16.<sup>97</sup></>} USD. Cero complicaciones técnicas. Lo abres en tu celular al instante.
               </span>
             </div>
           </div>

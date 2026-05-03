@@ -8,7 +8,7 @@ export const content = {
     durationSeconds: 1800,
     storageKey: 'elplatoseguro-timer-expiry-v3',
     salePrice: '$16.97 USD',
-    expiredPrice: '$29.97 USD',
+    expiredPrice: '$27.97 USD',
     totalValue: '$87.75',
     saleUrl: 'https://pay.hotmart.com/Q105210520I?off=7md7qkuo',
     expiredUrl: 'https://pay.hotmart.com/Q105210520I?off=f6rm4qp2',
@@ -52,7 +52,7 @@ export const content = {
       imageSrc: '/media/products/section3.webp',
       imageAlt: 'Portada del programa central Glucosa Plana',
       description: 'Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días. Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria, para que <b>nunca más tengas que cocinar dos comidas separadas para tu familia y para ti.</b>',
-      value: '$29.95',
+      value: '$27.95',
       includedLabel: '¡HOY INCLUIDO!',
     },
     bonuses: [
