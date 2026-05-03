@@ -1,17 +1,14 @@
 
-
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { content } from '@/config/content';
-import { useCountdownTimer } from '@/hooks/useCountdownTimer';
 import { trackEvent } from '@/utils/analytics';
 
 interface PriceContextValue {
   currentPrice: string;
   currentUrl: string;
   isExpired: boolean;
-  timeLeft: number;
   ready: boolean;
 }
 
@@ -19,29 +16,40 @@ const PriceContext = createContext<PriceContextValue | null>(null);
 
 type PriceProviderProps = {
   readonly children: React.ReactNode;
+  readonly initialIsExpired?: boolean;
 };
 
-function PriceProvider({ children }: PriceProviderProps): JSX.Element {
-  // Auto-refresh if Hotmart return param is present to sync timer/price state
-  // Refresh if Hotmart marker is present when tab becomes visible again
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (
-        document.visibilityState === 'visible' &&
-        globalThis.window.localStorage.getItem('awaitingHotmartReturn') === 'true'
-      ) {
-        globalThis.window.localStorage.removeItem('awaitingHotmartReturn');
-        globalThis.window.location.reload();
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, []);
+const { storageKey } = content.offer;
+const COOKIE_SUFFIX = '-timer';
 
-  const [timeLeft, isExpired, ready] = useCountdownTimer(
-    content.offer.durationSeconds,
-    content.offer.storageKey,
-  );
+function readStoredExpiry(): number {
+  try {
+    const raw = globalThis.window?.localStorage?.getItem(storageKey);
+    if (raw) {
+      const d = JSON.parse(raw) as Record<string, unknown>;
+      const exp = d?.expiry;
+      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+    }
+  } catch { /* noop */ }
+  try {
+    const name = storageKey + COOKIE_SUFFIX;
+    const prefix = name + '=';
+    const c = globalThis.document?.cookie
+      .split(';')
+      .map((s) => s.trim())
+      .find((s) => s.startsWith(prefix));
+    if (c) {
+      const d = JSON.parse(decodeURIComponent(c.slice(prefix.length))) as Record<string, unknown>;
+      const exp = d?.expiry;
+      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+    }
+  } catch { /* noop */ }
+  return 0;
+}
+
+function PriceProvider({ children, initialIsExpired = false }: PriceProviderProps): JSX.Element {
+  const [isExpired, setIsExpired] = useState(initialIsExpired);
+  const [ready, setReady] = useState(false);
   const didTrackExpiry = useRef(false);
 
   useEffect(() => {
@@ -51,15 +59,67 @@ function PriceProvider({ children }: PriceProviderProps): JSX.Element {
     }
   }, [isExpired]);
 
+  useEffect(() => {
+    // Reads stored expiry from localStorage/cookie and syncs React state.
+    // Does NOT write to storage — the plain-JS countdown script (layout.tsx)
+    // is the sole authority on creating and persisting the initial expiry.
+    // Calling persistExpiry here would reset a past expiry to a future one if
+    // storage reads ever return 0 (e.g. timing quirks on certain navigations).
+    function syncFromStorage(): ReturnType<typeof setTimeout> | null {
+      const expiry = readStoredExpiry();
+
+      if (expiry <= 0) {
+        // No stored data yet (script hasn't written it, or storage unavailable).
+        // Mark ready with the default non-expired state and wait.
+        setReady(true);
+        return null;
+      }
+
+      if (expiry <= Date.now()) {
+        setIsExpired(true);
+        setReady(true);
+        return null;
+      }
+
+      setReady(true);
+      return setTimeout(() => setIsExpired(true), expiry - Date.now());
+    }
+
+    let tid = syncFromStorage();
+
+    // Re-sync on every pageshow (covers both BFCache restores and fresh loads
+    // triggered by pressing Back from an external site like Hotmart).
+    const handlePageShow = (): void => {
+      if (tid !== null) clearTimeout(tid);
+      tid = syncFromStorage();
+    };
+
+    // Re-sync when the tab becomes visible again (e.g. user opened Hotmart in
+    // a new tab and switched back — pageshow does not fire in this case).
+    const handleVisibilityChange = (): void => {
+      if (globalThis.document?.visibilityState === 'visible') {
+        if (tid !== null) clearTimeout(tid);
+        tid = syncFromStorage();
+      }
+    };
+
+    globalThis.window?.addEventListener('pageshow', handlePageShow);
+    globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      if (tid !== null) clearTimeout(tid);
+      globalThis.window?.removeEventListener('pageshow', handlePageShow);
+      globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const value = useMemo<PriceContextValue>(
     () => ({
       currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
       currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
       isExpired,
-      timeLeft,
       ready,
     }),
-    [isExpired, timeLeft, ready],
+    [isExpired, ready],
   );
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }
@@ -74,4 +134,14 @@ export function usePrice(): PriceContextValue {
   }
 
   return contextValue;
+}
+
+// Reads the stored expiry fresh from storage and returns the correct URL.
+// Call this inside click handlers and on mount — never rely on React state
+// alone, since the setTimeout in PriceProvider can lag behind the plain-JS
+// countdown when the page is restored from BFCache or after tab-switching.
+export function resolveCurrentUrl(): string {
+  const expiry = readStoredExpiry();
+  const expired = expiry > 0 && expiry <= Date.now();
+  return expired ? content.offer.expiredUrl : content.offer.saleUrl;
 }

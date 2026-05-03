@@ -84,7 +84,7 @@
   }
 
   .cta-main {
-    @apply max-w-[24ch] leading-tight [text-wrap:balance];
+    @apply max-w-[32ch] leading-tight [text-wrap:balance];
   }
 
   .cta-price {
@@ -92,7 +92,7 @@
   }
 
   .cta-shell {
-    @apply inline-flex min-h-12 w-full flex-col items-center justify-center gap-0.5 rounded-lg bg-terracotta px-5 py-3.5 text-center text-[0.95rem] font-bold text-white shadow-md transition-all duration-200 hover:brightness-110 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-charcoal md:w-auto md:px-8 md:text-base motion-safe:[animation:cta-pulse_2s_ease-in-out_infinite];
+    @apply inline-flex min-h-12 w-full min-w-[18rem] flex-col items-center justify-center gap-0.5 rounded-lg bg-sage px-5 py-3.5 text-center text-[0.95rem] font-bold text-white shadow-md transition-all duration-200 hover:brightness-110 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-charcoal md:w-auto md:px-8 md:text-base motion-safe:[animation:cta-pulse_2s_ease-in-out_infinite];
   }
 
   .price-display {

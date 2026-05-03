@@ -23,6 +23,8 @@ export default function FaqSection(): JSX.Element {
         <h2 id="faq-heading" className="section-title">
           {content.faq.heading}
         </h2>
+        <span className="label-copy mt-3 text-xs text-charcoal/70 text-left block">Nota: Si necesitas hablar conmigo ahora mismo, toca el botón de WhatsApp que flota en tu
+          pantalla y platicamos</span>
 
         <div className="space-y-3">
           {content.faq.items.map((item, index) => {

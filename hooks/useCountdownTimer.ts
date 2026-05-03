@@ -11,9 +11,8 @@ interface TimerPayload {
 
 const COOKIE_SUFFIX = '-timer';
 const SIGNING_SALT = 'el-plate-seguro-timer-v3';
-const CYCLE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const CYCLE_DURATION_MS = 24 * 60 * 60 * 1000;
 
-// NOTE: This signing is best-effort tamper detection only.
 function signPayload(expiry: number, cycleStart: number, storageKey: string): string {
   const raw = `${expiry}:${cycleStart}:${storageKey}:${SIGNING_SALT}`;
   let hash = 5381;
@@ -24,17 +23,10 @@ function signPayload(expiry: number, cycleStart: number, storageKey: string): st
 }
 
 function toPayload(expiry: number, cycleStart: number, storageKey: string): TimerPayload {
-  return {
-    expiry,
-    cycleStart,
-    signature: signPayload(expiry, cycleStart, storageKey),
-  };
+  return { expiry, cycleStart, signature: signPayload(expiry, cycleStart, storageKey) };
 }
 
-function isValidPayload(
-  payload: TimerPayload | null,
-  storageKey: string
-): payload is TimerPayload {
+function isValidPayload(payload: TimerPayload | null, storageKey: string): payload is TimerPayload {
   if (!payload) return false;
   const { expiry, cycleStart, signature } = payload;
   if (typeof expiry !== 'number' || !Number.isFinite(expiry) || expiry <= 0) return false;
@@ -45,7 +37,7 @@ function isValidPayload(
 
 function readCookie(name: string): string | null {
   const prefix = `${name}=`;
-  const match = document.cookie
+  const match = globalThis.document?.cookie
     .split(';')
     .map((c) => c.trim())
     .find((c) => c.startsWith(prefix));
@@ -53,8 +45,10 @@ function readCookie(name: string): string | null {
 }
 
 function writeCookie(name: string, value: string): void {
-  const secureAttr = globalThis.location.protocol === 'https:' ? '; secure' : '';
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax${secureAttr}`;
+  const secureAttr = globalThis.location?.protocol === 'https:' ? '; secure' : '';
+  if (globalThis.document) {
+    globalThis.document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; samesite=lax${secureAttr}`;
+  }
 }
 
 function parsePayload(value: string | null): TimerPayload | null {
@@ -65,13 +59,7 @@ function parsePayload(value: string | null): TimerPayload | null {
     const expiry = Reflect.get(parsed, 'expiry');
     const cycleStart = Reflect.get(parsed, 'cycleStart');
     const signature = Reflect.get(parsed, 'signature');
-    if (
-      typeof expiry !== 'number' ||
-      typeof cycleStart !== 'number' ||
-      typeof signature !== 'string'
-    ) {
-      return null;
-    }
+    if (typeof expiry !== 'number' || typeof cycleStart !== 'number' || typeof signature !== 'string') return null;
     return { expiry, cycleStart, signature };
   } catch {
     return null;
@@ -80,22 +68,14 @@ function parsePayload(value: string | null): TimerPayload | null {
 
 function persistPayload(payload: TimerPayload, storageKey: string): void {
   const serialized = JSON.stringify(payload);
-  try {
-    globalThis.window.localStorage.setItem(storageKey, serialized);
-  } catch {
-    // noop — privacy mode or storage full
-  }
-  try {
-    writeCookie(`${storageKey}${COOKIE_SUFFIX}`, serialized);
-  } catch {
-    // noop
-  }
+  try { globalThis.window.localStorage.setItem(storageKey, serialized); } catch { /* noop */ }
+  try { writeCookie(`${storageKey}${COOKIE_SUFFIX}`, serialized); } catch { /* noop */ }
 }
 
 function resolveExpiry(
   durationSeconds: number,
   storageKey: string,
-  now: number
+  now: number,
 ): { expiry: number; cycleStart: number } {
   if (globalThis.window === undefined) {
     return { expiry: now + durationSeconds * 1000, cycleStart: now };
@@ -104,31 +84,15 @@ function resolveExpiry(
   let localPayload: TimerPayload | null = null;
   let cookiePayload: TimerPayload | null = null;
 
-  try {
-    localPayload = parsePayload(
-      globalThis.window.localStorage.getItem(storageKey)
-    );
-  } catch {
-    localPayload = null;
-  }
-
-  try {
-    cookiePayload = parsePayload(readCookie(`${storageKey}${COOKIE_SUFFIX}`));
-  } catch {
-    cookiePayload = null;
-  }
+  try { localPayload = parsePayload(globalThis.window.localStorage.getItem(storageKey)); } catch { /* noop */ }
+  try { cookiePayload = parsePayload(readCookie(`${storageKey}${COOKIE_SUFFIX}`)); } catch { /* noop */ }
 
   const hasValidLocal = isValidPayload(localPayload, storageKey);
   const hasValidCookie = isValidPayload(cookiePayload, storageKey);
 
   let bestPayload: TimerPayload | null = null;
-
   if (hasValidLocal && hasValidCookie && localPayload && cookiePayload) {
-    // Pick the one with the earlier cycleStart (more conservative)
-    bestPayload =
-      localPayload.cycleStart <= cookiePayload.cycleStart
-        ? localPayload
-        : cookiePayload;
+    bestPayload = localPayload.cycleStart <= cookiePayload.cycleStart ? localPayload : cookiePayload;
   } else if (hasValidLocal && localPayload) {
     bestPayload = localPayload;
   } else if (hasValidCookie && cookiePayload) {
@@ -136,16 +100,12 @@ function resolveExpiry(
   }
 
   if (bestPayload) {
-    // EVERGREEN LOGIC: has 24h cycle passed?
     if (now - bestPayload.cycleStart >= CYCLE_DURATION_MS) {
-      // Cycle is over → start again
       return { expiry: now + durationSeconds * 1000, cycleStart: now };
     }
-    // Cycle is active → use stored values
     return { expiry: bestPayload.expiry, cycleStart: bestPayload.cycleStart };
   }
 
-  // First visit — create new cycle
   return { expiry: now + durationSeconds * 1000, cycleStart: now };
 }
 
@@ -154,7 +114,19 @@ export function useCountdownTimer(
   durationSeconds: number,
   storageKey: string,
 ): [number, boolean, boolean] {
-  const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
+  // Lazy initialiser: on the client read from storage immediately so the real
+  // time is available on the very first render (no --:--:-- flash).
+  // On the server we return durationSeconds; suppressHydrationWarning on the
+  // timer spans in StickyHeader handles the server/client mismatch.
+  const [timeLeft, setTimeLeft] = useState<number>(() => {
+    if (globalThis.window === undefined) return durationSeconds;
+    const now = Date.now();
+    const { expiry } = resolveExpiry(durationSeconds, storageKey, now);
+    return Math.max(0, Math.floor((expiry - now) / 1000));
+  });
+
+  // ready stays false on the server so there is no hydration mismatch in
+  // components like FinalCtaSection that still gate on it.
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -164,67 +136,64 @@ export function useCountdownTimer(
     const now = Date.now();
     const { expiry, cycleStart } = resolveExpiry(durationSeconds, storageKey, now);
 
-    // Save resolved state immediately
+    // Persist so the next page load can read the same expiry.
     persistPayload(toPayload(expiry, cycleStart, storageKey), storageKey);
 
-    const updateRemaining = (): number => {
-      const nowMs = Date.now();
-      const seconds = Math.max(0, Math.floor((expiry - nowMs) / 1000));
-      setTimeLeft((prev) => (prev === seconds ? prev : seconds));
-      return seconds;
-    };
+    const getRemaining = (): number =>
+      Math.max(0, Math.floor((expiry - Date.now()) / 1000));
 
-    updateRemaining();
-    Promise.resolve().then(() => setReady(true));
+    // Sync timeLeft to the persisted expiry and mark ready.
+    setTimeLeft(getRemaining());
+    setReady(true);
 
-    const tick = (): number => {
-      const remaining = updateRemaining();
-      if (remaining <= 0) {
-        if (intervalId !== null) {
-          win.clearInterval(intervalId);
-          intervalId = null;
-        }
+    let intervalId: number | null = win.setInterval(() => {
+      const remaining = getRemaining();
+      setTimeLeft(remaining);
+      if (remaining <= 0 && intervalId !== null) {
+        win.clearInterval(intervalId);
+        intervalId = null;
       }
-      return remaining;
-    };
+    }, 1000);
 
-    let intervalId: number | null = win.setInterval(tick, 1000);
-
-    // If user returns after 24h → reload → gets a new timer
     const checkCycleAndResume = (): void => {
       if (Date.now() - cycleStart >= CYCLE_DURATION_MS) {
-        // 24h has passed: remove old storage and reload page
         try { win.localStorage.removeItem(storageKey); } catch { /* noop */ }
         win.location.reload();
         return;
       }
-      const remaining = tick();
-      if (intervalId === null && remaining > 0) {
-        intervalId = win.setInterval(tick, 1000);
+      setReady(true);
+      setTimeLeft(getRemaining());
+      if (intervalId === null && getRemaining() > 0) {
+        intervalId = win.setInterval(() => {
+          const remaining = getRemaining();
+          setTimeLeft(remaining);
+          if (remaining <= 0 && intervalId !== null) {
+            win.clearInterval(intervalId);
+            intervalId = null;
+          }
+        }, 1000);
       }
     };
 
     const handleVisibility = (): void => {
-      if (document.visibilityState === 'visible') {
-        checkCycleAndResume();
-      }
+      if (globalThis.document?.visibilityState === 'visible') checkCycleAndResume();
     };
 
-    const handleFocus = (): void => {
+    const handlePageShow = (_event: PageTransitionEvent): void => {
+      // bfcache restore — let the page resume naturally; StickyHeader's own
+      // pageshow handler re-reads storage and restarts its interval.
       checkCycleAndResume();
     };
 
-    document.addEventListener('visibilitychange', handleVisibility);
-    win.addEventListener('focus', handleFocus);
-    win.addEventListener('pageshow', handleFocus);
+    globalThis.document?.addEventListener('visibilitychange', handleVisibility);
+    win.addEventListener('pageshow', handlePageShow);
 
     return () => {
       if (intervalId !== null) win.clearInterval(intervalId);
-      document.removeEventListener('visibilitychange', handleVisibility);
-      win.removeEventListener('focus', handleFocus);
-      win.removeEventListener('pageshow', handleFocus);
+      globalThis.document?.removeEventListener('visibilitychange', handleVisibility);
+      win.removeEventListener('pageshow', handlePageShow);
     };
   }, [durationSeconds, storageKey]);
 
-  return [timeLeft, timeLeft <= 0, ready];
+  return [timeLeft, ready && timeLeft <= 0, ready];
 }

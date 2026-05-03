@@ -35,7 +35,17 @@ module.exports = function createNextConfig(phase) {
   const allowedDevOrigins =
     allowedDevOriginsFromEnv.length > 0
       ? allowedDevOriginsFromEnv
-      : ['192.168.1.11', 'http://192.168.1.11:3000', 'http://192.168.1.11:3001', 'localhost', 'http://localhost:3000', 'http://localhost:3001'];
+      : [
+          '192.168.1.11',
+          'http://192.168.1.11:3000',
+          'http://192.168.1.11:3001',
+          'localhost',
+          'http://localhost:3000',
+          'http://localhost:3001',
+          '192.168.1.2',
+          'http://192.168.1.2:3000',
+          'http://192.168.1.2:3001'
+        ];
 
   return {
     output: 'export',

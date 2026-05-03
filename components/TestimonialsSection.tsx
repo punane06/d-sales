@@ -18,7 +18,7 @@ export default function TestimonialsSection(): JSX.Element {
     function scrollNext() {
       if (!container) return;
       // Kui jõuab lõppu, kerib algusesse
-      if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - testimonialWidth) {
+      if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 1) {
         container.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
         container.scrollBy({ left: testimonialWidth, behavior: 'smooth' });

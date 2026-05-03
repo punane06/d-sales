@@ -83,7 +83,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
 
-
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
       <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
@@ -98,6 +97,79 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
         <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
+        {/* Raw <script> — NOT the Next.js Script component — so it is embedded directly in
+            the static HTML output (no RSC payload indirection). Runs as soon as the browser
+            parses it (end of body → DOM already ready). Writes expiry to storage immediately
+            on first visit so the timer persists if the user navigates away before React
+            hydrates and PriceContext has a chance to write. */}
+        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+        <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: `
+(function(){
+  var KEY=${JSON.stringify(content.offer.storageKey)};
+  var COOKIE=KEY+'-timer';
+  var DUR=${content.offer.durationSeconds};
+  var SALE_URL=${JSON.stringify(content.offer.saleUrl)};
+  var EXPIRED_URL=${JSON.stringify(content.offer.expiredUrl)};
+  var expiry=0,tid=0;
+
+  function readExpiry(){
+    try{var d=JSON.parse(localStorage.getItem(KEY)||'null');if(d&&typeof d.expiry==='number'&&isFinite(d.expiry))return d.expiry;}catch(e){}
+    try{
+      var pfx=COOKIE+'=',cs=document.cookie.split(';');
+      for(var i=0;i<cs.length;i++){var c=cs[i].trim();if(c.indexOf(pfx)===0){var d2=JSON.parse(decodeURIComponent(c.slice(pfx.length)));if(d2&&typeof d2.expiry==='number'&&isFinite(d2.expiry))return d2.expiry;}}
+    }catch(e){}
+    return 0;
+  }
+
+  function writeExpiry(exp){
+    var p=JSON.stringify({expiry:exp,cycleStart:exp-DUR*1000});
+    try{localStorage.setItem(KEY,p);}catch(e){}
+    try{
+      var sec=location.protocol==='https:'?'; secure':'';
+      document.cookie=COOKIE+'='+encodeURIComponent(p)+'; path=/; max-age=31536000; samesite=lax'+sec;
+    }catch(e){}
+  }
+
+  function updateCtaHrefs(expired){
+    var url=expired?EXPIRED_URL:SALE_URL;
+    var links=document.querySelectorAll('a.cta-shell');
+    for(var i=0;i<links.length;i++){links[i].href=url;}
+  }
+
+  function pad(n){return(n<10?'0':'')+n;}
+
+  function tick(){
+    var rem=Math.max(0,Math.floor((expiry-Date.now())/1000));
+    if(rem===0&&expiry>0){updateCtaHrefs(true);}
+    var el;
+    el=document.getElementById('t-h');if(el)el.textContent=pad(Math.floor(rem/3600));
+    el=document.getElementById('t-m');if(el)el.textContent=pad(Math.floor((rem%3600)/60));
+    el=document.getElementById('t-s');if(el)el.textContent=pad(rem%60);
+    el=document.getElementById('t-vs');if(el)el.textContent=pad(Math.floor(rem/60))+':'+pad(rem%60);
+  }
+
+  function start(){
+    var s=readExpiry();
+    if(s>0){expiry=s;}
+    else if(expiry===0){
+      expiry=Date.now()+DUR*1000;
+      writeExpiry(expiry);
+    }
+    updateCtaHrefs(expiry>0&&expiry<=Date.now());
+    tick();
+    clearInterval(tid);
+    tid=setInterval(tick,1000);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start);
+  }else{
+    start();
+  }
+  window.addEventListener('pageshow',start);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')start();});
+})();
+        ` }} />
       </body>
     </html>
   );

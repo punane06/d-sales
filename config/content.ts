@@ -19,31 +19,30 @@ export const content = {
     currentPriceLabel: 'Precio actual',
   },
   hero: {
-    attention:
-      'Atención: Para mujeres agotadas de las dietas de hospital y el miedo a la insulina...',
+    attention: 'El Plato Seguro',
     heading:
-      'El método comprobado para disfrutar tus comidas latinas favoritas, sin picos de azúcar y sin cocinar dos veces.',
+      'El fin de las dietas de hospital y el terror a la insulina.',
     description:
-      'Descubre cómo estabilizar tu glucosa en 30 días comiendo pizza, pan y postres. Sin culpa, sin pasar hambre y sin miedo al medidor.',
+      'Descubre el método paso a paso para estabilizar tu glucosa en 30 días comiendo delicioso,\nabundante y en la misma mesa que toda tu familia.',
     imageAlt:
       'Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2',
-    ctaLabel: '¡Sí, Clara! Quiero Comer Rico y Bajar Mi Azúcar Ahora',
+    ctaLabel: '👇 SÍ, CLARA. QUIERO COMER RICO Y SANAR MI CUERPO',
     trustLine: 'Compra 100% segura • Fácil de abrir: Te llega directo a tu celular o correo en 1 minuto.',
   },
   empathy: {
-    heading: '¿Sientes un nudo en el estómago cada vez que te mides el azúcar?',
-    intro: 'Hola, soy Clara.',
+    heading: '¿Sientes un nudo en el estómago cada vez que llega la hora del pinchazo?',
+    intro: 'Hola. Soy Clara. ❤️',
     story: [
-      'Sé exactamente el terror que se siente. Ese miedo silencioso de ver los números subir en el medidor. La ansiedad de irte a dormir temiendo amanecer con la glucosa por las nubes.',
-      'Mientras tu familia disfruta de las cenas los fines de semana, tú te obligas a masticar lechuga y pollo hervido.',
-      'Sientes que te han robado la alegría de comer, tus raíces y tus tradiciones.',
-      'Conozco la frustración de llegar al médico y salir con una lista deprimente de alimentos prohibidos y el temido ultimátum: "Si no bajas esto, tendremos que usar insulina."',
-      'De repente, te conviertes en la "enferma" de la mesa.',
-      'Pero escúchame bien: Tu médico tiene razón sobre cuidar tu salud... pero se equivoca rotundamente en el menú.',
-      'Comer sano no tiene que ser un castigo con sabor a cartón.',
-      'Me negué a vivir así el resto de mi vida. Después de meses de pruebas, errores y mucha investigación en mi propia cocina, logré lo imposible.',
-      'Descubrí el secreto para transformar nuestras recetas tradicionales de siempre, usando ingredientes económicos que deleitan tu paladar y protegen tu salud al mismo tiempo.',
-      'Así nació El Plato Seguro. Un refugio donde puedes comer delicioso, sentirte llena de energía y ver cómo tus niveles de glucosa se mantienen planos todos los días.',
+      'Y sé exactamente el terror que se siente.',
+      'Conozco el miedo de apretar ese pequeño aparato contra tu dedo cada mañana, cerrar los ojos y rogar que los números no estén por las nubes. La ansiedad profunda de preguntarte si tu cuerpo te está fallando.',
+      'Y sobre todo, conozco el pánico a esas complicaciones silenciosas de la diabetes de las que nadie en la familia quiere hablar en voz alta.',
+      'Dime si esto es tu día a día:',
+      '● El castigo en tu propia mesa: Mientras tu familia disfruta de una cena deliciosa, con queso derretido o pan calientito, tú te obligas a masticar una ensalada triste y pollo hervido.',
+      '● La fatiga aplastante: Ese cansancio extremo que te tumba después de comer, sintiendo que no tienes energía ni para disfrutar tu día.',
+      '● El ultimátum médico: La frustración de salir del consultorio con una lista deprimente de alimentos prohibidos y la temida advertencia: "Si no bajas esto, tendremos que pasar a la insulina".',
+      'De repente, sientes que te conviertes en "el paciente" de la casa. La persona que siempre tiene que decir "no, gracias" o por la que hay que cocinar doble.',
+      'Pero escúchame bien: Tu médico tiene toda la razón sobre la urgencia de cuidar tu salud... pero se equivoca rotundamente en el menú.',
+      'Comer sano para controlar la glucosa no tiene que ser una cadena perpetua con sabor a cartón.',
     ],
   },
   valueStack: {
@@ -53,7 +52,7 @@ export const content = {
       imageSrc: '/media/products/section3.webp',
       imageAlt: 'Portada del programa central Glucosa Plana',
       description: 'Más de 100 recetas caseras paso a paso para estabilizar tu azúcar en 30 días. Aprenderás a cocinar versiones seguras de tus platos favoritos que saben a gloria, para que <b>nunca más tengas que cocinar dos comidas separadas para tu familia y para ti.</b>',
-      value: '$29.95',
+      value: '$27.95',
       includedLabel: '¡HOY INCLUIDO!',
     },
     bonuses: [
@@ -98,7 +97,7 @@ export const content = {
     },
   },
   testimonials: {
-    heading: 'Mira lo que dicen las mujeres que ya escaparon de la "dieta de hospital"...',
+    heading: 'Mira lo que dicen quienes ya escaparon de la "dieta de hospital"...',
     entries: [
       {
         name: 'Marta S.',
@@ -106,7 +105,7 @@ export const content = {
         avatarSrc: '/media/testimonials/Colombia.webp',
         avatarAlt: 'Foto de perfil de Marta, clienta de Colombia',
         quote:
-          'Lloraba de frustración porque sentía que no podía comer nada rico. Desde que preparo las recetas de Clara, ceno pizza o tacos con mi familia sin sentirme la "enferma" de la mesa. Mis niveles en ayunas nunca habían estado tan estables.',
+          'Lloraba de frustración porque sentía que no podía comer nada rico. Desde que preparo las comidas de Clara, ceno pizza o tacos con mi familia y ellos ni se dan cuenta que es saludable. Mis niveles en ayunas nunca habían estado tan estables.',
       },
       {
         name: 'Elena M.',
@@ -114,7 +113,7 @@ export const content = {
         avatarSrc: '/media/testimonials/mexico.webp',
         avatarAlt: 'Foto de perfil de Elena, clienta de México',
         quote:
-          'Le tenía terror a amanecer con la glucosa alta. Mi médico ya me había amenazado con la insulina. Compré este recetario, empecé a cenar como Clara enseña, y mi doctor no podía creer mis últimos exámenes. Las galletas son mi adicción y no me suben el azúcar.',
+          'Mi médico ya me había advertido sobre la insulina. Compré este recetario, empecé a cenar como Clara enseña, y mi doctor no podía creer mis últimos exámenes. Las galletas de nuez son mi adicción y mi azúcar se mantiene intacta.',
       },
       {
         name: 'Rosa V.',
@@ -122,7 +121,7 @@ export const content = {
         avatarSrc: '/media/testimonials/Peru.webp',
         avatarAlt: 'Foto de perfil de Rosa, clienta de Perú',
         quote:
-          'Pensé que nunca en mi vida volvería a comer pan. Con el "Hack de las Masas" aprendí a hacer mis propias tortillas en minutos sin que me suba el azúcar. Me devolvieron la vida. Gracias, Clara.',
+          'Pensé que nunca en mi vida volvería a comer pan. Con el libro "El Hack de las Masas" aprendí a hacer mis propias bases en minutos sin miedo al medidor. Me devolvieron la vida y la alegría de comer. Gracias, Clara.',
       },
       {
         name: 'Carmen R.',
@@ -130,83 +129,108 @@ export const content = {
         avatarSrc: '/media/testimonials/USA.webp',
         avatarAlt: 'Foto de perfil de Carmen, clienta de USA',
         quote:
-          'Soy pésima con la tecnología, pero me llegó directo al correo y lo abrí en mi celular rapidísimo. Ya no tengo que pensar qué hacerme de comer, sigo el plan semanal y listo. Vale cada centavo.',
+          'No me llevo bien con la tecnología y tenía miedo de no saber cómo abrirlo. Pero me llegó directo al correo y lo abrí en mi celular con un solo toque. Ya no tengo que pensar qué hacerme de comer, sigo el plan semanal y listo.',
       },
       {
         name: 'Lucia G.',
-        country: 'Chile',
-        avatarSrc: '/media/testimonials/chile.webp',
-        avatarAlt: 'Foto de perfil de Lucia, clienta de Chile',
+        country: 'España',
+        avatarSrc: '/media/testimonials/Espana.webp',
+        avatarAlt: 'Foto de perfil de Lucia, clienta de España',
         quote:
-          'Creí que cocinar para diabéticos era carísimo y requería ingredientes raros. Me encantó que todo lo que pide Clara lo encuentro en el mercadito de la esquina, súper económico y fácil.',
+          'Creí que cocinar para controlar la glucosa era carísimo y requería ingredientes raros. Me encantó que absolutamente todo lo que pide Clara lo encuentro en el mercado de mi barrio o en el súper. Muy económico y real.',
       },
     ],
   },
   guarantee: {
-    heading: '🔒 Mi Garantía Incondicional Familiar de 15 Días',
+    heading: '🛡️ Mi Garantía Incondicional Familiar de 15 Días',
     text:
-      'Tu salud no tiene precio y tu paz mental tampoco. Prueba El Plato Seguro hoy mismo. Descarga los libritos digitales y prepara tus platos favoritos. <b>Si en 15 días sientes que las recetas no son absolutamente deliciosas y fáciles de hacer, o si tu familia no te pide repetir el plato, te devolvemos el 100% de tu dinero.</b> Sin preguntas. Sin letra pequeña. El riesgo es todo mío.',
+      'Tu salud no tiene precio y tu paz mental tampoco. Entra a El Plato Seguro hoy mismo. Descarga los libros en tu celular y prepara un par de comidas. Si en 15 días sientes que las recetas no son absolutamente deliciosas, <b>o si tu familia no te pide repetir el plato</b>, mándame un mensaje y te devuelvo el 100% de tu dinero. Sin preguntas. Sin letra pequeña. El riesgo lo asumo yo.',
     trustHeading: '⏳ Tu descuento del 80% desaparece pronto...',
     trustText:
       'Recuerda, esta oferta especial de $16.97 solo está disponible mientras el temporizador esté corriendo. Cuando llegue a cero, el precio subirá a $27.97 automáticamente. No dejes pasar esta oportunidad de sanar comiendo rico.',
     badges: [
       {
         label: 'Sello de garantía de 15 días',
-        src: '/media/trust/guarantee-ribbon.svg',
+        src: '/media/logod/GuaranteeLogo.png',
       },
       {
         label: 'Candado de seguridad SSL',
-        src: '/media/trust/ssl-lock.svg',
+        src: '/media/logod/SecureLogo.png',
       },
       {
         label: 'Plataforma de pago Hotmart',
-        src: '/media/trust/hotmart-logo.svg',
+        src: '/media/logod/HotmartLogo.png',
+      },
+      {
+        label: 'Visa y Mastercard',
+        src: '/media/logod/Visa-MasterCardLogo.png',
+      },
+      {
+        label: 'PayPal',
+        src: '/media/logod/PaypalLogo.png',
+      },
+      {
+        label: 'OXXO',
+        src: '/media/logod/OxxoLogo.png',
+      },
+      {
+        label: 'Efecty',
+        src: '/media/logod/EffectyLogo.png',
+      },
+      {
+        label: 'Baloto',
+        src: '/media/logod/BolatoLogo.png',
+      },
+      {
+        label: 'Sencillito',
+        src: '/media/logod/SencillitoLogo.png',
       },
     ],
   },
   faq: {
-    heading: 'Preguntas Frecuentes',
+    heading: '¿Tienes dudas? Aquí te las resuelvo:',
     items: [
       {
-        question: '¿Este recetario sirve si tengo Diabetes Tipo 2 o Resistencia a la Insulina?',
+        question: '¿Este programa sirve si tengo Diabetes Tipo 2 o Prediabetes?',
         answer:
-          'Absolutamente. Todo el sistema usa ingredientes probados de bajo índice glucémico, ideales para estabilizar la insulina, aplanar tus curvas de glucosa y ayudarte a controlar la Diabetes Tipo 2 de forma natural.',
+          'Absolutamente. Todo el método de "Glucosa Plana" fue diseñado específicamente para "engañar" a la insulina y aplanar tu curva de azúcar, permitiéndote comer de forma abundante sin alterar tus niveles.',
       },
       {
         question: '¿Mi familia puede comer esto también o es solo para mí?',
         answer:
-          'Esa es la mejor parte. El propósito de El Plato Seguro es que dejes de cocinar dos veces. Las recetas son tan deliciosas que tu esposo e hijos comerán sano sin darse cuenta de que es un menú para el control del azúcar.',
+          '¡Es para todos! Esa es la magia de El Plato Seguro. Las recetas son tan ricas (pizzas, postres, carnes) que tu familia te pedirá que las prepares siempre. Se acabó el castigo de cocinar dos comidas diferentes.',
       },
       {
         question: '¿Los ingredientes son caros o difíciles de conseguir?',
         answer:
-          'No. Sé que la economía familiar es importante. Todas las recetas utilizan ingredientes accesibles que encuentras en cualquier supermercado o mercadito local en tu país.',
+          'Para nada. Mi regla de oro es cocinar con comida real, económica y accesible. Todo lo que necesitas lo vas a encontrar en el mercado de tu barrio o en tu supermercado de confianza.',
       },
       {
-        question: '¿Necesito ser una experta en la cocina?',
+        question: '¿Se necesita experiencia en la cocina?',
         answer:
-          'Para nada. Las instrucciones son simples, rápidas y directas al grano. Muchas recetas, como los batidos o los panes rápidos, están listas en menos de 5 a 10 minutos.',
+          'No. Las recetas están explicadas paso a paso, de forma tan sencilla que cualquier persona, incluso si nunca ha cocinado, puede lograr platillos deliciosos en minutos.',
       },
       {
-        question: '¿Y si nunca he comprado un recurso digital?',
+        question: '¿Y si nunca he comprado un recurso digital? ¿Es difícil de abrir?',
         answer:
-          'No te preocupes, está pensado para ti. Solo debes hacer clic en el botón de comprar, completar tus datos y recibirás tus libritos en formato PDF para descargar y leer en tu celular, tablet o computadora de inmediato. Es súper fácil y rápido.',
+          'Es tan fácil como abrir un mensaje de texto. Inmediatamente después de tu compra segura, recibirás un correo con un botón. Lo tocas y los libros se abrirán en la pantalla de tu celular, tablet o computadora. ¡Cero dolores de cabeza tecnológicos!',
       },
       {
         question: '¿Es un pago mensual?',
         answer:
-          'No, es un pago único. No hay cobros ocultos ni suscripciones. Una vez que lo adquieres, todo el material es tuyo de por vida.',
-      },
-      {
-        question: '¿Cómo funciona la garantía? ¿Es difícil pedir la devolución de mi dinero si no me gusta?',
-        answer: 'Es súper fácil, automático y 100% seguro. Como tu pago se procesa a través de Hotmart (la plataforma de productos digitales más grande y segura de Latinoamérica), tu dinero está protegido por ellos. Si dentro de tus primeros 15 días decides que el material no es para ti, solo tienes que hacer un par de clics en el correo que recibiste o enviarnos un mensaje, y el sistema de Hotmart te devolverá el 100% de tu dinero a tu tarjeta. Sin tener que dar explicaciones, sin preguntas incómodas y sin llamar a nadie. Tu paz mental es mi prioridad.'
+          'No, es un pago único. Pagas una sola vez en tu moneda local y tienes acceso a todos los libros y bonos para toda la vida.',
       },
     ],
   },
   finalCta: {
-    heading: '✨ Tu salud no tiene precio... pero hoy puedes empezar a sanar con un delicioso postre saludable.',
-    paragraph:
-      'Tienes dos opciones: seguir viviendo con miedo a la comida y a las agujas, o tomar acción hoy y empezar a disfrutar de la vida sin sacrificar el sabor ni tus tradiciones.\nLa decisión es tuya. ❤️',
+    heading: '✨ La diabetes no espera, pero tu sanación puede empezar en tu próxima cena.',
+    paragraphs: [
+      'Cada día que pasas con picos de glucosa y ansiedad, tu cuerpo sufre un desgaste silencioso. No dejes para mañana la salud, la tranquilidad y la energía que puedes recuperar hoy mismo.',
+      'Llegamos al final del camino y tienes dos opciones:',
+      'Puedes cerrar esta página, seguir viviendo con el terror al glucómetro y esperando con angustia los resultados de tus próximos exámenes...',
+      { text: 'O puedes tomar acción HOY', bold: true, rest: '. Puedes entrar a nuestro santuario, recuperar el placer de comer, sentarte a la mesa con tu familia esta misma noche y disfrutar sabiendo que tu cuerpo está sanando en cada bocado.' },
+      'No tienes que elegir entre el sabor y tu salud. Puedes tener ambos. La decisión es tuya. ❤️',
+    ],
     signature1: "Con cariño,",
     signature2: "Clara y el equipo de 'El Plato Seguro'",
     ctaLabel: 'Quiero Mi Paquete Completo (Solo $16.97)',
