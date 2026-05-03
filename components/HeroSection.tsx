@@ -80,8 +80,8 @@ export default function HeroSection(): JSX.Element {
                 >
                   <span className="sr-only">Reproducir video</span>
                   <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="45" cy="45" r="45" fill="#fff" fillOpacity="0.85"/>
-                    <polygon points="36,28 68,45 36,62" fill="#1a202c"/>
+                    <circle cx="45" cy="45" r="45" fill="#fff" fillOpacity="0.85" />
+                    <polygon points="36,28 68,45 36,62" fill="#1a202c" />
                   </svg>
                 </button>
               )}
