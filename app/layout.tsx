@@ -90,12 +90,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           Ir al contenido principal
         </a>
         <ScrollRestoration />
+        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
+        <MetaPixelScript pixelId={metaPixelId} />
         <PriceProvider>
           <StickyHeaderWrapper />
           {children}
         </PriceProvider>
-        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
-        <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
         {/* Raw <script> — NOT the Next.js Script component — so it is embedded directly in
             the static HTML output (no RSC payload indirection). Runs as soon as the browser

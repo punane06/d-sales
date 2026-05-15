@@ -45,14 +45,55 @@ export default function CtaButton({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
     const destination = resolveCurrentUrl();
-    trackEvent('cta_click', {
+
+    const params = {
       price_shown: currentPrice,
       section_name: sectionName,
       timer_expired: isExpired,
       cta_label: baseLabel,
       destination_url: destination,
-    });
-    globalThis.location.href = destination;
+    };
+
+    let navigated = false;
+    const navigate = (): void => {
+      if (navigated) return;
+      navigated = true;
+      globalThis.location.href = destination;
+    };
+
+    // Fallback in case event_callback never fires (e.g. tracker blocked).
+    const fallback = setTimeout(navigate, 500);
+
+    // GA4 with explicit event_callback — fires when the beacon flushes.
+    try {
+      if (typeof globalThis.window?.gtag === 'function') {
+        globalThis.window.gtag('event', 'cta_click', {
+          ...params,
+          event_callback: () => {
+            clearTimeout(fallback);
+            navigate();
+          },
+          event_timeout: 400,
+        });
+      } else {
+        // No gtag yet — queue to dataLayer via trackEvent.
+        trackEvent('cta_click', params);
+      }
+    } catch {
+      trackEvent('cta_click', params);
+    }
+
+    // Meta Pixel — fire in parallel, no callback needed (fire-and-forget).
+    try {
+      if (typeof globalThis.window?.fbq === 'function') {
+        globalThis.window.fbq('track', 'InitiateCheckout', {
+          value: Number.parseFloat(currentPrice.replace(/[^0-9.]/g, '')) || 0,
+          currency: 'USD',
+          content_name: baseLabel,
+          content_category: sectionName,
+        });
+      }
+    } catch { /* noop */ }
   };
 
   return (
