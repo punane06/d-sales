@@ -22,13 +22,23 @@ type PriceProviderProps = {
 const { storageKey } = content.offer;
 const COOKIE_SUFFIX = '-timer';
 
-function readStoredExpiry(): number {
+const CYCLE_MS = 24 * 60 * 60 * 1000;
+
+function readStoredExpiry(): { expiry: number; cycleStart: number } {
+  const now = Date.now();
   try {
     const raw = globalThis.window?.localStorage?.getItem(storageKey);
     if (raw) {
       const d = JSON.parse(raw) as Record<string, unknown>;
       const exp = d?.expiry;
-      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+      const cs = d?.cycleStart;
+      if (
+        typeof exp === 'number' && Number.isFinite(exp) && exp > 0 &&
+        typeof cs === 'number' && Number.isFinite(cs) && cs > 0
+      ) {
+        if (now - cs >= CYCLE_MS) return { expiry: 0, cycleStart: 0 };
+        return { expiry: exp, cycleStart: cs };
+      }
     }
   } catch { /* noop */ }
   try {
@@ -41,10 +51,17 @@ function readStoredExpiry(): number {
     if (c) {
       const d = JSON.parse(decodeURIComponent(c.slice(prefix.length))) as Record<string, unknown>;
       const exp = d?.expiry;
-      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
+      const cs = d?.cycleStart;
+      if (
+        typeof exp === 'number' && Number.isFinite(exp) && exp > 0 &&
+        typeof cs === 'number' && Number.isFinite(cs) && cs > 0
+      ) {
+        if (now - cs >= CYCLE_MS) return { expiry: 0, cycleStart: 0 };
+        return { expiry: exp, cycleStart: cs };
+      }
     }
   } catch { /* noop */ }
-  return 0;
+  return { expiry: 0, cycleStart: 0 };
 }
 
 function PriceProvider({ children, initialIsExpired = false }: PriceProviderProps): JSX.Element {
@@ -63,10 +80,8 @@ function PriceProvider({ children, initialIsExpired = false }: PriceProviderProp
     // Reads stored expiry from localStorage/cookie and syncs React state.
     // Does NOT write to storage — the plain-JS countdown script (layout.tsx)
     // is the sole authority on creating and persisting the initial expiry.
-    // Calling persistExpiry here would reset a past expiry to a future one if
-    // storage reads ever return 0 (e.g. timing quirks on certain navigations).
     function syncFromStorage(): ReturnType<typeof setTimeout> | null {
-      const expiry = readStoredExpiry();
+      const { expiry } = readStoredExpiry();
 
       if (expiry <= 0) {
         // No stored data yet (script hasn't written it, or storage unavailable).
@@ -103,12 +118,23 @@ function PriceProvider({ children, initialIsExpired = false }: PriceProviderProp
       }
     };
 
+    // When the inline script detects a 24h boundary crossing mid-session,
+    // it dispatches this event. Reset expired state and start a fresh cycle.
+    const handleTimerReset = (): void => {
+      if (tid !== null) clearTimeout(tid);
+      didTrackExpiry.current = false;
+      setIsExpired(false);
+      tid = syncFromStorage();
+    };
+
     globalThis.window?.addEventListener('pageshow', handlePageShow);
     globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
+    globalThis.window?.addEventListener('eps-timer-reset', handleTimerReset);
     return () => {
       if (tid !== null) clearTimeout(tid);
       globalThis.window?.removeEventListener('pageshow', handlePageShow);
       globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
+      globalThis.window?.removeEventListener('eps-timer-reset', handleTimerReset);
     };
   }, []);
 
@@ -141,7 +167,7 @@ export function usePrice(): PriceContextValue {
 // alone, since the setTimeout in PriceProvider can lag behind the plain-JS
 // countdown when the page is restored from BFCache or after tab-switching.
 export function resolveCurrentUrl(): string {
-  const expiry = readStoredExpiry();
+  const { expiry } = readStoredExpiry();
   const expired = expiry > 0 && expiry <= Date.now();
   return expired ? content.offer.expiredUrl : content.offer.saleUrl;
 }
