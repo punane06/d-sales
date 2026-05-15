@@ -49,6 +49,7 @@ function StickyHeader(): JSX.Element {
       <div className="mx-auto max-w-6xl px-4 py-2 flex flex-col gap-1 sm:gap-2">
         {/* Top row: Clara photo + El Plato Seguro */}
         <div className="flex items-center justify-center gap-2 sm:gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/media/clara.png"
             alt="Clara smiling"

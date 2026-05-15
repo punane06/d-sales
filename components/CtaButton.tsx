@@ -24,6 +24,7 @@ export default function CtaButton({
   // Fires synchronously after hydration, before the browser paints — so users
   // never see the wrong URL after coming back to the page with an expired timer.
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHref(resolveCurrentUrl());
   }, []);
 
@@ -39,6 +40,7 @@ export default function CtaButton({
 
   // Re-sync when PriceContext state changes (timer expires while on page).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHref(resolveCurrentUrl());
   }, [currentUrl]);
 

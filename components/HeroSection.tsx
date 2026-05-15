@@ -56,7 +56,6 @@ export default function HeroSection(): JSX.Element {
 
           <div className="mx-auto w-full max-w-[23rem] overflow-hidden rounded-2xl sm:max-w-md md:max-w-lg mb-0">
             <div className="relative w-full flex justify-center items-center" style={{ minHeight: '17rem', height: '17rem' }}>
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video
                 ref={videoRef}
                 className="object-contain w-auto h-full rounded-2xl bg-offwhite mx-auto"

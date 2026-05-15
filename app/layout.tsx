@@ -102,7 +102,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
             parses it (end of body → DOM already ready). Writes expiry to storage immediately
             on first visit so the timer persists if the user navigates away before React
             hydrates and PriceContext has a chance to write. */}
-        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
         <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: `
 (function(){
   var KEY=${JSON.stringify(content.offer.storageKey)};

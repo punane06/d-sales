@@ -13,6 +13,7 @@ export default function GuaranteeSection(): JSX.Element {
         {/* Hero image and value/cta block */}
         <div className="flex flex-col items-center gap-6 mb-8">
           <div className="w-full max-w-2xl mx-auto">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/media/products/hero-mockup.webp"
               alt="Mockup del recetario digital El Plato Seguro para mujeres con diabetes tipo 2"

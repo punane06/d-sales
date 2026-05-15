@@ -54,7 +54,7 @@ export default function ValueStackSection(): JSX.Element {
             <div className="p-6 bg-charcoal/20 rounded-b-2xl text-center">
               <h3 className="card-title">🎁 Bono #1: PILOTO AUTOMÁTICO METABÓLICO</h3>
               <p className="body-copy mt-2 text-left">
-                Tu planificador semanal visual. Te entrego la lista de compras súper inteligente y el menú exacto de lunes a domingo. Nunca más sentirás el estrés de pensar "¿qué rayos voy a cocinar hoy?".
+                Tu planificador semanal visual. Te entrego la lista de compras súper inteligente y el menú exacto de lunes a domingo. Nunca más sentirás el estrés de pensar &ldquo;¿qué rayos voy a cocinar hoy?&rdquo;.
               </p>
               <p className="mt-3 font-semibold flex items-center gap-1">
                 <span className="line-through medium-strike">$17.95</span>
@@ -100,7 +100,7 @@ export default function ValueStackSection(): JSX.Element {
             <div className="p-6 bg-charcoal/20 rounded-b-2xl text-center">
               <h3 className="card-title">🎁 Bono #3: DULZURA LÍQUIDA (Bebidas y Tés)</h3>
               <p className="body-copy mt-2 text-left">
-                15 batidos frutales y tés antiestrés listos en 3 minutos. El "escudo protector" perfecto para calmar tu sistema nervioso en la noche y apagar los antojos por lo dulce.
+                15 batidos frutales y tés antiestrés listos en 3 minutos. El &ldquo;escudo protector&rdquo; perfecto para calmar tu sistema nervioso en la noche y apagar los antojos por lo dulce.
               </p>
               <p className="mt-3 font-semibold flex items-center gap-1">
                 <span className="line-through medium-strike">$14.95</span>
