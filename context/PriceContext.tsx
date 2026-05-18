@@ -1,4 +1,3 @@
-
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,58 +13,69 @@ interface PriceContextValue {
 
 const PriceContext = createContext<PriceContextValue | null>(null);
 
-type PriceProviderProps = {
-  readonly children: React.ReactNode;
-  readonly initialIsExpired?: boolean;
-};
-
 const { storageKey } = content.offer;
 const COOKIE_SUFFIX = '-timer';
-
 const CYCLE_MS = 24 * 60 * 60 * 1000;
 
-function readStoredExpiry(): { expiry: number; cycleStart: number } {
-  const now = Date.now();
-  try {
-    const raw = globalThis.window?.localStorage?.getItem(storageKey);
-    if (raw) {
-      const d = JSON.parse(raw) as Record<string, unknown>;
-      const exp = d?.expiry;
-      const cs = d?.cycleStart;
-      if (
-        typeof exp === 'number' && Number.isFinite(exp) && exp > 0 &&
-        typeof cs === 'number' && Number.isFinite(cs) && cs > 0
-      ) {
-        if (now - cs >= CYCLE_MS) return { expiry: 0, cycleStart: 0 };
-        return { expiry: exp, cycleStart: cs };
-      }
-    }
-  } catch { /* noop */ }
-  try {
-    const name = storageKey + COOKIE_SUFFIX;
-    const prefix = name + '=';
-    const c = globalThis.document?.cookie
-      .split(';')
-      .map((s) => s.trim())
-      .find((s) => s.startsWith(prefix));
-    if (c) {
-      const d = JSON.parse(decodeURIComponent(c.slice(prefix.length))) as Record<string, unknown>;
-      const exp = d?.expiry;
-      const cs = d?.cycleStart;
-      if (
-        typeof exp === 'number' && Number.isFinite(exp) && exp > 0 &&
-        typeof cs === 'number' && Number.isFinite(cs) && cs > 0
-      ) {
-        if (now - cs >= CYCLE_MS) return { expiry: 0, cycleStart: 0 };
-        return { expiry: exp, cycleStart: cs };
-      }
-    }
-  } catch { /* noop */ }
-  return { expiry: 0, cycleStart: 0 };
+interface StoredPayload {
+  expiry: number;
+  cycleStart: number;
 }
 
-function PriceProvider({ children, initialIsExpired = false }: PriceProviderProps): JSX.Element {
-  const [isExpired, setIsExpired] = useState(initialIsExpired);
+function safeParse(raw: string | null): StoredPayload | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    if (!parsed || typeof parsed !== 'object') return null;
+    const exp = Number(parsed.expiry);
+    const cs = Number(parsed.cycleStart);
+    if (!Number.isFinite(exp) || exp <= 0) return null;
+    if (!Number.isFinite(cs) || cs <= 0) return null;
+    return { expiry: exp, cycleStart: cs };
+  } catch {
+    return null;
+  }
+}
+
+function readStored(): StoredPayload | null {
+  let fromLs: StoredPayload | null = null;
+  let fromCk: StoredPayload | null = null;
+
+  try {
+    fromLs = safeParse(globalThis.window?.localStorage?.getItem(storageKey) ?? null);
+  } catch { /* noop */ }
+
+  try {
+    const prefix = `${storageKey}${COOKIE_SUFFIX}=`;
+    const c = globalThis.document?.cookie
+      .split(';').map((s) => s.trim()).find((s) => s.startsWith(prefix));
+    if (c) fromCk = safeParse(decodeURIComponent(c.slice(prefix.length)));
+  } catch { /* noop */ }
+
+  if (fromLs && fromCk) {
+    return fromLs.cycleStart <= fromCk.cycleStart ? fromLs : fromCk;
+  }
+  return fromLs ?? fromCk;
+}
+
+function evaluateState(now: number): { isExpired: boolean; expiryDelayMs: number | null } {
+  const p = readStored();
+  if (!p) return { isExpired: false, expiryDelayMs: null };
+
+  const age = now - p.cycleStart;
+  // Beyond 24h OR clock skew — inline script will reset; treat as fresh
+  if (age >= CYCLE_MS || age < 0) {
+    return { isExpired: false, expiryDelayMs: null };
+  }
+
+  if (p.expiry <= now) return { isExpired: true, expiryDelayMs: null };
+  return { isExpired: false, expiryDelayMs: p.expiry - now };
+}
+
+type PriceProviderProps = { readonly children: React.ReactNode };
+
+function PriceProvider({ children }: PriceProviderProps): JSX.Element {
+  const [isExpired, setIsExpired] = useState(false);
   const [ready, setReady] = useState(false);
   const didTrackExpiry = useRef(false);
 
@@ -77,97 +87,69 @@ function PriceProvider({ children, initialIsExpired = false }: PriceProviderProp
   }, [isExpired]);
 
   useEffect(() => {
-    // Reads stored expiry from localStorage/cookie and syncs React state.
-    // Does NOT write to storage — the plain-JS countdown script (layout.tsx)
-    // is the sole authority on creating and persisting the initial expiry.
-    function syncFromStorage(): ReturnType<typeof setTimeout> | null {
-      const { expiry } = readStoredExpiry();
+    let pending: ReturnType<typeof setTimeout> | null = null;
 
-      if (expiry <= 0) {
-        // No stored data yet (script hasn't written it, or storage unavailable).
-        // Mark ready with the default non-expired state and wait.
-        setReady(true);
-        return null;
+    function sync(): void {
+      if (pending !== null) {
+        clearTimeout(pending);
+        pending = null;
       }
-
-      if (expiry <= Date.now()) {
-        setIsExpired(true);
-        setReady(true);
-        return null;
-      }
-
+      const { isExpired: nextExpired, expiryDelayMs } = evaluateState(Date.now());
+      setIsExpired(nextExpired);
       setReady(true);
-      return setTimeout(() => setIsExpired(true), expiry - Date.now());
+      if (!nextExpired && expiryDelayMs !== null && expiryDelayMs > 0) {
+        pending = setTimeout(() => setIsExpired(true), expiryDelayMs);
+      }
     }
 
-    let tid = syncFromStorage();
+    sync();
 
-    // Re-sync on every pageshow (covers both BFCache restores and fresh loads
-    // triggered by pressing Back from an external site like Hotmart).
-    const handlePageShow = (): void => {
-      if (tid !== null) clearTimeout(tid);
-      tid = syncFromStorage();
+    const onPageShow = (): void => sync();
+    const onVisibility = (): void => {
+      if (globalThis.document?.visibilityState === 'visible') sync();
     };
-
-    // Re-sync when the tab becomes visible again (e.g. user opened Hotmart in
-    // a new tab and switched back — pageshow does not fire in this case).
-    const handleVisibilityChange = (): void => {
-      if (globalThis.document?.visibilityState === 'visible') {
-        if (tid !== null) clearTimeout(tid);
-        tid = syncFromStorage();
-      }
-    };
-
-    // When the inline script detects a 24h boundary crossing mid-session,
-    // it dispatches this event. Reset expired state and start a fresh cycle.
-    const handleTimerReset = (): void => {
-      if (tid !== null) clearTimeout(tid);
+    const onReset = (): void => {
       didTrackExpiry.current = false;
-      setIsExpired(false);
-      tid = syncFromStorage();
+      sync();
+    };
+    const onExpired = (): void => {
+      // Inline script detected expiry while we were on the page — keep React state in sync.
+      sync();
     };
 
-    globalThis.window?.addEventListener('pageshow', handlePageShow);
-    globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
-    globalThis.window?.addEventListener('eps-timer-reset', handleTimerReset);
+    globalThis.window?.addEventListener('pageshow', onPageShow);
+    globalThis.document?.addEventListener('visibilitychange', onVisibility);
+    globalThis.window?.addEventListener('eps-timer-reset', onReset);
+    globalThis.window?.addEventListener('eps-timer-expired', onExpired);
+
     return () => {
-      if (tid !== null) clearTimeout(tid);
-      globalThis.window?.removeEventListener('pageshow', handlePageShow);
-      globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
-      globalThis.window?.removeEventListener('eps-timer-reset', handleTimerReset);
+      if (pending !== null) clearTimeout(pending);
+      globalThis.window?.removeEventListener('pageshow', onPageShow);
+      globalThis.document?.removeEventListener('visibilitychange', onVisibility);
+      globalThis.window?.removeEventListener('eps-timer-reset', onReset);
+      globalThis.window?.removeEventListener('eps-timer-expired', onExpired);
     };
   }, []);
 
-  const value = useMemo<PriceContextValue>(
-    () => ({
-      currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
-      currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
-      isExpired,
-      ready,
-    }),
-    [isExpired, ready],
-  );
+  const value = useMemo<PriceContextValue>(() => ({
+    currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
+    currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
+    isExpired,
+    ready,
+  }), [isExpired, ready]);
+
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }
 
 export { PriceProvider };
 
 export function usePrice(): PriceContextValue {
-  const contextValue = useContext(PriceContext);
-
-  if (!contextValue) {
-    throw new Error('usePrice must be used within PriceProvider');
-  }
-
-  return contextValue;
+  const ctx = useContext(PriceContext);
+  if (!ctx) throw new Error('usePrice must be used within PriceProvider');
+  return ctx;
 }
 
-// Reads the stored expiry fresh from storage and returns the correct URL.
-// Call this inside click handlers and on mount — never rely on React state
-// alone, since the setTimeout in PriceProvider can lag behind the plain-JS
-// countdown when the page is restored from BFCache or after tab-switching.
 export function resolveCurrentUrl(): string {
-  const { expiry } = readStoredExpiry();
-  const expired = expiry > 0 && expiry <= Date.now();
-  return expired ? content.offer.expiredUrl : content.offer.saleUrl;
+  const { isExpired } = evaluateState(Date.now());
+  return isExpired ? content.offer.expiredUrl : content.offer.saleUrl;
 }

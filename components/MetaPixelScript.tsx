@@ -16,11 +16,12 @@ type FbqFunction = ((...args: unknown[]) => void) & {
   version?: string;
 };
 
-export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelScriptProps>): JSX.Element | null {
+export default function MetaPixelScript({
+  pixelId,
+  nonce,
+}: Readonly<MetaPixelScriptProps>): JSX.Element | null {
   const hasPixelId = Boolean(pixelId && pixelId !== 'xxxxxxxxxx' && pixelId !== 'PIXEL_ID');
 
-  // useLayoutEffect so the stub + init queues are in place before first paint,
-  // ensuring events fired during hydration (e.g. from CtaButton) don't drop.
   useLayoutEffect(() => {
     if (!hasPixelId || !pixelId) return;
     const win = globalThis.window as Window & { fbq?: FbqFunction; _fbq?: FbqFunction };
@@ -40,7 +41,7 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
       win.fbq = fbqStub;
       win._fbq = fbqStub;
     }
-    // Init queues against the stub; PageView too. Both flush when fbevents.js loads.
+    // init + PageView queue against the stub; fbevents.js flushes them when it loads
     win.fbq('init', pixelId);
     win.fbq('track', 'PageView');
   }, [pixelId, hasPixelId]);

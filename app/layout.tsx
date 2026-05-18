@@ -11,23 +11,10 @@ import StickyHeaderWrapper from '@/components/StickyHeaderWrapper';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { getSiteUrl } from '@/utils/site-url';
 
-type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
-}>;
+type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
-const lato = Lato({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-lato',
-  weight: ['400', '700', '900'],
-});
-
-const lora = Lora({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-lora',
-  weight: ['500', '600', '700'],
-});
+const lato = Lato({ subsets: ['latin'], display: 'swap', variable: '--font-lato', weight: ['400', '700', '900'] });
+const lora = Lora({ subsets: ['latin'], display: 'swap', variable: '--font-lora', weight: ['500', '600', '700'] });
 
 const siteUrl = getSiteUrl();
 
@@ -35,13 +22,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: content.meta.title,
   description: content.meta.description,
-  alternates: {
-    canonical: '/',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  alternates: { canonical: '/' },
+  robots: { index: true, follow: true },
   openGraph: {
     title: content.meta.title,
     description: content.meta.description,
@@ -49,14 +31,7 @@ export const metadata: Metadata = {
     siteName: 'El Plato Seguro',
     locale: 'es_MX',
     type: 'website',
-    images: [
-      {
-        url: '/media/products/hero-mockup.webp',
-        width: 1200,
-        height: 630,
-        alt: 'El Plato Seguro bundle',
-      },
-    ],
+    images: [{ url: '/media/products/hero-mockup.webp', width: 1200, height: 630, alt: 'El Plato Seguro bundle' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -65,18 +40,12 @@ export const metadata: Metadata = {
     images: ['/media/products/hero-mockup.webp'],
   },
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
+    icon: [{ url: '/favicon.png', type: 'image/png', sizes: '32x32' }, { url: '/icon.svg', type: 'image/svg+xml' }],
     apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
   },
   manifest: '/site.webmanifest',
-  other: {
-    google: 'notranslate',
-  },
+  other: { google: 'notranslate' },
 };
-
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
@@ -90,107 +59,130 @@ export default function RootLayout({ children }: RootLayoutProps) {
           Ir al contenido principal
         </a>
         <ScrollRestoration />
-        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
-        <MetaPixelScript pixelId={metaPixelId} />
         <PriceProvider>
           <StickyHeaderWrapper />
           {children}
         </PriceProvider>
+        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
+        <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
-        {/* Raw <script> — NOT the Next.js Script component — so it is embedded directly in
-            the static HTML output (no RSC payload indirection). Runs as soon as the browser
-            parses it (end of body → DOM already ready). Writes expiry to storage immediately
-            on first visit so the timer persists if the user navigates away before React
-            hydrates and PriceContext has a chance to write. */}
         <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: `
 (function(){
+  'use strict';
   var KEY=${JSON.stringify(content.offer.storageKey)};
   var COOKIE=KEY+'-timer';
-  var DUR=${content.offer.durationSeconds};
+  var DUR_MS=${content.offer.durationSeconds}*1000;
+  var CYCLE_MS=24*60*60*1000;
   var SALE_URL=${JSON.stringify(content.offer.saleUrl)};
   var EXPIRED_URL=${JSON.stringify(content.offer.expiredUrl)};
-  var CYCLE_MS=24*60*60*1000;
-  var DUR_MS=DUR*1000;
-  var expiry=0,cycleStart=0,tid=0;
+
+  var state={expiry:0,cycleStart:0,expired:false};
+  var tickId=0;
+
+  function safeParse(raw){
+    if(!raw)return null;
+    try{
+      var d=JSON.parse(raw);
+      if(!d||typeof d!=='object')return null;
+      var exp=Number(d.expiry);
+      var cs=Number(d.cycleStart);
+      if(!isFinite(exp)||exp<=0)return null;
+      if(!isFinite(cs)||cs<=0)return null;
+      return {expiry:exp,cycleStart:cs};
+    }catch(e){return null;}
+  }
 
   function readPayload(){
+    var fromLs=null,fromCk=null;
+    try{fromLs=safeParse(localStorage.getItem(KEY));}catch(e){}
     try{
-      var d=JSON.parse(localStorage.getItem(KEY)||'null');
-      if(d&&typeof d.expiry==='number'&&isFinite(d.expiry)&&typeof d.cycleStart==='number'&&isFinite(d.cycleStart)&&d.cycleStart>0){
-        return {expiry:d.expiry,cycleStart:d.cycleStart};
-      }
-    }catch(e){}
-    try{
-      var pfx=COOKIE+'=',cs=document.cookie.split(';');
-      for(var i=0;i<cs.length;i++){
-        var c=cs[i].trim();
-        if(c.indexOf(pfx)===0){
-          var d2=JSON.parse(decodeURIComponent(c.slice(pfx.length)));
-          if(d2&&typeof d2.expiry==='number'&&isFinite(d2.expiry)&&typeof d2.cycleStart==='number'&&isFinite(d2.cycleStart)&&d2.cycleStart>0){
-            return {expiry:d2.expiry,cycleStart:d2.cycleStart};
-          }
+      var prefix=COOKIE+'=';
+      var cookies=(document.cookie||'').split(';');
+      for(var i=0;i<cookies.length;i++){
+        var c=cookies[i].trim();
+        if(c.indexOf(prefix)===0){
+          fromCk=safeParse(decodeURIComponent(c.slice(prefix.length)));
+          break;
         }
       }
     }catch(e){}
-    return null;
+    // If both exist, prefer the EARLIER cycleStart to preserve the user's running timer
+    if(fromLs&&fromCk)return fromLs.cycleStart<=fromCk.cycleStart?fromLs:fromCk;
+    return fromLs||fromCk;
   }
 
-  function writeCycle(exp,cs){
-    var p=JSON.stringify({expiry:exp,cycleStart:cs});
-    try{localStorage.setItem(KEY,p);}catch(e){}
+  function writePayload(expiry,cycleStart){
+    var payload=JSON.stringify({expiry:expiry,cycleStart:cycleStart});
+    try{localStorage.setItem(KEY,payload);}catch(e){}
     try{
-      var sec=location.protocol==='https:'?'; secure':'';
-      document.cookie=COOKIE+'='+encodeURIComponent(p)+'; path=/; max-age=31536000; samesite=lax'+sec;
+      var secure=location.protocol==='https:'?'; secure':'';
+      document.cookie=COOKIE+'='+encodeURIComponent(payload)+'; path=/; max-age=31536000; samesite=lax'+secure;
     }catch(e){}
+  }
+
+  function startFreshCycle(now){
+    state.cycleStart=now;
+    state.expiry=now+DUR_MS;
+    state.expired=false;
+    writePayload(state.expiry,state.cycleStart);
+  }
+
+  function resolveState(){
+    var now=Date.now();
+    var p=readPayload();
+    if(!p){startFreshCycle(now);return;}
+    var age=now-p.cycleStart;
+    // Beyond 24h, OR clock skew (negative age) -> fresh cycle
+    if(age>=CYCLE_MS||age<0){startFreshCycle(now);return;}
+    // Within 24h window — preserve the cycle
+    state.expiry=p.expiry;
+    state.cycleStart=p.cycleStart;
+    state.expired=p.expiry<=now;
   }
 
   function updateCtaHrefs(expired){
     var url=expired?EXPIRED_URL:SALE_URL;
     var links=document.querySelectorAll('a.cta-shell');
-    for(var i=0;i<links.length;i++){links[i].href=url;}
-  }
-
-  function freshCycle(now){
-    cycleStart=now;
-    expiry=now+DUR_MS;
-    writeCycle(expiry,cycleStart);
-    updateCtaHrefs(false);
-    window.dispatchEvent(new Event('eps-timer-reset'));
+    for(var i=0;i<links.length;i++)links[i].href=url;
   }
 
   function pad(n){return(n<10?'0':'')+n;}
 
+  function paint(rem){
+    var h=Math.floor(rem/3600);
+    var m=Math.floor((rem%3600)/60);
+    var s=rem%60;
+    var el;
+    el=document.getElementById('t-h');if(el)el.textContent=pad(h);
+    el=document.getElementById('t-m');if(el)el.textContent=pad(m);
+    el=document.getElementById('t-s');if(el)el.textContent=pad(s);
+    el=document.getElementById('t-vs');if(el)el.textContent=pad(Math.floor(rem/60))+':'+pad(s);
+  }
+
   function tick(){
     var now=Date.now();
-    if(cycleStart>0&&now-cycleStart>=CYCLE_MS){
-      freshCycle(now);
+    // Mid-session 24h boundary crossing -> reset in place
+    if(state.cycleStart>0&&now-state.cycleStart>=CYCLE_MS){
+      startFreshCycle(now);
+      updateCtaHrefs(false);
+      try{window.dispatchEvent(new Event('eps-timer-reset'));}catch(e){}
     }
-    var rem=Math.max(0,Math.floor((expiry-now)/1000));
-    if(rem===0&&expiry>0){updateCtaHrefs(true);}
-    var el;
-    el=document.getElementById('t-h');if(el)el.textContent=pad(Math.floor(rem/3600));
-    el=document.getElementById('t-m');if(el)el.textContent=pad(Math.floor((rem%3600)/60));
-    el=document.getElementById('t-s');if(el)el.textContent=pad(rem%60);
-    el=document.getElementById('t-vs');if(el)el.textContent=pad(Math.floor(rem/60))+':'+pad(rem%60);
+    var rem=Math.max(0,Math.floor((state.expiry-now)/1000));
+    paint(rem);
+    var nowExpired=rem===0&&state.expiry>0&&state.expiry<=now;
+    if(nowExpired!==state.expired){
+      state.expired=nowExpired;
+      updateCtaHrefs(nowExpired);
+      if(nowExpired){try{window.dispatchEvent(new Event('eps-timer-expired'));}catch(e){}}
+    }
   }
 
   function start(){
-    var now=Date.now();
-    var payload=readPayload();
-    if(payload&&typeof payload.cycleStart==='number'&&isFinite(payload.cycleStart)&&payload.cycleStart>0){
-      if(now-payload.cycleStart>=CYCLE_MS){
-        freshCycle(now);
-      }else{
-        expiry=payload.expiry;
-        cycleStart=payload.cycleStart;
-        updateCtaHrefs(expiry>0&&expiry<=now);
-      }
-    }else{
-      freshCycle(now);
-    }
+    resolveState();
+    updateCtaHrefs(state.expired);
+    if(tickId){clearInterval(tickId);tickId=0;}
     tick();
-    clearInterval(tid);
-    tid=setInterval(tick,1000);
+    tickId=setInterval(tick,1000);
   }
 
   if(document.readyState==='loading'){
@@ -198,8 +190,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   }else{
     start();
   }
-  window.addEventListener('pageshow',start);
-  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')start();});
+  // pageshow fires on first load AND on BFCache restore — re-sync either way
+  window.addEventListener('pageshow',function(){start();});
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='visible')start();
+  });
 })();
         ` }} />
       </body>
