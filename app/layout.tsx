@@ -103,11 +103,20 @@ const COUNTDOWN_SCRIPT = `
     }catch(e){}
   }
 
+  function fmtTime(ts){
+    try{return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});}catch(e){return String(ts);}
+  }
+  function fmtDateTime(ts){
+    try{return new Date(ts).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}catch(e){return String(ts);}
+  }
+
   function startFreshCycle(now){
     state.cycleStart=now;
     state.expiry=now+DUR_MS;
     state.expired=false;
     writePayload(state.expiry,state.cycleStart);
+    console.log('[EPS Timer] 30-min offer counter started at '+fmtTime(now)+'. Expires at '+fmtTime(state.expiry)+'.');
+    console.log('[EPS Timer] 24h cycle running — timer will auto-reset around '+fmtDateTime(now+CYCLE_MS)+'.');
   }
 
   function resolveState(){
@@ -119,6 +128,18 @@ const COUNTDOWN_SCRIPT = `
     state.expiry=p.expiry;
     state.cycleStart=p.cycleStart;
     state.expired=p.expiry<=now;
+    var remMs=Math.max(0,state.expiry-now);
+    var remMin=Math.floor(remMs/60000);
+    var remSec=Math.floor((remMs%60000)/1000);
+    var cycleRemMs=Math.max(0,(state.cycleStart+CYCLE_MS)-now);
+    var cycleRemH=Math.floor(cycleRemMs/3600000);
+    var cycleRemM=Math.floor((cycleRemMs%3600000)/60000);
+    if(state.expired){
+      console.log('[EPS Timer] Offer timer already expired. Showing expired price.');
+    }else{
+      console.log('[EPS Timer] Resuming — '+remMin+'m '+remSec+'s left on the 30-min offer.');
+    }
+    console.log('[EPS Timer] 24h cycle resets in '+cycleRemH+'h '+cycleRemM+'m (around '+fmtDateTime(state.cycleStart+CYCLE_MS)+').');
   }
 
   function dispatch(name){try{window.dispatchEvent(new Event(name));}catch(e){}}
@@ -147,6 +168,7 @@ const COUNTDOWN_SCRIPT = `
   function tick(){
     var now=Date.now();
     if(state.cycleStart>0&&now-state.cycleStart>=CYCLE_MS){
+      console.log('[EPS Timer] 24 hours passed — resetting the 30-min offer timer now.');
       startFreshCycle(now);
       updateCtaHrefs(false);
       dispatch('eps-timer-reset');
@@ -157,7 +179,10 @@ const COUNTDOWN_SCRIPT = `
     if(nowExpired!==state.expired){
       state.expired=nowExpired;
       updateCtaHrefs(nowExpired);
-      if(nowExpired)dispatch('eps-timer-expired');
+      if(nowExpired){
+        console.log('[EPS Timer] Offer timer hit zero — switching to expired price link.');
+        dispatch('eps-timer-expired');
+      }
     }
   }
 
