@@ -76,7 +76,6 @@ export default function HomePage(): JSX.Element {
       {/* Removed duplicate StickyHeader, only one header remains via layout */}
       <main id="main-content" tabIndex={-1} className="pt-[var(--sticky-header-offset)] transition-[padding] duration-200">
         <ErrorBoundary>
-          <div>Hello World!</div>
           <HeroSection />
           <EmpathySection />
           <SolutionSection />
