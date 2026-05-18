@@ -47,26 +47,7 @@ export const metadata: Metadata = {
   other: { google: 'notranslate' },
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
-
-  return (
-    <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
-      <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
-          Ir al contenido principal
-        </a>
-        <ScrollRestoration />
-        <PriceProvider>
-          <StickyHeaderWrapper />
-          {children}
-        </PriceProvider>
-        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
-        <MetaPixelScript pixelId={metaPixelId} />
-        <WhatsAppButton />
-        <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: `
+const COUNTDOWN_SCRIPT = `
 (function(){
   'use strict';
   var KEY=${JSON.stringify(content.offer.storageKey)};
@@ -78,6 +59,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   var state={expiry:0,cycleStart:0,expired:false};
   var tickId=0;
+  var started=false;
 
   function safeParse(raw){
     if(!raw)return null;
@@ -92,21 +74,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
     }catch(e){return null;}
   }
 
-  function readPayload(){
-    var fromLs=null,fromCk=null;
-    try{fromLs=safeParse(localStorage.getItem(KEY));}catch(e){}
+  function readLs(){try{return safeParse(localStorage.getItem(KEY));}catch(e){return null;}}
+  function readCk(){
     try{
       var prefix=COOKIE+'=';
       var cookies=(document.cookie||'').split(';');
       for(var i=0;i<cookies.length;i++){
         var c=cookies[i].trim();
-        if(c.indexOf(prefix)===0){
-          fromCk=safeParse(decodeURIComponent(c.slice(prefix.length)));
-          break;
-        }
+        if(c.indexOf(prefix)===0)return safeParse(decodeURIComponent(c.slice(prefix.length)));
       }
     }catch(e){}
-    // If both exist, prefer the EARLIER cycleStart to preserve the user's running timer
+    return null;
+  }
+
+  function readPayload(){
+    var fromLs=readLs();
+    var fromCk=readCk();
     if(fromLs&&fromCk)return fromLs.cycleStart<=fromCk.cycleStart?fromLs:fromCk;
     return fromLs||fromCk;
   }
@@ -132,18 +115,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
     var p=readPayload();
     if(!p){startFreshCycle(now);return;}
     var age=now-p.cycleStart;
-    // Beyond 24h, OR clock skew (negative age) -> fresh cycle
     if(age>=CYCLE_MS||age<0){startFreshCycle(now);return;}
-    // Within 24h window — preserve the cycle
     state.expiry=p.expiry;
     state.cycleStart=p.cycleStart;
     state.expired=p.expiry<=now;
   }
 
+  function dispatch(name){try{window.dispatchEvent(new Event(name));}catch(e){}}
+
   function updateCtaHrefs(expired){
     var url=expired?EXPIRED_URL:SALE_URL;
     var links=document.querySelectorAll('a.cta-shell');
-    for(var i=0;i<links.length;i++)links[i].href=url;
+    for(var i=0;i<links.length;i++){
+      try{links[i].setAttribute('href',url);}catch(e){}
+    }
   }
 
   function pad(n){return(n<10?'0':'')+n;}
@@ -152,28 +137,27 @@ export default function RootLayout({ children }: RootLayoutProps) {
     var h=Math.floor(rem/3600);
     var m=Math.floor((rem%3600)/60);
     var s=rem%60;
+    var hh=pad(h),mm=pad(m),ss=pad(s);
     var el;
-    el=document.getElementById('t-h');if(el)el.textContent=pad(h);
-    el=document.getElementById('t-m');if(el)el.textContent=pad(m);
-    el=document.getElementById('t-s');if(el)el.textContent=pad(s);
-    el=document.getElementById('t-vs');if(el)el.textContent=pad(Math.floor(rem/60))+':'+pad(s);
+    el=document.getElementById('t-h');if(el&&el.textContent!==hh)el.textContent=hh;
+    el=document.getElementById('t-m');if(el&&el.textContent!==mm)el.textContent=mm;
+    el=document.getElementById('t-s');if(el&&el.textContent!==ss)el.textContent=ss;
   }
 
   function tick(){
     var now=Date.now();
-    // Mid-session 24h boundary crossing -> reset in place
     if(state.cycleStart>0&&now-state.cycleStart>=CYCLE_MS){
       startFreshCycle(now);
       updateCtaHrefs(false);
-      try{window.dispatchEvent(new Event('eps-timer-reset'));}catch(e){}
+      dispatch('eps-timer-reset');
     }
     var rem=Math.max(0,Math.floor((state.expiry-now)/1000));
     paint(rem);
-    var nowExpired=rem===0&&state.expiry>0&&state.expiry<=now;
+    var nowExpired=state.expiry>0&&state.expiry<=now;
     if(nowExpired!==state.expired){
       state.expired=nowExpired;
       updateCtaHrefs(nowExpired);
-      if(nowExpired){try{window.dispatchEvent(new Event('eps-timer-expired'));}catch(e){}}
+      if(nowExpired)dispatch('eps-timer-expired');
     }
   }
 
@@ -183,20 +167,52 @@ export default function RootLayout({ children }: RootLayoutProps) {
     if(tickId){clearInterval(tickId);tickId=0;}
     tick();
     tickId=setInterval(tick,1000);
+    if(!started){started=true;dispatch('eps-timer-ready');}
   }
+
+  function stop(){if(tickId){clearInterval(tickId);tickId=0;}}
 
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',start);
   }else{
     start();
   }
-  // pageshow fires on first load AND on BFCache restore — re-sync either way
+
   window.addEventListener('pageshow',function(){start();});
+
   document.addEventListener('visibilitychange',function(){
-    if(document.visibilityState==='visible')start();
+    if(document.visibilityState==='visible'){start();}
+    else{stop();}
   });
+
+  window.addEventListener('storage',function(e){
+    if(!e||e.key===null||e.key===KEY)start();
+  });
+
+  window.addEventListener('pagehide',stop);
 })();
-        ` }} />
+`;
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || content.analytics.metaPixelId;
+
+  return (
+    <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
+      <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
+          Ir al contenido principal
+        </a>
+        <ScrollRestoration />
+        <PriceProvider>
+          <StickyHeaderWrapper />
+          {children}
+        </PriceProvider>
+        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
+        <MetaPixelScript pixelId={metaPixelId} />
+        <WhatsAppButton />
+        <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: COUNTDOWN_SCRIPT }} />
       </body>
     </html>
   );
