@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { Lora, Lato } from 'next/font/google';
 import './globals.css';
@@ -227,4 +226,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
       <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
+          Ir al contenido principal
+        </a>
+        <ScrollRestoration />
+        <PriceProvider>
+          <StickyHeaderWrapper />
+          {children}
+        </PriceProvider>
+        <AnalyticsScripts gaId={gaId} clarityId={clarityId} />
+        <MetaPixelScript pixelId={metaPixelId} />
+        <WhatsAppButton />
+        <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: COUNTDOWN_SCRIPT }} />
+      </body>
+    </html>
+  );
+}
