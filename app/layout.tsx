@@ -240,6 +240,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
         <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: COUNTDOWN_SCRIPT }} />
+        {/* ContentSquare / Hotjar */}
+        <script src="https://t.contentsquare.net/uxa/5d1406961821b.js" async />
       </body>
     </html>
   );
