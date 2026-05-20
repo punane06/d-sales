@@ -87,26 +87,37 @@ export function readStoredPayload(): TimerPayload | null {
  * Evaluate the current timer status at `now`. Used by React to derive
  * `isExpired` for pricing/URL switching.
  *
- *  - No stored state, OR cycle >= 24h ago, OR clock-skew (negative age) →
+ *  - No stored state, OR clock-skew (negative age) →
  *    treat as "fresh / not expired" (the inline script will start a new
  *    cycle the moment it boots).
- *  - Within 24h window, past 30-min expiry → expired (cooldown).
- *  - Within 24h window, before 30-min expiry → counting down.
+ *  - Timer still counting down → not expired, returns ms until zero.
+ *  - Timer expired AND 24h has passed since expiry → treat as fresh
+ *    (the inline script will reset the cycle on next tick/load).
+ *  - Timer expired, within 24h cooldown → expired.
  */
 export function evaluateTimerStatus(now: number = Date.now()): TimerStatus {
   const payload = readStoredPayload();
   if (!payload) return { isExpired: false, expiryDelayMs: null };
 
   const age = now - payload.cycleStart;
-  if (age >= CYCLE_MS || age < 0) {
+  if (age < 0) {
+    // Clock skew — treat as fresh
     return { isExpired: false, expiryDelayMs: null };
   }
 
-  if (payload.expiry <= now) {
-    return { isExpired: true, expiryDelayMs: null };
+  if (payload.expiry > now) {
+    // Still counting down
+    return { isExpired: false, expiryDelayMs: payload.expiry - now };
   }
 
-  return { isExpired: false, expiryDelayMs: payload.expiry - now };
+  // Timer has expired — check if 24h cooldown since expiry has passed
+  if (now - payload.expiry >= CYCLE_MS) {
+    // 24h since expiry → inline script will start fresh on next load/tick
+    return { isExpired: false, expiryDelayMs: null };
+  }
+
+  // Within 24h cooldown window
+  return { isExpired: true, expiryDelayMs: null };
 }
 
 export function resolveCurrentUrl(): string {

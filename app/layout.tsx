@@ -115,7 +115,7 @@ const COUNTDOWN_SCRIPT = `
     state.expired=false;
     writePayload(state.expiry,state.cycleStart);
     console.log('[EPS Timer] 30-min offer counter started at '+fmtTime(now)+'. Expires at '+fmtTime(state.expiry)+'.');
-    console.log('[EPS Timer] 24h cycle running — timer will auto-reset around '+fmtDateTime(now+CYCLE_MS)+'.');
+    console.log('[EPS Timer] 24h cooldown runs from expiry — timer resets around '+fmtDateTime(state.expiry+CYCLE_MS)+'.');
   }
 
   function resolveState(){
@@ -124,14 +124,15 @@ const COUNTDOWN_SCRIPT = `
     if(!p){startFreshCycle(now);return;}
     var age=now-p.cycleStart;
     if(age<0){startFreshCycle(now);return;}
-    if(age>=CYCLE_MS){startFreshCycle(now);dispatch('eps-timer-reset');return;}
+    // Reset 24h after EXPIRY (not cycle start)
+    if(p.expiry<=now&&now-p.expiry>=CYCLE_MS){startFreshCycle(now);dispatch('eps-timer-reset');return;}
     state.expiry=p.expiry;
     state.cycleStart=p.cycleStart;
     state.expired=p.expiry<=now;
     var remMs=Math.max(0,state.expiry-now);
     var remMin=Math.floor(remMs/60000);
     var remSec=Math.floor((remMs%60000)/1000);
-    var cycleRemMs=Math.max(0,(state.cycleStart+CYCLE_MS)-now);
+    var cycleRemMs=Math.max(0,(state.expiry+CYCLE_MS)-now);
     var cycleRemH=Math.floor(cycleRemMs/3600000);
     var cycleRemM=Math.floor((cycleRemMs%3600000)/60000);
     if(state.expired){
@@ -139,7 +140,7 @@ const COUNTDOWN_SCRIPT = `
     }else{
       console.log('[EPS Timer] Resuming — '+remMin+'m '+remSec+'s left on the 30-min offer.');
     }
-    console.log('[EPS Timer] 24h cycle resets in '+cycleRemH+'h '+cycleRemM+'m (around '+fmtDateTime(state.cycleStart+CYCLE_MS)+').');
+    console.log('[EPS Timer] 24h cycle resets in '+cycleRemH+'h '+cycleRemM+'m (around '+fmtDateTime(state.expiry+CYCLE_MS)+').');
   }
 
   function dispatch(name){try{window.dispatchEvent(new Event(name));}catch(e){}}
@@ -167,8 +168,9 @@ const COUNTDOWN_SCRIPT = `
 
   function tick(){
     var now=Date.now();
-    if(state.cycleStart>0&&now-state.cycleStart>=CYCLE_MS){
-      console.log('[EPS Timer] 24 hours passed — resetting the 30-min offer timer now.');
+    // Reset 24h after EXPIRY (not cycle start)
+    if(state.expiry>0&&state.expiry<=now&&now-state.expiry>=CYCLE_MS){
+      console.log('[EPS Timer] 24h since expiry — resetting the 30-min offer timer now.');
       startFreshCycle(now);
       updateCtaHrefs(false);
       dispatch('eps-timer-reset');
