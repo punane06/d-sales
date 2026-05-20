@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import Script from 'next/script';
 
 interface MetaPixelScriptProps {
@@ -16,21 +16,15 @@ type FbqFunction = ((...args: unknown[]) => void) & {
   version?: string;
 };
 
-export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelScriptProps>): JSX.Element | null {
+export default function MetaPixelScript({
+  pixelId,
+  nonce,
+}: Readonly<MetaPixelScriptProps>): JSX.Element | null {
   const hasPixelId = Boolean(pixelId && pixelId !== 'xxxxxxxxxx' && pixelId !== 'PIXEL_ID');
 
-  useEffect(() => {
-    if (!hasPixelId || !pixelId) {
-      return;
-    }
-
-    const win = globalThis.window as Window & {
-      fbq?: FbqFunction;
-      _fbp?: string;
-    };
-
-    // Set up fbq stub so init/track calls queue correctly before fbevents.js loads.
-    // init + PageView are fired in onLoad — not here — to ensure correct ordering.
+  useLayoutEffect(() => {
+    if (!hasPixelId || !pixelId) return;
+    const win = globalThis.window as Window & { fbq?: FbqFunction; _fbq?: FbqFunction };
     if (!win.fbq) {
       const fbqStub: FbqFunction = (...args: unknown[]) => {
         if (fbqStub.callMethod) {
@@ -43,40 +37,31 @@ export default function MetaPixelScript({ pixelId, nonce }: Readonly<MetaPixelSc
       fbqStub.push = (...args: unknown[]) => fbqStub(...args);
       fbqStub.loaded = true;
       fbqStub.version = '2.0';
+      fbqStub.q = [];
       win.fbq = fbqStub;
+      win._fbq = fbqStub;
     }
-  }, [pixelId]);
+    // init + PageView queue against the stub; fbevents.js flushes them when it loads
+    win.fbq('init', pixelId);
+    win.fbq('track', 'PageView');
+  }, [pixelId, hasPixelId]);
 
-  if (!hasPixelId || !pixelId) {
-    return null;
-  }
+  if (!hasPixelId || !pixelId) return null;
 
   return (
     <>
       <Script
         id="fb-pixel"
-        src={`https://connect.facebook.net/en_US/fbevents.js`}
+        src="https://connect.facebook.net/en_US/fbevents.js"
         strategy="afterInteractive"
         nonce={nonce}
-        onLoad={() => {
-          const win = globalThis.window as Window & {
-            fbq?: FbqFunction;
-            __fbqInitialized?: boolean;
-          };
-          if (win.fbq && !win.__fbqInitialized) {
-            win.__fbqInitialized = true;
-            win.fbq('init', pixelId);
-            win.fbq('track', 'PageView');
-          }
-        }}
       />
       <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           height="1"
           width="1"
-          style={{
-            display: 'none',
-          }}
+          style={{ display: 'none' }}
           src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
           alt="Meta Pixel"
         />

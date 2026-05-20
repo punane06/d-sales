@@ -10,3 +10,5 @@ yarn-error.log*
 pnpm-debug.log*
 tsconfig.tsbuildinfo
 landingpagecopy.md
+elplatoseguro-fix-prompt.md
+elplatoseguro-final-fix.md

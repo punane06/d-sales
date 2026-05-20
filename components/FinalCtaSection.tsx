@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { content } from "@/config/content";
 import CtaButton from "@/components/CtaButton";

@@ -1,9 +1,9 @@
-
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { content } from '@/config/content';
 import { trackEvent } from '@/utils/analytics';
+import { evaluateTimerStatus, resolveCurrentUrl } from '@/utils/timer';
 
 interface PriceContextValue {
   currentPrice: string;
@@ -14,41 +14,20 @@ interface PriceContextValue {
 
 const PriceContext = createContext<PriceContextValue | null>(null);
 
-type PriceProviderProps = {
-  readonly children: React.ReactNode;
-  readonly initialIsExpired?: boolean;
-};
+type PriceProviderProps = { readonly children: React.ReactNode };
 
-const { storageKey } = content.offer;
-const COOKIE_SUFFIX = '-timer';
-
-function readStoredExpiry(): number {
-  try {
-    const raw = globalThis.window?.localStorage?.getItem(storageKey);
-    if (raw) {
-      const d = JSON.parse(raw) as Record<string, unknown>;
-      const exp = d?.expiry;
-      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
-    }
-  } catch { /* noop */ }
-  try {
-    const name = storageKey + COOKIE_SUFFIX;
-    const prefix = name + '=';
-    const c = globalThis.document?.cookie
-      .split(';')
-      .map((s) => s.trim())
-      .find((s) => s.startsWith(prefix));
-    if (c) {
-      const d = JSON.parse(decodeURIComponent(c.slice(prefix.length))) as Record<string, unknown>;
-      const exp = d?.expiry;
-      if (typeof exp === 'number' && Number.isFinite(exp) && exp > 0) return exp;
-    }
-  } catch { /* noop */ }
-  return 0;
-}
-
-function PriceProvider({ children, initialIsExpired = false }: PriceProviderProps): JSX.Element {
-  const [isExpired, setIsExpired] = useState(initialIsExpired);
+/**
+ * PriceProvider does NOT run its own countdown. The single countdown engine
+ * is the inline script in `app/layout.tsx` (it ticks every second and writes
+ * to localStorage + cookie). React just reads the current status and reacts
+ * to the events the inline script dispatches:
+ *
+ *   - 'eps-timer-ready'   -> first paint synced
+ *   - 'eps-timer-reset'   -> a new 30-min cycle started (after 24h cooldown)
+ *   - 'eps-timer-expired' -> the 30-min countdown reached zero
+ */
+function PriceProvider({ children }: PriceProviderProps): JSX.Element {
+  const [isExpired, setIsExpired] = useState(false);
   const [ready, setReady] = useState(false);
   const didTrackExpiry = useRef(false);
 
@@ -60,88 +39,74 @@ function PriceProvider({ children, initialIsExpired = false }: PriceProviderProp
   }, [isExpired]);
 
   useEffect(() => {
-    // Reads stored expiry from localStorage/cookie and syncs React state.
-    // Does NOT write to storage — the plain-JS countdown script (layout.tsx)
-    // is the sole authority on creating and persisting the initial expiry.
-    // Calling persistExpiry here would reset a past expiry to a future one if
-    // storage reads ever return 0 (e.g. timing quirks on certain navigations).
-    function syncFromStorage(): ReturnType<typeof setTimeout> | null {
-      const expiry = readStoredExpiry();
+    // Belt-and-braces fallback: if for any reason the inline script's
+    // 'eps-timer-expired' event never reaches us (very narrow race during
+    // BFCache restore), this single timeout flips the React flag exactly
+    // when the 30 min hits zero.
+    let expiryFallback: ReturnType<typeof setTimeout> | null = null;
 
-      if (expiry <= 0) {
-        // No stored data yet (script hasn't written it, or storage unavailable).
-        // Mark ready with the default non-expired state and wait.
-        setReady(true);
-        return null;
+    function clearFallback(): void {
+      if (expiryFallback !== null) {
+        clearTimeout(expiryFallback);
+        expiryFallback = null;
       }
-
-      if (expiry <= Date.now()) {
-        setIsExpired(true);
-        setReady(true);
-        return null;
-      }
-
-      setReady(true);
-      return setTimeout(() => setIsExpired(true), expiry - Date.now());
     }
 
-    let tid = syncFromStorage();
-
-    // Re-sync on every pageshow (covers both BFCache restores and fresh loads
-    // triggered by pressing Back from an external site like Hotmart).
-    const handlePageShow = (): void => {
-      if (tid !== null) clearTimeout(tid);
-      tid = syncFromStorage();
-    };
-
-    // Re-sync when the tab becomes visible again (e.g. user opened Hotmart in
-    // a new tab and switched back — pageshow does not fire in this case).
-    const handleVisibilityChange = (): void => {
-      if (globalThis.document?.visibilityState === 'visible') {
-        if (tid !== null) clearTimeout(tid);
-        tid = syncFromStorage();
+    function sync(): void {
+      clearFallback();
+      const { isExpired: nextExpired, expiryDelayMs } = evaluateTimerStatus(Date.now());
+      setIsExpired((prev) => (prev === nextExpired ? prev : nextExpired));
+      setReady(true);
+      if (!nextExpired && expiryDelayMs !== null && expiryDelayMs > 0) {
+        expiryFallback = setTimeout(() => setIsExpired(true), expiryDelayMs);
       }
+    }
+
+    sync();
+
+    const onReset = (): void => {
+      didTrackExpiry.current = false;
+      sync();
+    };
+    const onPageShow = (): void => sync();
+    const onVisibility = (): void => {
+      if (globalThis.document?.visibilityState === 'visible') sync();
     };
 
-    globalThis.window?.addEventListener('pageshow', handlePageShow);
-    globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
+    globalThis.window?.addEventListener('pageshow', onPageShow);
+    globalThis.document?.addEventListener('visibilitychange', onVisibility);
+    globalThis.window?.addEventListener('eps-timer-ready', sync);
+    globalThis.window?.addEventListener('eps-timer-reset', onReset);
+    globalThis.window?.addEventListener('eps-timer-expired', sync);
+
     return () => {
-      if (tid !== null) clearTimeout(tid);
-      globalThis.window?.removeEventListener('pageshow', handlePageShow);
-      globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearFallback();
+      globalThis.window?.removeEventListener('pageshow', onPageShow);
+      globalThis.document?.removeEventListener('visibilitychange', onVisibility);
+      globalThis.window?.removeEventListener('eps-timer-ready', sync);
+      globalThis.window?.removeEventListener('eps-timer-reset', onReset);
+      globalThis.window?.removeEventListener('eps-timer-expired', sync);
     };
   }, []);
 
-  const value = useMemo<PriceContextValue>(
-    () => ({
-      currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
-      currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
-      isExpired,
-      ready,
-    }),
-    [isExpired, ready],
-  );
+  const value = useMemo<PriceContextValue>(() => ({
+    currentPrice: isExpired ? content.offer.expiredPrice : content.offer.salePrice,
+    currentUrl: isExpired ? content.offer.expiredUrl : content.offer.saleUrl,
+    isExpired,
+    ready,
+  }), [isExpired, ready]);
+
   return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
 }
 
 export { PriceProvider };
 
 export function usePrice(): PriceContextValue {
-  const contextValue = useContext(PriceContext);
-
-  if (!contextValue) {
-    throw new Error('usePrice must be used within PriceProvider');
-  }
-
-  return contextValue;
+  const ctx = useContext(PriceContext);
+  if (!ctx) throw new Error('usePrice must be used within PriceProvider');
+  return ctx;
 }
 
-// Reads the stored expiry fresh from storage and returns the correct URL.
-// Call this inside click handlers and on mount — never rely on React state
-// alone, since the setTimeout in PriceProvider can lag behind the plain-JS
-// countdown when the page is restored from BFCache or after tab-switching.
-export function resolveCurrentUrl(): string {
-  const expiry = readStoredExpiry();
-  const expired = expiry > 0 && expiry <= Date.now();
-  return expired ? content.offer.expiredUrl : content.offer.saleUrl;
-}
+// Re-export the shared resolver so existing callers (e.g. CtaButton) keep
+// working without a path change.
+export { resolveCurrentUrl };
