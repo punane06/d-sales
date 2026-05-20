@@ -227,6 +227,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang="es-MX" translate="no" className="notranslate" suppressHydrationWarning>
+      <head>
+        {/* ContentSquare — must be in <head> for tag verification */}
+        <script src="https://t.contentsquare.net/uxa/5d1406961821b.js" async />
+      </head>
       <body className={`${lato.variable} ${lora.variable} notranslate bg-offwhite font-sans text-charcoal`}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-charcoal focus:shadow-md">
           Ir al contenido principal
@@ -240,8 +244,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <MetaPixelScript pixelId={metaPixelId} />
         <WhatsAppButton />
         <script id="countdown-timer" dangerouslySetInnerHTML={{ __html: COUNTDOWN_SCRIPT }} />
-        {/* ContentSquare / Hotjar */}
-        <script src="https://t.contentsquare.net/uxa/5d1406961821b.js" async />
       </body>
     </html>
   );
