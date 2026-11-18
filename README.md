@@ -2,6 +2,10 @@
 
 Marketing landing page for El Plato Seguro, built with Next.js (App Router) and exported as a static site.
 
+**Live:** https://d-sales.vercel.app
+
+![El Plato Seguro landing page](./docs/screenshot.png)
+
 ## Stack
 
 - Next.js 16.2.2
